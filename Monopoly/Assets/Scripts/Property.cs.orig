@@ -4,11 +4,19 @@ using System;
 
 public class Property : MonoBehaviour
 {
-    public int id;
+<<<<<<< HEAD
+    public int Id;
     String Name { get; set; }
     public int CountryId { get; set; }
+    int? OwnerId { get; set; }
+    public int NumberOfHouses
+=======
+    int id { get; set; }
+    String name { get; set; }
+    public int countryId { get; set; }
     int? ownerId { get; set; }
     public int numberOfHouses
+>>>>>>> fieldClass
     { get; set; }
     public int price;
     public int housePrice;

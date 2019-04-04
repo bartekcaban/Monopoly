@@ -10,12 +10,22 @@ public class Player : MonoBehaviour
     bool diceRolled;
     int cash;
     int currentFieldId;
-    //TODO: obecna pozycja
     //TODO: lista posiadanych pól
+
+    public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
+    {
+        currentFieldId = index;
+        if (!pawn.IsDestinationReached())
+            pawn.AllowMovement(index);
+    }
 
     public void AllowMovement()
     {
-        pawn.allowMovement();
+        int destinationFieldId = currentFieldId + dice.GetRolledValue();
+        if (destinationFieldId > 42)
+            destinationFieldId = destinationFieldId - 43;
+        if(!pawn.IsDestinationReached())
+            pawn.AllowMovement(destinationFieldId);
     }
 
     public bool IsMoving()
@@ -27,6 +37,7 @@ public class Player : MonoBehaviour
     {
         dice.EnableRolling();
         moving = true;
+        pawn.SetDestinationReached(false);
     }
 
     public bool DiceRolled()
@@ -45,12 +56,13 @@ public class Player : MonoBehaviour
 
     public bool PawnMoved()
     {
-        if (pawn.DestinationReached())
+        if (pawn.IsDestinationReached())
         {
             moving = false;
             diceRolled = false;
+            currentFieldId = currentFieldId + dice.GetRolledValue();
         }
-        return pawn.DestinationReached();
+        return pawn.IsDestinationReached();
     }
 
     public void Disable()
@@ -65,6 +77,7 @@ public class Player : MonoBehaviour
         moving = false;
         diceRolled = false;
         cash = 10000;
+        currentFieldId = 0;
     }
 
     // Update is called once per frame
