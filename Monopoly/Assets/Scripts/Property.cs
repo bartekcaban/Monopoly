@@ -5,8 +5,9 @@ using System;
 public class Property : MonoBehaviour
 {
     public int id;
+    public PropertyType type;
+    public PropertyGroup group;
     String Name { get; set; }
-    public int CountryId { get; set; }
     int? ownerId { get; set; }
     public int numberOfHouses
     { get; set; }
@@ -32,7 +33,7 @@ public class Property : MonoBehaviour
         this.id = id; 
     }
     
-    void BuyProperty(int ownerId)
+    public void Buy(int ownerId)
     {
         if (this.ownerId==null)
         {
@@ -77,4 +78,29 @@ public class Property : MonoBehaviour
             return rent + numberOfHouses * rentPerHouse;
         }
     }
+}
+
+public enum PropertyType
+{
+    forSale,
+    startField,
+    special
+}
+public enum PropertyGroupName
+{
+    brown,
+    lightBlue,
+    pink,
+    orange,
+    red,
+    yellow,
+    green,
+    darkBlue,
+    station,
+    utility
+}
+public struct PropertyGroup
+{
+    PropertyGroupName name;
+    int numberofProperties;
 }

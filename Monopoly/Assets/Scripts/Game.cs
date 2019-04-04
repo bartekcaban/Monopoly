@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Game : MonoBehaviour
 {
@@ -13,8 +14,11 @@ public class Game : MonoBehaviour
     int numberOfPlayers;
     int currentPlayerIndex;
     bool start;
+    bool moveFinished = true;
     float timeLeft;
-    const int gameBoardSize = 42;
+    const int gameBoardSize = 40;
+    bool currentPlayerBoughtProperty = false;
+    bool currentPlayerIsMakingDecision = false;
 
     public void SetNumberOfPlayers(int number)
     {
@@ -82,6 +86,7 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
         if (!start)
         {
             //camera.SetCircumnavigation();
@@ -91,11 +96,12 @@ public class Game : MonoBehaviour
         }
         else
         {
-            if (!players[currentPlayerIndex].IsMoving())
+            if (!players[currentPlayerIndex].IsMoving()&& moveFinished)
             {
                 players[currentPlayerIndex].AllowRolling();
                 camera.SetDiceCamera();
                 timeLeft = 1.0f;
+                moveFinished = false;
             }
 
             if (players[currentPlayerIndex].DiceRolled())
@@ -112,8 +118,8 @@ public class Game : MonoBehaviour
 
             if (players[currentPlayerIndex].PawnMoved())
             {
-                /*int currentPlayerPosition = players[currentPlayer].GetCurrentPosition();
-                int currentPlayerId = players[currentPlayer].GetId();
+                int currentPlayerPosition = players[currentPlayerIndex].GetCurrentPosition();
+                int currentPlayerId = players[currentPlayerIndex].GetId();
                 Property currentPlayerStandingProperty = properties[currentPlayerPosition];
                 
 
@@ -121,7 +127,7 @@ public class Game : MonoBehaviour
                 {
                     if (currentPlayerStandingProperty.IsOwningBy(currentPlayerId))
                     {
-                        HandleStandingOnOwnPosition();
+                        HandleStandingOnOwnPosition(currentPlayerStandingProperty);
                     }
                     else
                     {
@@ -130,28 +136,57 @@ public class Game : MonoBehaviour
                 }
                 else
                 {
-                  HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
-                }*/
+                  HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId, currentPlayerBoughtProperty);
+                }
 
-                currentPlayerIndex++;
+                /*
+                 currentPlayerIndex++;
+
+                 if (currentPlayerIndex == numberOfPlayers)
+                 {
+                     currentPlayerIndex = 0;
+                     numberOfTurns++;
+                 }
+                 */
+                currentPlayerIsMakingDecision = true;
+            }
+            if (!players[currentPlayerIndex].MoveFinished()&&currentPlayerIsMakingDecision)
+            {
+                if (moveFinished)
+                {
+                    players[currentPlayerIndex].SetMoveFinished();
+                    currentPlayerIsMakingDecision = false;
+                    currentPlayerIndex++;
+                }
                 if (currentPlayerIndex == numberOfPlayers)
                 {
                     currentPlayerIndex = 0;
                     numberOfTurns++;
                 }
+
             }
+            
+            
         }
     }
     void HandleRentPay(Property property, int payingPlayerId)
     {
-        //TODO
+        dialogMenu.ShowForRentPayment(property);
+
     }
-    void HandleStandingOnOwnPosition()
+    void HandleStandingOnOwnPosition(Property property)
     {
-        //JUST SHOW POPUP INFO?
+        dialogMenu.ShowForPropertyOwner(property);
     }
-    void HandleAbleToBuyProperty(Property property, int playerId)
+    void HandleAbleToBuyProperty(Property property, int playerId, bool bought)
     {
-        //TODO: decision making menu + calls to game logic based on player decision        
+        
+        dialogMenu.ShowAbleToBuy(property,()=> {bought = true; }, () => { moveFinished = true; });
+       
     }
+
+    
+
+    
+
 }
