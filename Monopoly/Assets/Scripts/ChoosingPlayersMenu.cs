@@ -29,6 +29,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
         playerInputFields = new List<TMP_InputField>() { player1InputField, player2InputField, player3InputField, player4InputField };
         addPlayerButton.onClick.AddListener(handleAddPlayerButtonClick);
         removePlayerButton.onClick.AddListener(handleRemovePlayerButtonClick);
+        letsStartButton.onClick.AddListener(handleLetsStartButtonClick);
     }
 
     void Update()
@@ -68,11 +69,6 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     public void handleAddPlayerButtonClick()
     {
-        //if (!player3InputField.gameObject.activeInHierarchy) player3InputField.gameObject.SetActive(true);
-        //else if (!player4InputField.gameObject.activeInHierarchy) player4InputField.gameObject.SetActive(true);
-
-        // refactor
-
         for (int i = 2; i < numberOfInputFields; i++) 
         {
             if (!playerInputFields[i].gameObject.activeSelf)
@@ -86,9 +82,6 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     public void handleRemovePlayerButtonClick()
     {
-        //if (player4InputField.gameObject.activeInHierarchy) player4InputField.gameObject.SetActive(false);
-        //else if (player3InputField.gameObject.activeInHierarchy) player3InputField.gameObject.SetActive(false);
-
         for (int i = numberOfInputFields - 1; i > 1; i--)
         {
             if (playerInputFields[i].gameObject.activeSelf)
@@ -97,6 +90,11 @@ public class ChoosingPlayersMenu : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void handleLetsStartButtonClick()
+    {
+        choosingPlayersMenuCanvas.SetActive(false);
     }
 
     // Start is possible when at least 2 players have a name
