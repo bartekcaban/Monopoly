@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ChoosingPlayersMenu : MonoBehaviour
@@ -26,6 +27,9 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void Start()
     {
+        // stopping the game
+        Time.timeScale = 0f;
+
         playerInputFields = new List<TMP_InputField>() { player1InputField, player2InputField, player3InputField, player4InputField };
         addPlayerButton.onClick.AddListener(handleAddPlayerButtonClick);
         removePlayerButton.onClick.AddListener(handleRemovePlayerButtonClick);
@@ -34,25 +38,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void Update()
     {
-        // Let's start button interctability
-        if (checkIfStartIsPossible() && !letsStartButton.interactable) letsStartButton.interactable = true;
-        else if (!checkIfStartIsPossible() && letsStartButton.interactable) letsStartButton.interactable = false;
-
-        // Add player button interctability
-        if (shouldAddPlayerButtonBeInteractable() && !addPlayerButton.interactable) addPlayerButton.interactable = true;
-        else if (!shouldAddPlayerButtonBeInteractable() && addPlayerButton.interactable) addPlayerButton.interactable = false;
-
-        // Remove player button activity
-        if (shouldRemovePlayerButtonBeActive() && !removePlayerButton.gameObject.activeSelf)
-        {
-            removePlayerButton.gameObject.SetActive(true);
-            removePlayerButtonLabel.gameObject.SetActive(true);
-        }
-        else if (!shouldRemovePlayerButtonBeActive() && removePlayerButton.gameObject.activeSelf)
-        {
-            removePlayerButton.gameObject.SetActive(false);
-            removePlayerButtonLabel.gameObject.SetActive(false);
-        }
+        manageButtonsVisibility();
     }
 
     public static ChoosingPlayersMenu Instance()
@@ -67,7 +53,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
         return choosingPlayersMenu;
     }
 
-    public void handleAddPlayerButtonClick()
+    void handleAddPlayerButtonClick()
     {
         for (int i = 2; i < numberOfInputFields; i++) 
         {
@@ -80,7 +66,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     }
 
-    public void handleRemovePlayerButtonClick()
+    void handleRemovePlayerButtonClick()
     {
         for (int i = numberOfInputFields - 1; i > 1; i--)
         {
@@ -92,9 +78,12 @@ public class ChoosingPlayersMenu : MonoBehaviour
         }
     }
 
-    public void handleLetsStartButtonClick()
+    void handleLetsStartButtonClick()
     {
         choosingPlayersMenuCanvas.SetActive(false);
+
+        // resuming the game
+        Time.timeScale = 1f;
     }
 
     // Start is possible when at least 2 players have a name
@@ -128,51 +117,26 @@ public class ChoosingPlayersMenu : MonoBehaviour
         return (activeFieldsCounter > 2) ? true : false;
     }
 
-    //void DescriptionInit(Property property)
-    //{
-    //    housePrice.text = property.housePrice.ToString();
-    //    hotelPrice.text = property.hotelPrice.ToString();
-    //    oneHouseRent.text = property.rentPerHouse.ToString();
-    //    twoHouseRent.text = (property.rentPerHouse * 2).ToString();
-    //    threeHouseRent.text = (property.rentPerHouse * 3).ToString();
-    //    fourHouseRent.text = (property.rentPerHouse * 4).ToString();
-    //}
+    void manageButtonsVisibility()
+    {
+        // Let's start button interctability
+        if (checkIfStartIsPossible() && !letsStartButton.interactable) letsStartButton.interactable = true;
+        else if (!checkIfStartIsPossible() && letsStartButton.interactable) letsStartButton.interactable = false;
 
-    //public void ShowAbleToBuy(Property property)
-    //{
-    //    decisionDescription.text = "Ta nieruchomość nie ma jeszcze właściciela";
+        // Add player button interctability
+        if (shouldAddPlayerButtonBeInteractable() && !addPlayerButton.interactable) addPlayerButton.interactable = true;
+        else if (!shouldAddPlayerButtonBeInteractable() && addPlayerButton.interactable) addPlayerButton.interactable = false;
 
-    //    dialogCanvasObject.SetActive(true);
-    //    okButton.gameObject.SetActive(true);
-    //    buyButton.gameObject.SetActive(true);
-    //    expandButton.gameObject.SetActive(false);
-    //    depositButton.gameObject.SetActive(false);
-    //    DescriptionInit(property);
-
-
-    //}
-    //public void ShowForPropertyOwner(Property property)
-    //{
-    //    decisionDescription.text = "Jesteś właścicielem tej nieruchomości";
-
-    //    dialogCanvasObject.SetActive(true);
-    //    okButton.gameObject.SetActive(true);
-    //    buyButton.gameObject.SetActive(false);
-    //    expandButton.gameObject.SetActive(true);
-    //    depositButton.gameObject.SetActive(true);
-    //    DescriptionInit(property);
-    //}
-    //public void ShowForRentPayment(Property property)
-    //{
-    //    decisionDescription.text = "Płacisz czynsz na rzecz gracza: GRACZ w wysokości 100 zł";
-
-
-    //    dialogCanvasObject.SetActive(true);
-    //    okButton.gameObject.SetActive(true);
-    //    buyButton.gameObject.SetActive(false);
-    //    expandButton.gameObject.SetActive(false);
-    //    depositButton.gameObject.SetActive(false);
-    //    DescriptionInit(property);
-
-    //}
+        // Remove player button activity
+        if (shouldRemovePlayerButtonBeActive() && !removePlayerButton.gameObject.activeSelf)
+        {
+            removePlayerButton.gameObject.SetActive(true);
+            removePlayerButtonLabel.gameObject.SetActive(true);
+        }
+        else if (!shouldRemovePlayerButtonBeActive() && removePlayerButton.gameObject.activeSelf)
+        {
+            removePlayerButton.gameObject.SetActive(false);
+            removePlayerButtonLabel.gameObject.SetActive(false);
+        }
+    }
 }
