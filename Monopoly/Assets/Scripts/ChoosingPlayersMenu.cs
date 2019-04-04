@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Linq;
 
 public class ChoosingPlayersMenu : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
     public TMP_InputField player2InputField;
     public TMP_InputField player3InputField;
     public TMP_InputField player4InputField;
-    public List<TMP_InputField> playerInputFields;
+    public IList<TMP_InputField> playerInputFields;
 
     public Button addPlayerButton;
     public Button removePlayerButton;
@@ -55,27 +56,13 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void handleAddPlayerButtonClick()
     {
-        for (int i = 2; i < numberOfInputFields; i++) 
-        {
-            if (!playerInputFields[i].gameObject.activeSelf)
-            {
-                playerInputFields[i].gameObject.SetActive(true);
-                break;
-            }
-        }
-
+        playerInputFields.First(x => !x.gameObject.activeSelf).gameObject.SetActive(true);
     }
 
     void handleRemovePlayerButtonClick()
     {
-        for (int i = numberOfInputFields - 1; i > 1; i--)
-        {
-            if (playerInputFields[i].gameObject.activeSelf)
-            {
-                playerInputFields[i].gameObject.SetActive(false);
-                break;
-            }
-        }
+        List<TMP_InputField> possibleToRemoveFrom = playerInputFields.Where(x => !x.Equals(playerInputFields.ElementAt(0)) && !x.Equals(playerInputFields.ElementAt(1))).ToList();
+        possibleToRemoveFrom.Last(x => x.gameObject.activeSelf).gameObject.SetActive(false);      
     }
 
     void handleLetsStartButtonClick()
