@@ -35,11 +35,21 @@ public class ChoosingPlayersMenu : MonoBehaviour
         addPlayerButton.onClick.AddListener(handleAddPlayerButtonClick);
         removePlayerButton.onClick.AddListener(handleRemovePlayerButtonClick);
         letsStartButton.onClick.AddListener(handleLetsStartButtonClick);
+
+        foreach(TMP_InputField inputField in playerInputFields)
+        {
+            playerNames.Add(inputField.text);
+        }
     }
 
     void Update()
     {
         manageButtonsVisibility();
+
+        for (int i = 0; i < numberOfInputFields; i++)
+        {
+            playerNames[i] = playerInputFields[i].text;
+        }
     }
 
     public static ChoosingPlayersMenu Instance()
