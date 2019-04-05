@@ -49,18 +49,6 @@ public class ChoosingPlayersMenu : MonoBehaviour
         }
     }
 
-    public static ChoosingPlayersMenu Instance()
-    {
-        if (!choosingPlayersMenu)
-        {
-            choosingPlayersMenu = FindObjectOfType(typeof(ChoosingPlayersMenu)) as ChoosingPlayersMenu;
-            if (!choosingPlayersMenu)
-                Debug.LogError("There is no choosing players menu object in scene!");
-        }
-
-        return choosingPlayersMenu;
-    }
-
     void handleAddPlayerButtonClick()
     {
         playerInputFields.First(x => !x.gameObject.activeSelf).gameObject.SetActive(true);
