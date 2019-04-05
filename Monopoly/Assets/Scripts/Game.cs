@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    
     CameraMovement camera;
+    List<string> playerNames;
     List<Player> players;
     DialogMenu dialogMenu;
     public List<Property> properties;
@@ -67,6 +67,8 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerNames = PlayerInfo.PlayerNames;
+        numberOfPlayers = playerNames.Count;
         numberOfTurns = 1;
         players = new List<Player>();
         propertiesInit();
@@ -75,8 +77,7 @@ public class Game : MonoBehaviour
         start = false;
         timeLeft = 8.0f;
         SetNumberOfPlayers(2);
-        dialogMenu = DialogMenu.Instance();
-      
+        dialogMenu = DialogMenu.Instance();      
     }
 
     // Update is called once per frame
@@ -87,7 +88,7 @@ public class Game : MonoBehaviour
             //camera.SetCircumnavigation();
             //timeLeft -= Time.deltaTime;
             //if (timeLeft < 0)
-                start = true;
+            start = true;
         }
         else
         {
@@ -115,7 +116,7 @@ public class Game : MonoBehaviour
                 /*int currentPlayerPosition = players[currentPlayer].GetCurrentPosition();
                 int currentPlayerId = players[currentPlayer].GetId();
                 Property currentPlayerStandingProperty = properties[currentPlayerPosition];
-                
+
 
                 if (currentPlayerStandingProperty.HasOwner())
                 {
@@ -130,7 +131,7 @@ public class Game : MonoBehaviour
                 }
                 else
                 {
-                  HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
+                    HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
                 }*/
 
                 currentPlayerIndex++;
@@ -142,6 +143,7 @@ public class Game : MonoBehaviour
             }
         }
     }
+
     void HandleRentPay(Property property, int payingPlayerId)
     {
         //TODO

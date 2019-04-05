@@ -28,9 +28,6 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void Start()
     {
-        // stopping the game
-        Time.timeScale = 0f;
-
         playerInputFields = new List<TMP_InputField>() { player1InputField, player2InputField, player3InputField, player4InputField };
         addPlayerButton.onClick.AddListener(handleAddPlayerButtonClick);
         removePlayerButton.onClick.AddListener(handleRemovePlayerButtonClick);
@@ -77,10 +74,9 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void handleLetsStartButtonClick()
     {
+        PlayerInfo.PlayerNames = playerNames;
         choosingPlayersMenuCanvas.SetActive(false);
-
-        // resuming the game
-        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     // Start is possible when at least 2 players have a name
