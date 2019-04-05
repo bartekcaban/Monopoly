@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Class created only to store information about playerNames
 public static class PlayerInfo
 {
     private static List<string> playerNames;
