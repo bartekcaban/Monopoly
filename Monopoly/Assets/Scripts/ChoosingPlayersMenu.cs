@@ -13,7 +13,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     public List<string> playerNames = new List<string>();
 
-    int numberOfInputFields = 4;
+    public int numberOfInputFields = 4;
     public TMP_InputField player1InputField;
     public TMP_InputField player2InputField;
     public TMP_InputField player3InputField;
@@ -26,6 +26,8 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     public TMP_Text removePlayerButtonLabel;
 
+    public bool finishedCreatingPlayers = false;
+
     void Start()
     {
         // stopping the game
@@ -35,11 +37,14 @@ public class ChoosingPlayersMenu : MonoBehaviour
         addPlayerButton.onClick.AddListener(handleAddPlayerButtonClick);
         removePlayerButton.onClick.AddListener(handleRemovePlayerButtonClick);
         letsStartButton.onClick.AddListener(handleLetsStartButtonClick);
+
+        initializeSavedInformationFromTheInputFields();
     }
 
     void Update()
     {
         manageButtonsVisibility();
+        saveInformationFromTheInputFields();
     }
 
     public static ChoosingPlayersMenu Instance()
@@ -68,7 +73,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
     void handleLetsStartButtonClick()
     {
         choosingPlayersMenuCanvas.SetActive(false);
-
+        finishedCreatingPlayers = true;
         // resuming the game
         Time.timeScale = 1f;
     }
@@ -124,6 +129,22 @@ public class ChoosingPlayersMenu : MonoBehaviour
         {
             removePlayerButton.gameObject.SetActive(false);
             removePlayerButtonLabel.gameObject.SetActive(false);
+        }
+    }
+
+    void initializeSavedInformationFromTheInputFields()
+    {
+        foreach (TMP_InputField inputField in playerInputFields)
+        {
+            playerNames.Add(inputField.text);
+        }
+    }
+
+    void saveInformationFromTheInputFields()
+    {
+        for (int i = 0; i < numberOfInputFields; i++)
+        {
+            playerNames[i] = playerInputFields[i].text;
         }
     }
 }

@@ -1,17 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    
+    string[] characters = { "Cat", "Teapot", "Dog", "Hat" };
+    public ChoosingPlayersMenu choosingPlayersMenu;
     CameraMovement camera;
-    List<Player> players;
+    List<Player> players = new List<Player>();
+    List<string> playerNames = new List<string>();
     DialogMenu dialogMenu;
+    //public ChoosingPlayersMenu choosingPlayersMenu;
     public List<Property> properties;
     int numberOfTurns;
     int numberOfPlayers;
     int currentPlayerIndex;
+    Player currentPlayer;
     bool start;
     float timeLeft;
     const int gameBoardSize = 42;
@@ -20,7 +25,7 @@ public class Game : MonoBehaviour
     {
         numberOfPlayers = number;
 
-        if ( number < 2)
+        if (number < 2)
             number = 2;
         if (number > 4)
             number = 4;
@@ -46,7 +51,7 @@ public class Game : MonoBehaviour
             p.Disable();
         }
 
-        if(number == 4)
+        if (number == 4)
         {
             players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
             players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
@@ -67,77 +72,107 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        choosingPlayersMenu = ChoosingPlayersMenu.Instance();
+        while (!choosingPlayersMenu.finishedCreatingPlayers)
+        {
+
+        }
         numberOfTurns = 1;
-        players = new List<Player>();
         propertiesInit();
         camera = (CameraMovement)GameObject.Find("Main Camera").GetComponent(typeof(CameraMovement));
         currentPlayerIndex = 0;
         start = false;
         timeLeft = 8.0f;
+        managePlayersInformations();
         SetNumberOfPlayers(2);
         dialogMenu = DialogMenu.Instance();
-      
+        choosingPlayersMenu = ChoosingPlayersMenu.Instance(); 
     }
 
-    // Update is called once per frame
+    private void managePlayersInformations()
+    {
+        numberOfPlayers = choosingPlayersMenu.numberOfInputFields;
+        playerNames = choosingPlayersMenu.playerNames;
+    }
+    
+    //private void createPlayers()
+    //{
+    //    for (int i = 0; i < numberOfPlayers; i++)
+    //    {
+    //        players.Add((Player)GameObject.Find(characters[i]).GetComponent(typeof(Player)));
+    //        players[i].setName(playerNames[i]);
+    //    }
+    //}
+
+    //private Player getCurrentPlayer()
+    //{
+    //    return players[currentPlayerIndex];
+    //}
+
+
     void Update()
     {
-        if (!start)
+        if (choosingPlayersMenu.finishedCreatingPlayers)
         {
-            //camera.SetCircumnavigation();
-            //timeLeft -= Time.deltaTime;
-            //if (timeLeft < 0)
+
+            //currentPlayer = getCurrentPlayer();
+            if (!start)
+            {
+                //camera.SetCircumnavigation();
+                //timeLeft -= Time.deltaTime;
+                //if (timeLeft < 0)
                 start = true;
-        }
-        else
-        {
-            if (!players[currentPlayerIndex].IsMoving())
-            {
-                players[currentPlayerIndex].AllowRolling();
-                camera.SetDiceCamera();
-                timeLeft = 1.0f;
             }
-
-            if (players[currentPlayerIndex].DiceRolled())
+            else
             {
-                timeLeft -= Time.deltaTime;
-                if (timeLeft < 0)
+                if (!players[currentPlayerIndex].IsMoving())
                 {
-                    players[currentPlayerIndex].AllowMovement();
-                    camera.SetPawnFollowing(players[currentPlayerIndex].transform.position);
+                    players[currentPlayerIndex].AllowRolling();
+                    camera.SetDiceCamera();
+                    timeLeft = 1.0f;
                 }
-                else
-                    camera.SetPawnCamera(players[currentPlayerIndex].transform.position);
-            }
 
-            if (players[currentPlayerIndex].PawnMoved())
-            {
-                /*int currentPlayerPosition = players[currentPlayer].GetCurrentPosition();
-                int currentPlayerId = players[currentPlayer].GetId();
-                Property currentPlayerStandingProperty = properties[currentPlayerPosition];
-                
-
-                if (currentPlayerStandingProperty.HasOwner())
+                if (players[currentPlayerIndex].DiceRolled())
                 {
-                    if (currentPlayerStandingProperty.IsOwningBy(currentPlayerId))
+                    timeLeft -= Time.deltaTime;
+                    if (timeLeft < 0)
                     {
-                        HandleStandingOnOwnPosition();
+                        players[currentPlayerIndex].AllowMovement();
+                        camera.SetPawnFollowing(players[currentPlayerIndex].transform.position);
+                    }
+                    else
+                        camera.SetPawnCamera(players[currentPlayerIndex].transform.position);
+                }
+
+                if (players[currentPlayerIndex].PawnMoved())
+                {
+                    /*int currentPlayerPosition = players[currentPlayer].GetCurrentPosition();
+                    int currentPlayerId = players[currentPlayer].GetId();
+                    Property currentPlayerStandingProperty = properties[currentPlayerPosition];
+
+
+                    if (currentPlayerStandingProperty.HasOwner())
+                    {
+                        if (currentPlayerStandingProperty.IsOwningBy(currentPlayerId))
+                        {
+                            HandleStandingOnOwnPosition();
+                        }
+                        else
+                        {
+                            HandleRentPay(currentPlayerStandingProperty, currentPlayerId);
+                        }
                     }
                     else
                     {
-                        HandleRentPay(currentPlayerStandingProperty, currentPlayerId);
-                    }
-                }
-                else
-                {
-                  HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
-                }*/
+                      HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
+                    }*/
 
-                currentPlayerIndex++;
-                if (currentPlayerIndex == numberOfPlayers)
-                {
-                    currentPlayerIndex = 0;
-                    numberOfTurns++;
+                    currentPlayerIndex++;
+                    if (currentPlayerIndex == numberOfPlayers)
+                    {
+                        currentPlayerIndex = 0;
+                        numberOfTurns++;
+                    }
                 }
             }
         }

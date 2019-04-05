@@ -10,7 +10,18 @@ public class Player : MonoBehaviour
     bool diceRolled;
     int cash;
     int currentFieldId;
+    string name;
     //TODO: lista posiadanych pól
+
+    public void setName(string nameToSet)
+    {
+        name = nameToSet;
+    }
+
+    public string getName()
+    {
+        return name;
+    }
 
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
     {
