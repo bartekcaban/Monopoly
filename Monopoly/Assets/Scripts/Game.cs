@@ -12,7 +12,9 @@ public class Game : MonoBehaviour
     int numberOfTurns;
     int numberOfPlayers;
     public Player currentPlayer;
+    public Player nextPlayer;
     int currentPlayerIndex;
+    int nextPlayerIndex;
     bool start;
     float timeLeft;
     const int gameBoardSize = 42;
@@ -45,7 +47,7 @@ public class Game : MonoBehaviour
 
         for (int i = 0; i < number; i++)
         {
-            players[i].setName(playerNames[i]);
+            players[i].playerName = playerNames[i];
         }
     }
 
@@ -77,7 +79,9 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        nextPlayerIndex = calculateNextPlayerIndex(currentPlayerIndex);
         currentPlayer = players[currentPlayerIndex];
+        nextPlayer = players[nextPlayerIndex];
         if (!start)
         {
             //camera.SetCircumnavigation();
@@ -137,6 +141,12 @@ public class Game : MonoBehaviour
                 }
             }
         }
+    }
+
+    int calculateNextPlayerIndex(int actualIndex)
+    {   
+        nextPlayerIndex = (actualIndex == numberOfPlayers) ? 0 : ++actualIndex;
+        return (nextPlayerIndex == numberOfPlayers) ? 0 : nextPlayerIndex;        
     }
 
     void HandleRentPay(Property property, int payingPlayerId)
