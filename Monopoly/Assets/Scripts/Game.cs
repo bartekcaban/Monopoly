@@ -6,11 +6,12 @@ public class Game : MonoBehaviour
 {
     CameraMovement camera;
     List<string> playerNames;
-    List<Player> players;
+    List<Player> players;    
     DialogMenu dialogMenu;
     public List<Property> properties;
     int numberOfTurns;
     int numberOfPlayers;
+    Player currentPlayer;
     int currentPlayerIndex;
     bool start;
     float timeLeft;
