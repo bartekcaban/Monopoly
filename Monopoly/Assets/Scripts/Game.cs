@@ -36,10 +36,15 @@ public class Game : MonoBehaviour
             ((Player)GameObject.Find("Hat").GetComponent(typeof(Player)) as Player).Disable();
         }
 
-        else if(number == 4)
+        else if (number == 4)
         {            
             players.Add((Player)GameObject.Find("Dog").GetComponent(typeof(Player)));
             players.Add((Player)GameObject.Find("Hat").GetComponent(typeof(Player)));
+        }
+
+        for (int i = 0; i < number; i++)
+        {
+            players[i].setName(playerNames[i]);
         }
     }
 

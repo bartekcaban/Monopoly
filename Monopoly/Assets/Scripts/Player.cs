@@ -14,6 +14,11 @@ public class Player : MonoBehaviour
     
     //TODO: lista posiadanych pól
 
+    public void setName(string nameToSet)
+    {
+        name = nameToSet;
+    }
+    
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
     {
         currentFieldId = index;
