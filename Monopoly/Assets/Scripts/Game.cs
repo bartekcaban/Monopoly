@@ -19,37 +19,26 @@ public class Game : MonoBehaviour
     public void SetNumberOfPlayers(int number)
     {
         numberOfPlayers = number;
+        players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
+        players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
 
-        if ( number < 2)
-            number = 2;
-        if (number > 4)
-            number = 4;
+        if (number < 2) number = 2;
+        if (number > 4) number = 4;
 
         if (number == 2)
         {
-            players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
-            players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
-
-            Player p = (Player)GameObject.Find("Dog").GetComponent(typeof(Player));
-            p.Disable();
-            p = (Player)GameObject.Find("Hat").GetComponent(typeof(Player));
-            p.Disable();
+            ((Player)GameObject.Find("Dog").GetComponent(typeof(Player)) as Player).Disable();
+            ((Player)GameObject.Find("Hat").GetComponent(typeof(Player)) as Player).Disable();
         }
 
-        if (number == 3)
-        {
-            players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
-            players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
+        else if (number == 3)
+        {            
             players.Add((Player)GameObject.Find("Dog").GetComponent(typeof(Player)));
-
-            Player p = (Player)GameObject.Find("Hat").GetComponent(typeof(Player));
-            p.Disable();
+            ((Player)GameObject.Find("Hat").GetComponent(typeof(Player)) as Player).Disable();
         }
 
-        if(number == 4)
-        {
-            players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
-            players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
+        else if(number == 4)
+        {            
             players.Add((Player)GameObject.Find("Dog").GetComponent(typeof(Player)));
             players.Add((Player)GameObject.Find("Hat").GetComponent(typeof(Player)));
         }
