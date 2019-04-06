@@ -6,13 +6,18 @@ public class Player : MonoBehaviour
 {
     public PawnMovement pawn;
     public Dice dice;
-    public string name;
+    private string name;
     bool moving;
     bool diceRolled;
     int cash;
     int currentFieldId;
     
     //TODO: lista posiadanych pól
+
+    public string getName()
+    {
+        return name;
+    }
 
     public void setName(string nameToSet)
     {

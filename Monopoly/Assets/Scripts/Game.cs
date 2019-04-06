@@ -11,7 +11,7 @@ public class Game : MonoBehaviour
     public List<Property> properties;
     int numberOfTurns;
     int numberOfPlayers;
-    Player currentPlayer;
+    public Player currentPlayer;
     int currentPlayerIndex;
     bool start;
     float timeLeft;
@@ -77,6 +77,7 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentPlayer = players[currentPlayerIndex];
         if (!start)
         {
             //camera.SetCircumnavigation();
