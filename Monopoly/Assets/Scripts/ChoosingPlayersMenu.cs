@@ -100,11 +100,11 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void manageButtonsVisibility()
     {
-        // Let's start button interctability
+        // Let's start button interactability
         if (checkIfStartIsPossible() && !letsStartButton.interactable) letsStartButton.interactable = true;
         else if (!checkIfStartIsPossible() && letsStartButton.interactable) letsStartButton.interactable = false;
 
-        // Add player button interctability
+        // Add player button interactability
         if (shouldAddPlayerButtonBeInteractable() && !addPlayerButton.interactable) addPlayerButton.interactable = true;
         else if (!shouldAddPlayerButtonBeInteractable() && addPlayerButton.interactable) addPlayerButton.interactable = false;
 
