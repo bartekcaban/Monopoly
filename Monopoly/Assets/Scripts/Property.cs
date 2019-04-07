@@ -27,6 +27,16 @@ public class Property : MonoBehaviour
         Debug.Log("jestem");
     }
 
+    public void SetPropertyData(String name, int price, int housePrice, int rent, int rentPerHouse, int hotelRent)
+    {
+        Name = name;
+        this.price = price;
+        this.housePrice = housePrice;
+        this.rent = rent;
+        this.rentPerHouse = rentPerHouse;
+        this.hotelRent = hotelRent;
+    }
+
     public void SetId(int id)
     {
         this.id = id; 
