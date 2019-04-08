@@ -74,7 +74,7 @@ public class Game : MonoBehaviour
         properties[13].SetPropertyData("Barcelona", 140, 100, 10, 150, 750);
         properties[14].SetPropertyData("Madrid", 160, 100, 12, 175, 900);
 
-        properties[16].SetPropertyData("Menchester", 180, 100, 14, 185, 950);
+        properties[16].SetPropertyData("Manchester", 180, 100, 14, 185, 950);
         properties[18].SetPropertyData("Birmingham", 180, 100, 14, 185, 950);
         properties[19].SetPropertyData("London", 200, 100, 16, 200, 1000);
 
