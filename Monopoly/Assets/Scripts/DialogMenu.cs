@@ -62,6 +62,8 @@ public class DialogMenu : MonoBehaviour
         okButton.onClick.RemoveAllListeners();
         okButton.onClick.AddListener(onOkClicked);
         okButton.onClick.AddListener(Close);
+        buyButton.onClick.RemoveAllListeners();
+        buyButton.onClick.AddListener(onBuyClicked);
 
         dialogCanvasObject.SetActive(true);
         okButton.gameObject.SetActive(true);
