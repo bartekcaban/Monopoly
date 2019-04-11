@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Linq;
+using System;
 
 public class ChoosingPlayersMenu : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     public TMP_Text removePlayerButtonLabel;
 
+    private bool choosingFinished = false;
+
     void Start()
     {
         playerInputFields = new List<TMP_InputField>() { player1InputField, player2InputField, player3InputField, player4InputField };
@@ -41,11 +44,14 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void Update()
     {
-        manageButtonsVisibility();
-
-        for (int i = 0; i < numberOfInputFields; i++)
+        if (!choosingFinished)
         {
-            playerNames[i] = playerInputFields[i].text;
+            manageButtonsVisibility();
+
+            for (int i = 0; i < numberOfInputFields; i++)
+            {
+                playerNames[i] = playerInputFields[i].text;
+            }
         }
     }
 
@@ -62,9 +68,20 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void handleLetsStartButtonClick()
     {
+        choosingFinished = true;
+        removeEmptyElements(playerNames);
         PlayerInfo.PlayerNames = playerNames;
         choosingPlayersMenuCanvas.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    private void removeEmptyElements(List<string> playerNames)
+    {
+        int howMany = playerNames.Count;
+        for (int i = howMany - 1; i >= 0; i--)
+        {
+            if (playerNames[i].Length == 0) playerNames.RemoveAt(i);
+        }
     }
 
     // Start is possible when at least 2 players have a name
@@ -100,11 +117,11 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void manageButtonsVisibility()
     {
-        // Let's start button interctability
+        // Let's start button interactability
         if (checkIfStartIsPossible() && !letsStartButton.interactable) letsStartButton.interactable = true;
         else if (!checkIfStartIsPossible() && letsStartButton.interactable) letsStartButton.interactable = false;
 
-        // Add player button interctability
+        // Add player button interactability
         if (shouldAddPlayerButtonBeInteractable() && !addPlayerButton.interactable) addPlayerButton.interactable = true;
         else if (!shouldAddPlayerButtonBeInteractable() && addPlayerButton.interactable) addPlayerButton.interactable = false;
 

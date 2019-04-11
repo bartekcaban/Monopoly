@@ -6,10 +6,13 @@ public class Player : MonoBehaviour
 {
     public PawnMovement pawn;
     public Dice dice;
+    public string playerName;
+    public int cash;
+
     bool moving;
     bool diceRolled;
-    int cash;
     int currentFieldId;
+
     //TODO: lista posiadanych pól
 
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję

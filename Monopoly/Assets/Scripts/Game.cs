@@ -6,52 +6,48 @@ public class Game : MonoBehaviour
 {
     CameraMovement camera;
     List<string> playerNames;
-    List<Player> players;
+    List<Player> players;    
     DialogMenu dialogMenu;
     public List<Property> properties;
     int numberOfTurns;
     int numberOfPlayers;
+    public Player currentPlayer;
+    public Player nextPlayer;
     int currentPlayerIndex;
+    int nextPlayerIndex;
     bool start;
     float timeLeft;
     const int gameBoardSize = 42;
 
-    public void SetNumberOfPlayers(int number)
-    {
-        numberOfPlayers = number;
+    public void CreatePlayers(int number)
+    {        
+        players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
+        players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
 
-        if ( number < 2)
-            number = 2;
-        if (number > 4)
-            number = 4;
+        if (number < 2) number = 2;
+        if (number > 4) number = 4;
 
         if (number == 2)
         {
-            players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
-            players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
-
-            Player p = (Player)GameObject.Find("Dog").GetComponent(typeof(Player));
-            p.Disable();
-            p = (Player)GameObject.Find("Hat").GetComponent(typeof(Player));
-            p.Disable();
+            ((Player)GameObject.Find("Dog").GetComponent(typeof(Player)) as Player).Disable();
+            ((Player)GameObject.Find("Hat").GetComponent(typeof(Player)) as Player).Disable();
         }
 
-        if (number == 3)
-        {
-            players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
-            players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
+        else if (number == 3)
+        {            
             players.Add((Player)GameObject.Find("Dog").GetComponent(typeof(Player)));
-
-            Player p = (Player)GameObject.Find("Hat").GetComponent(typeof(Player));
-            p.Disable();
+            ((Player)GameObject.Find("Hat").GetComponent(typeof(Player)) as Player).Disable();
         }
 
-        if(number == 4)
-        {
-            players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
-            players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
+        else if (number == 4)
+        {            
             players.Add((Player)GameObject.Find("Dog").GetComponent(typeof(Player)));
             players.Add((Player)GameObject.Find("Hat").GetComponent(typeof(Player)));
+        }
+
+        for (int i = 0; i < number; i++)
+        {
+            players[i].playerName = playerNames[i];
         }
     }
 
@@ -76,13 +72,16 @@ public class Game : MonoBehaviour
         currentPlayerIndex = 0;
         start = false;
         timeLeft = 8.0f;
-        SetNumberOfPlayers(2);
+        CreatePlayers(numberOfPlayers);
         dialogMenu = DialogMenu.Instance();      
     }
 
     // Update is called once per frame
     void Update()
     {
+        nextPlayerIndex = calculateNextPlayerIndex(currentPlayerIndex);
+        currentPlayer = players[currentPlayerIndex];
+        nextPlayer = players[nextPlayerIndex];
         if (!start)
         {
             //camera.SetCircumnavigation();
@@ -142,6 +141,12 @@ public class Game : MonoBehaviour
                 }
             }
         }
+    }
+
+    int calculateNextPlayerIndex(int actualIndex)
+    {   
+        nextPlayerIndex = (actualIndex == numberOfPlayers) ? 0 : ++actualIndex;
+        return (nextPlayerIndex == numberOfPlayers) ? 0 : nextPlayerIndex;        
     }
 
     void HandleRentPay(Property property, int payingPlayerId)
