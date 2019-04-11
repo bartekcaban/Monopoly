@@ -11,6 +11,10 @@ public class Player : MonoBehaviour
 
     bool moving;
     bool diceRolled;
+
+    bool moveFinished;
+    int cash;
+
     int currentFieldId;
 
     //TODO: lista posiadanych pól
@@ -20,6 +24,14 @@ public class Player : MonoBehaviour
         currentFieldId = index;
         if (!pawn.IsDestinationReached())
             pawn.AllowMovement(index);
+    }
+    public void SetMoveFinished()
+    {
+        moveFinished = true;
+    }
+    public bool MoveFinished()
+    {
+        return moveFinished;
     }
 
     public void AllowMovement()
@@ -40,6 +52,7 @@ public class Player : MonoBehaviour
     {
         dice.EnableRolling();
         moving = true;
+        moveFinished = false;
         pawn.SetDestinationReached(false);
     }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class DialogMenu : MonoBehaviour
@@ -39,6 +40,11 @@ public class DialogMenu : MonoBehaviour
         return dialogMenu;
     }
 
+    void Close()
+    {
+        dialogCanvasObject.SetActive(false);
+    }
+
     void DescriptionInit(Property property)
     {
         housePrice.text = property.housePrice.ToString();
@@ -49,10 +55,16 @@ public class DialogMenu : MonoBehaviour
         fourHouseRent.text = (property.rentPerHouse * 4).ToString();
     }
 
-    public void ShowAbleToBuy(Property property)
+    public void ShowAbleToBuy(Property property, UnityAction onBuyClicked, UnityAction onOkClicked )
     {
         decisionDescription.text = "Ta nieruchomość nie ma jeszcze właściciela";
-       
+
+        okButton.onClick.RemoveAllListeners();
+        okButton.onClick.AddListener(onOkClicked);
+        okButton.onClick.AddListener(Close);
+        buyButton.onClick.RemoveAllListeners();
+        buyButton.onClick.AddListener(onBuyClicked);
+
         dialogCanvasObject.SetActive(true);
         okButton.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(true);

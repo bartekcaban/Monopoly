@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Game : MonoBehaviour
 {
@@ -16,8 +17,13 @@ public class Game : MonoBehaviour
     int currentPlayerIndex;
     int nextPlayerIndex;
     bool start;
+    bool moveFinished = true;
     float timeLeft;
-    const int gameBoardSize = 42;
+    const int gameBoardSize = 40;
+    int currentPlayerId;
+    bool currentPlayerBoughtProperty = false;
+    bool currentPlayerIsMakingDecision = false;
+    Property currentPlayerStandingProperty;
 
     public void CreatePlayers(int number)
     {        
@@ -79,9 +85,11 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         nextPlayerIndex = calculateNextPlayerIndex(currentPlayerIndex);
         currentPlayer = players[currentPlayerIndex];
         nextPlayer = players[nextPlayerIndex];
+
         if (!start)
         {
             //camera.SetCircumnavigation();
@@ -91,14 +99,16 @@ public class Game : MonoBehaviour
         }
         else
         {
-            if (!players[currentPlayerIndex].IsMoving())
+            if (!players[currentPlayerIndex].IsMoving()&& !currentPlayerIsMakingDecision)
             {
                 players[currentPlayerIndex].AllowRolling();
                 camera.SetDiceCamera();
                 timeLeft = 1.0f;
+                moveFinished = false;
+                currentPlayerBoughtProperty = false;
             }
 
-            if (players[currentPlayerIndex].DiceRolled())
+            if (players[currentPlayerIndex].DiceRolled() && !currentPlayerIsMakingDecision)
             {
                 timeLeft -= Time.deltaTime;
                 if (timeLeft < 0)
@@ -110,18 +120,20 @@ public class Game : MonoBehaviour
                     camera.SetPawnCamera(players[currentPlayerIndex].transform.position);
             }
 
-            if (players[currentPlayerIndex].PawnMoved())
+            if (players[currentPlayerIndex].PawnMoved() && !currentPlayerIsMakingDecision)
             {
-                /*int currentPlayerPosition = players[currentPlayer].GetCurrentPosition();
-                int currentPlayerId = players[currentPlayer].GetId();
-                Property currentPlayerStandingProperty = properties[currentPlayerPosition];
+
+                int currentPlayerPosition = players[currentPlayerIndex].GetCurrentPosition();
+                currentPlayerId = players[currentPlayerIndex].GetId();
+                currentPlayerStandingProperty = properties[currentPlayerPosition];
+                
 
 
                 if (currentPlayerStandingProperty.HasOwner())
                 {
                     if (currentPlayerStandingProperty.IsOwningBy(currentPlayerId))
                     {
-                        HandleStandingOnOwnPosition();
+                        HandleStandingOnOwnPosition(currentPlayerStandingProperty);
                     }
                     else
                     {
@@ -130,16 +142,35 @@ public class Game : MonoBehaviour
                 }
                 else
                 {
-                    HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
-                }*/
 
-                currentPlayerIndex++;
+                  HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
+                }
+
+
+               
+                currentPlayerIsMakingDecision = true;
+            }
+            if (currentPlayerIsMakingDecision)
+            {
+                if (currentPlayerBoughtProperty)
+                {
+                    currentPlayerStandingProperty.Buy(currentPlayerId);
+                }
+                if (moveFinished)
+                {
+                    players[currentPlayerIndex].SetMoveFinished();
+                    currentPlayerIsMakingDecision = false;
+                    currentPlayerIndex++;
+                }
                 if (currentPlayerIndex == numberOfPlayers)
                 {
                     currentPlayerIndex = 0;
                     numberOfTurns++;
                 }
+
             }
+            
+            
         }
     }
 
@@ -151,14 +182,28 @@ public class Game : MonoBehaviour
 
     void HandleRentPay(Property property, int payingPlayerId)
     {
-        //TODO
+        dialogMenu.ShowForRentPayment(property);
+
     }
-    void HandleStandingOnOwnPosition()
+    void HandleStandingOnOwnPosition(Property property)
     {
-        //JUST SHOW POPUP INFO?
+        dialogMenu.ShowForPropertyOwner(property);
     }
     void HandleAbleToBuyProperty(Property property, int playerId)
     {
-        //TODO: decision making menu + calls to game logic based on player decision        
+
+        dialogMenu.ShowAbleToBuy(property,playerBoughtCurrentProperty, () => { moveFinished = true; });
+        
+
     }
+    void playerBoughtCurrentProperty()
+    {
+        currentPlayerBoughtProperty = true;
+    }
+
+
+    
+
+    
+
 }
