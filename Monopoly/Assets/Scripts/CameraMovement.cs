@@ -25,16 +25,16 @@ public class CameraMovement : MonoBehaviour
     public void SetPawnFollowing(Vector3 pos)
     {
         pawnPosition = pos;
-        pawnPosition.x -= 6;
-        pawnPosition.y += 6;
+        pawnPosition.x -= 12;
+        pawnPosition.y += 10;
         type = cameraType.followingPawn;
     }
 
     public void SetPawnCamera(Vector3 pos)
     {
         pawnPosition = pos;
-        pawnPosition.x -= 6;
-        pawnPosition.y += 6;
+        pawnPosition.x -= 12;
+        pawnPosition.y += 10;
         type = cameraType.reachPawn;
     }
 
@@ -42,8 +42,8 @@ public class CameraMovement : MonoBehaviour
     {
         Dice d = (Dice) GameObject.Find("Dice").GetComponent(typeof( Dice ));
         dicePosition = d.transform.position;
-        dicePosition.x -= 3;
-        dicePosition.y += 5;
+        dicePosition.x -= 5;
+        dicePosition.y += 6;
         dicePosition.z -= 4;
         type = cameraType.dice;
     }
@@ -79,7 +79,7 @@ public class CameraMovement : MonoBehaviour
                 break;
             case cameraType.dice:
                 transform.position = Vector3.Lerp(transform.position, dicePosition, Time.deltaTime * diceTransitionSpeed);
-                Quaternion target = Quaternion.Euler(45, 45, 0);
+                Quaternion target = Quaternion.Euler(60, 45, 0);
                 transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * transitionSpeed);
                 break;
             case cameraType.circumnavigation:

@@ -217,6 +217,8 @@ public class Game : MonoBehaviour
                 }
                 if (currentPlayerIndex == numberOfPlayers)
                 {
+                    Debug.Log(currentPlayerIndex);
+
                     currentPlayerIndex = 0;
                     numberOfTurns++;
                 }
