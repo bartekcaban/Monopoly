@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     bool diceRolled;
 
     bool moveFinished;
-    int cash;
 
     int currentFieldId;
 
@@ -37,10 +36,11 @@ public class Player : MonoBehaviour
     public void AllowMovement()
     {
         int destinationFieldId = currentFieldId + dice.GetRolledValue();
-        if (destinationFieldId > 42)
-            destinationFieldId = destinationFieldId - 43;
+        if (destinationFieldId > 40)
+            destinationFieldId = destinationFieldId - 41;
         if(!pawn.IsDestinationReached())
             pawn.AllowMovement(destinationFieldId);
+        Debug.Log("dest " + currentFieldId);
     }
 
     public bool IsMoving()
@@ -72,12 +72,13 @@ public class Player : MonoBehaviour
 
     public bool PawnMoved()
     {
-        if (pawn.IsDestinationReached())
+        if (pawn.IsDestinationReached() && moving)
         {
             moving = false;
             diceRolled = false;
             currentFieldId = currentFieldId + dice.GetRolledValue();
         }
+        Debug.Log(pawn.IsDestinationReached());
         return pawn.IsDestinationReached();
     }
 

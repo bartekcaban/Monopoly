@@ -20,6 +20,10 @@ public class Game : MonoBehaviour
     bool moveFinished = true;
     float timeLeft;
     const int gameBoardSize = 40;
+    int currentPlayerId;
+    bool currentPlayerBoughtProperty = false;
+    bool currentPlayerIsMakingDecision = false;
+    Property currentPlayerStandingProperty;
 
     public void CreatePlayers(int number)
     {        
@@ -132,7 +136,7 @@ public class Game : MonoBehaviour
         start = false;
         timeLeft = 8.0f;
         CreatePlayers(numberOfPlayers);
-        dialogMenu = DialogMenu.Instance();      
+        dialogMenu = DialogMenu.Instance();
     }
 
     // Update is called once per frame
@@ -152,7 +156,7 @@ public class Game : MonoBehaviour
         }
         else
         {
-            if (!players[currentPlayerIndex].IsMoving()&& !currentPlayerIsMakingDecision)
+            if (!players[currentPlayerIndex].IsMoving() && !currentPlayerIsMakingDecision)
             {
                 players[currentPlayerIndex].AllowRolling();
                 camera.SetDiceCamera();
@@ -222,10 +226,7 @@ public class Game : MonoBehaviour
                     currentPlayerIndex = 0;
                     numberOfTurns++;
                 }
-
             }
-            
-            
         }
     }
 
@@ -255,10 +256,5 @@ public class Game : MonoBehaviour
     {
         currentPlayerBoughtProperty = true;
     }
-
-
     
-
-    
-
 }
