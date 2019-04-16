@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
     {
         moving = false;
         diceRolled = false;
-        cash = 10000;
+        cash = 1500;
         currentFieldId = 0;
     }
 
