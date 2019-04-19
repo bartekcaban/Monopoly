@@ -7,7 +7,6 @@ public class GameUI : MonoBehaviour
 {
     public Game game;
     public TMP_Text currentPlayerName;
-    public TMP_Text currentPlayerCash;
     public TMP_Text nextPlayerName;
 
     // Start is called before the first frame update
@@ -21,7 +20,6 @@ public class GameUI : MonoBehaviour
         if (game.currentPlayer)
         {
             currentPlayerName.text = game.currentPlayer.playerName;
-            currentPlayerCash.text = game.currentPlayer.cash.ToString();
         }
         if (game.nextPlayer) nextPlayerName.text = game.nextPlayer.playerName;
     }
