@@ -9,6 +9,7 @@ public class GameUI : MonoBehaviour
 {
     public Texture[] textures; //List of Sprites added from the Editor to be created as GameObjects at runtime
     private Texture currentTexture;
+    private int currentTextureIndex = 0;
 
     public GameObject playerStatisticsPanel; //Parent Panel you want the new Images to be children of
     public Game game;
@@ -32,8 +33,10 @@ public class GameUI : MonoBehaviour
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
 
-        sprite = Sprite.Create((Texture2D)textures[0], new Rect(0.0f, 0.0f, textures[0].width, textures[0].height), new Vector2(0.5f, 0.5f), 100.0f);
-        cardImage.sprite = sprite;
+        resolvePlayerCardImage();
+
+        //sprite = Sprite.Create((Texture2D)textures[0], new Rect(0.0f, 0.0f, textures[0].width, textures[0].height), new Vector2(0.5f, 0.5f), 100.0f);
+        //cardImage.sprite = sprite;
     }
 
     // Update is called once per frame
@@ -49,22 +52,22 @@ public class GameUI : MonoBehaviour
 
     void resolvePlayerCardImage()
     {
-        sprite = Sprite.Create((Texture2D)textures[0], new Rect(0.0f, 0.0f, textures[0].width, textures[0].height), new Vector2(0.5f, 0.5f), 100.0f);
+        currentTexture = textures[currentTextureIndex];
+        sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
         cardImage.sprite = sprite;
-        GameObject NewObj = new GameObject();
-        Image newImage = NewObj.AddComponent<Image>();
-        //newImage.sprite = Sprites[cardSpriteIndex];
-        NewObj.GetComponent<RectTransform>().SetParent(playerStatisticsPanel.transform);
-        NewObj.SetActive(true);
     }
 
     private void handleLeftButtonClick()
     {
-        throw new NotImplementedException();
+        currentTextureIndex--;
+        if (currentTextureIndex < 0) currentTextureIndex = 0;
+        resolvePlayerCardImage();
     }
 
     private void handleRightButtonClick()
     {
-        throw new NotImplementedException();
+        currentTextureIndex++;
+        if (currentTextureIndex > textures.Length - 1) currentTextureIndex = textures.Length - 1;
+        resolvePlayerCardImage();
     }
 }
