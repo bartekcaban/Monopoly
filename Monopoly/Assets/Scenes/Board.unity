@@ -2804,7 +2804,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a6963432216c047bf11cfcccfefb2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sprites:
+  textures:
+  - {fileID: 2800000, guid: 79c384d0527a062448c76b9b81493446, type: 3}
+  - {fileID: 2800000, guid: d98f9b68ed7db7a4b86f9d30cedfb8d3, type: 3}
+  - {fileID: 2800000, guid: 0f6193070af6e08459e9169a30316877, type: 3}
+  - {fileID: 2800000, guid: 4f1c7c00998f9724a8b725f1ff32abc3, type: 3}
+  - {fileID: 2800000, guid: ffb059b026e9ab24db1be9553db4bd1d, type: 3}
+  - {fileID: 2800000, guid: 0bd66a71a6ea67d408d88523149566e1, type: 3}
+  - {fileID: 2800000, guid: a8733bfd33a33d941aaf11c0a007d471, type: 3}
+  - {fileID: 2800000, guid: 9268e19e9c4ac9242a8e3f365c99af1c, type: 3}
+  - {fileID: 2800000, guid: 001f751741411de4888bf3cf38782f4e, type: 3}
+  - {fileID: 2800000, guid: 81acea821d8ee9440a04717ceb15d1a7, type: 3}
+  - {fileID: 2800000, guid: 34533efe7a56ead42a5a754939eaa29a, type: 3}
+  - {fileID: 2800000, guid: e55332131324372468ad4f4443fdf5f4, type: 3}
+  - {fileID: 2800000, guid: bf47b185411e34a448520f431d5dc7fc, type: 3}
+  - {fileID: 2800000, guid: a29265129c172844297ccaa73384e2e1, type: 3}
   - {fileID: 2800000, guid: caa9fe847040e984780a196e72be0871, type: 3}
   - {fileID: 2800000, guid: 96b8f6905b24dea49a8791b9745ed219, type: 3}
   - {fileID: 2800000, guid: 4f6b680ec9ddf304594e9eabee586c1a, type: 3}
@@ -2827,25 +2841,14 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 69be60a870704864eab6f019a5bb9a52, type: 3}
   - {fileID: 2800000, guid: bbe8d9d2ca0269f4eba7f0f788d08cc8, type: 3}
   - {fileID: 2800000, guid: 07349cf6f04cd0d41976549ed1472308, type: 3}
-  - {fileID: 2800000, guid: 79c384d0527a062448c76b9b81493446, type: 3}
-  - {fileID: 2800000, guid: d98f9b68ed7db7a4b86f9d30cedfb8d3, type: 3}
-  - {fileID: 2800000, guid: 0f6193070af6e08459e9169a30316877, type: 3}
-  - {fileID: 2800000, guid: 4f1c7c00998f9724a8b725f1ff32abc3, type: 3}
-  - {fileID: 2800000, guid: ffb059b026e9ab24db1be9553db4bd1d, type: 3}
-  - {fileID: 2800000, guid: 0bd66a71a6ea67d408d88523149566e1, type: 3}
-  - {fileID: 2800000, guid: a8733bfd33a33d941aaf11c0a007d471, type: 3}
-  - {fileID: 2800000, guid: 9268e19e9c4ac9242a8e3f365c99af1c, type: 3}
-  - {fileID: 2800000, guid: 001f751741411de4888bf3cf38782f4e, type: 3}
-  - {fileID: 2800000, guid: 81acea821d8ee9440a04717ceb15d1a7, type: 3}
-  - {fileID: 2800000, guid: 34533efe7a56ead42a5a754939eaa29a, type: 3}
-  - {fileID: 2800000, guid: e55332131324372468ad4f4443fdf5f4, type: 3}
-  - {fileID: 2800000, guid: bf47b185411e34a448520f431d5dc7fc, type: 3}
-  - {fileID: 2800000, guid: a29265129c172844297ccaa73384e2e1, type: 3}
-  playerStatisticsPanel: {fileID: 0}
+  playerStatisticsPanel: {fileID: 1158759411}
   game: {fileID: 1652702939}
   currentPlayerName: {fileID: 1650985497}
   currentPlayerCash: {fileID: 909999517}
   nextPlayerName: {fileID: 766408518}
+  cardImage: {fileID: 1802155887}
+  shiftLeftButton: {fileID: 2143444773}
+  shiftRightButton: {fileID: 1331393015}
 --- !u!1 &714436860
 GameObject:
   m_ObjectHideFlags: 0

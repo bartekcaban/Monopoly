@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Game : MonoBehaviour
-{
+{    
     CameraMovement camera;
     List<string> playerNames;
-    List<Player> players;    
+    public List<Player> players;
     DialogMenu dialogMenu;
     public List<Property> properties;
     int numberOfTurns;
