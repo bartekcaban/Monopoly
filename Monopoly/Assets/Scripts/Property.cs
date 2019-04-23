@@ -35,7 +35,7 @@ public class Property : MonoBehaviour
         this.housePrice = housePrice;
         this.rent = rent;
         this.rentPerHouse = rentPerHouse;
-        this.hotelRent = hotelRent;
+        this.hotelRent = hotelRent;        
     }
 
     public void SetId(int id)
