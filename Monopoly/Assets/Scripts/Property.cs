@@ -19,6 +19,8 @@ public class Property : MonoBehaviour
     bool hotelBuilt;
     public int hotelRent;
     public GameObject housePrefab;
+    public GameObject soldSignPrefab;
+    GameObject soldSign;
     GameObject[] houses;
 
     void onMouseDown()
@@ -48,6 +50,9 @@ public class Property : MonoBehaviour
         if (this.ownerId==null)
         {
             this.ownerId = ownerId;
+            var position = transform.position;
+            Instantiate(soldSignPrefab, position, Quaternion.identity);
+
         }
     }
     public bool HasOwner()
