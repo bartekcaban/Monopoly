@@ -204,8 +204,6 @@ public class Game : MonoBehaviour
 
                   HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
                 }
-
-                
                
                 currentPlayerIsMakingDecision = true;
             }
@@ -263,6 +261,13 @@ public class Game : MonoBehaviour
     {
         chanceList.Add(new Chance("Idź na pole start", 0, ChanceType.moveTo));
         chanceList.Add(new Chance("Idź do więzienia", 30, ChanceType.moveTo));
+        chanceList.Add(new Chance("Płacisz do banku 50$", -50, ChanceType.money));
+        chanceList.Add(new Chance("Kara za przekroczenie prędkości 10$", -10, ChanceType.money));
+        chanceList.Add(new Chance("Zaległy podatek 200$", -200, ChanceType.money));
+        chanceList.Add(new Chance("Nagroda za znalezienie psa 20$", 30, ChanceType.money));
+        chanceList.Add(new Chance("Przesuń pionek o 10 pól", 10, ChanceType.move));
+        chanceList.Add(new Chance("Prszesuń pionek o 2 pola", 2, ChanceType.move));
+        chanceList.Add(new Chance("Przesuń polek o 20 pól", 20, ChanceType.move));
     }
 
     Chance DrawAChance()
