@@ -24,6 +24,7 @@ public class Game : MonoBehaviour
     bool currentPlayerBoughtProperty = false;
     bool currentPlayerIsMakingDecision = false;
     Property currentPlayerStandingProperty;
+    List<Chance> chanceList;
 
     public void CreatePlayers(int number)
     {        
@@ -137,6 +138,7 @@ public class Game : MonoBehaviour
         timeLeft = 8.0f;
         CreatePlayers(numberOfPlayers);
         dialogMenu = DialogMenu.Instance();
+        ChanceInit();
     }
 
     // Update is called once per frame
@@ -203,7 +205,7 @@ public class Game : MonoBehaviour
                   HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
                 }
 
-
+                
                
                 currentPlayerIsMakingDecision = true;
             }
@@ -255,6 +257,18 @@ public class Game : MonoBehaviour
     void playerBoughtCurrentProperty()
     {
         currentPlayerBoughtProperty = true;
+    }
+
+    void ChanceInit()
+    {
+        chanceList.Add(new Chance("Idź na pole start", 0, ChanceType.moveTo));
+        chanceList.Add(new Chance("Idź do więzienia", 30, ChanceType.moveTo));
+    }
+
+    Chance DrawAChance()
+    {
+        int size = chanceList.Count;
+        return chanceList[Random.Range(0,size)];
     }
     
 }
