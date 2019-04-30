@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     int currentFieldId;
 
+    List<Property> ownedProperties;
+
     //TODO: lista posiadanych pól
 
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
@@ -60,6 +62,19 @@ public class Player : MonoBehaviour
     {
         return diceRolled;
     }
+    public void Buy(Property property)
+    {
+        ownedProperties.Add(property);
+        
+    }
+    public bool IsOwnerOfWholeGroup(PropertyGroupName groupName, Dictionary<PropertyGroupName,int> numberOfPropertiesInGroup)
+    {
+
+        var groupProperties = this.ownedProperties.FindAll(prop => prop.groupName == groupName);
+        if (numberOfPropertiesInGroup[groupName] == groupProperties.Count) return true;
+        else return false;
+
+    }
     public int GetCurrentPosition()
     {
         return currentFieldId;
@@ -91,6 +106,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ownedProperties = new List<Property>();
         moving = false;
         diceRolled = false;
         cash = 1500;

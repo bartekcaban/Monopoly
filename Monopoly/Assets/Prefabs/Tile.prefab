@@ -44,13 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da33a5184870af4c8565225a9071477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Price: 0
-  HousePrice: 0
-  HotelPrice: 0
-  Rent: 0
-  RentPerHouse: 0
-  HotelRent: 0
+  id: 0
+  type: 0
+  groupName: 0
+  price: 0
+  housePrice: 0
+  hotelPrice: 0
+  rent: 0
+  rentPerHouse: 0
+  hotelRent: 0
   housePrefab: {fileID: 1470438515997911288, guid: ca9117a9fef7a574b84403fd99438e77,
+    type: 3}
+  soldSignPrefab: {fileID: 100010, guid: 5f24f95ee8c2dff47aa0f2fd1e13b6c2, type: 3}
+  constructionSitePrefab: {fileID: 6461984085258539769, guid: 0282b46446d83184689d172083f5bbb4,
     type: 3}
 --- !u!1 &8070530001498823277
 GameObject:
