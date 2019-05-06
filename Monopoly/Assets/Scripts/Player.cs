@@ -18,8 +18,6 @@ public class Player : MonoBehaviour
 
     List<Property> ownedProperties;
 
-    //TODO: lista posiadanych pól
-
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
     {
         currentFieldId = index;
@@ -65,7 +63,6 @@ public class Player : MonoBehaviour
     public void Buy(Property property)
     {
         ownedProperties.Add(property);
-        
     }
     public bool IsOwnerOfWholeGroup(PropertyGroupName groupName, Dictionary<PropertyGroupName,int> numberOfPropertiesInGroup)
     {

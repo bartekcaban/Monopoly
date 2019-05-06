@@ -109,7 +109,12 @@ public enum PropertyType
 {
     forSale,
     startField,
-    special
+    chance,
+    start,
+    jail,
+    goToJail,
+    tax,
+    parking
 }
 public enum PropertyGroupName
 {
@@ -123,8 +128,7 @@ public enum PropertyGroupName
     darkBlue,
     station,
     utility,
-    tax,
-    chance,
     other
+   
 }
 

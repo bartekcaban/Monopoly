@@ -120,20 +120,20 @@ public class Game : MonoBehaviour
         properties[28].SetPropertyData("WaterWorks", 150, 0, 50, 0, 0, PropertyGroupName.utility, PropertyType.forSale);
 
         //Special fields:
-        properties[0].SetPropertyData("Start", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.special);
-        properties[10].SetPropertyData("Jail", 0, 0, 0, 0, 0,PropertyGroupName.other, PropertyType.special);
-        properties[20].SetPropertyData("Parking", 0, 0, 0, 0, 0,PropertyGroupName.other, PropertyType.special);
-        properties[30].SetPropertyData("GoToJail", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.special);
+        properties[0].SetPropertyData("Start", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.start);
+        properties[10].SetPropertyData("Jail", 0, 0, 0, 0, 0,PropertyGroupName.other, PropertyType.jail);
+        properties[20].SetPropertyData("Parking", 0, 0, 0, 0, 0,PropertyGroupName.other, PropertyType.parking);
+        properties[30].SetPropertyData("GoToJail", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.goToJail);
 
-        properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.tax, PropertyType.special);
-        properties[38].SetPropertyData("LuxuryTax", 0, 0, 0, 0, 0, PropertyGroupName.tax, PropertyType.special);
+        properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
+        properties[38].SetPropertyData("LuxuryTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
 
-        properties[2].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.chance, PropertyType.special);
-        properties[7].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.chance, PropertyType.special);
-        properties[17].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.chance, PropertyType.special);
-        properties[22].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.chance, PropertyType.special);
-        properties[33].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.chance, PropertyType.special);
-        properties[36].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.chance, PropertyType.special);
+        properties[2].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
+        properties[7].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
+        properties[17].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
+        properties[22].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
+        properties[33].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
+        properties[36].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
 
     }
 
@@ -198,28 +198,36 @@ public class Game : MonoBehaviour
                 currentPlayerId = players[currentPlayerIndex].GetId();
                 currentPlayerStandingProperty = properties[currentPlayerPosition];
                 
-
-
-                if (currentPlayerStandingProperty.HasOwner())
+                switch (currentPlayerStandingProperty.type)
                 {
-                    if (currentPlayerStandingProperty.IsOwningBy(currentPlayerId))
-                    {
-                        HandleStandingOnOwnPosition(currentPlayerStandingProperty);
-                    }
-                    else
-                    {
-                        HandleRentPay(currentPlayerStandingProperty, currentPlayerId);
-                    }
+                    case PropertyType.forSale:
+                        if (currentPlayerStandingProperty.HasOwner())
+                        {
+                            if (currentPlayerStandingProperty.IsOwningBy(currentPlayerId))
+                            {
+                                HandleStandingOnOwnPosition(currentPlayerStandingProperty);
+                            }
+                            else
+                            {
+                                HandleRentPay(currentPlayerStandingProperty, currentPlayerId);
+                            }
+                        }
+                        else
+                        {
+
+                            HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
+                        }
+                     currentPlayerIsMakingDecision = true;
+                    break;
+                    case PropertyType.chance:
+
+                        break;
+                    
+                      //  TODO: HandleAbleToBuyProperty all types of fields
+                      
                 }
-                else
-                {
 
-                  HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
-                }
-
-
-               
-                currentPlayerIsMakingDecision = true;
+                
             }
             if (currentPlayerIsMakingDecision)
             {
@@ -227,10 +235,12 @@ public class Game : MonoBehaviour
                 {
                     currentPlayer.Buy(currentPlayerStandingProperty);
                     currentPlayerStandingProperty.Buy(currentPlayerId);
-                    if (currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName,propertyGroups))
+                    if (currentPlayerStandingProperty.groupName != PropertyGroupName.station && 
+                        currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName,propertyGroups))
                     {
                         setPropertyGroupAbleToBuild(currentPlayerStandingProperty.groupName);
                     }
+                    currentPlayerBoughtProperty = false;
                     
                 }
                 if (moveFinished)
