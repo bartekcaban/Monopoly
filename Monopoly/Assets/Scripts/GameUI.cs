@@ -16,6 +16,7 @@ public class GameUI : MonoBehaviour
     public TMP_Text currentPlayerName;
     public TMP_Text currentPlayerCash;
     public TMP_Text nextPlayerName;
+    public TMP_Text noneTextField;
     public Image cardImage;    
     public Button shiftLeftButton;
     public Button shiftRightButton;
@@ -42,8 +43,8 @@ public class GameUI : MonoBehaviour
             currentPlayerName.text = game.currentPlayer.playerName;
             currentPlayerCash.text = game.currentPlayer.cash.ToString();
 
-            // if (game.currentPlayer.ownedProperties.Length <= 0 && switcherEnabled) disableImageSwitcher();
-            // else if (switcherDisabled) enableImageSwitcher();
+            if (game.currentPlayer.ownedProperties.Count <= 0 && switcherEnabled) disableImageSwitcher();
+            else if (game.currentPlayer.ownedProperties.Count > 0 && !switcherEnabled) enableImageSwitcher();
         }
         if (game.nextPlayer) nextPlayerName.text = game.nextPlayer.playerName;
     }
@@ -51,16 +52,18 @@ public class GameUI : MonoBehaviour
     private void disableImageSwitcher()
     {
         cardImage.enabled = false;
-        shiftLeftButton.enabled = false;
-        shiftRightButton.enabled = false;
+        shiftLeftButton.gameObject.SetActive(false);
+        shiftRightButton.gameObject.SetActive(false);
+        noneTextField.gameObject.SetActive(true);
         switcherEnabled = false;
     }
 
     private void enableImageSwitcher()
     {
         cardImage.enabled = true;
-        shiftLeftButton.enabled = true;
-        shiftRightButton.enabled = true;
+        shiftLeftButton.gameObject.SetActive(true);
+        shiftRightButton.gameObject.SetActive(true);
+        noneTextField.gameObject.SetActive(false);
         switcherEnabled = true;
     }
 

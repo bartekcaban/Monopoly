@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     int currentFieldId;
 
-    List<Property> ownedProperties;
+    public List<Property> ownedProperties;
 
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
     {
