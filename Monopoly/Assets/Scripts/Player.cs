@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
             destinationFieldId = destinationFieldId - 41;
         if(!pawn.IsDestinationReached())
             pawn.AllowMovement(destinationFieldId);
-        Debug.Log("dest " + currentFieldId);
+        // Debug.Log("dest " + currentFieldId);
     }
 
     public bool IsMoving()
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
             diceRolled = false;
             currentFieldId = currentFieldId + dice.GetRolledValue();
         }
-        Debug.Log(pawn.IsDestinationReached());
+        // Debug.Log(pawn.IsDestinationReached());
         return pawn.IsDestinationReached();
     }
 

@@ -4,6 +4,7 @@ using System;
 
 public class Property : MonoBehaviour
 {
+    public string propertyName;
     public int id;
     public PropertyType type;
     public PropertyGroupName groupName;
@@ -31,6 +32,7 @@ public class Property : MonoBehaviour
         int hotelRent,PropertyGroupName groupName,PropertyType type)
     {
         Name = name;
+        this.propertyName = name;
         this.price = price;
         this.housePrice = housePrice;
         this.rent = rent;

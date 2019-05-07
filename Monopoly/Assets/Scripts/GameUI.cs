@@ -22,6 +22,7 @@ public class GameUI : MonoBehaviour
     public Button shiftRightButton;
 
     private Texture[] currentPlayerTextures;
+    private List<Texture> chosenTextures;
 
     private bool switcherEnabled = true;
 
@@ -32,7 +33,7 @@ public class GameUI : MonoBehaviour
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
 
-        resolvePlayerCardImage();        
+        if (switcherEnabled) resolvePlayerCardImage();
     }
 
     // Update is called once per frame
@@ -45,6 +46,11 @@ public class GameUI : MonoBehaviour
 
             if (game.currentPlayer.ownedProperties.Count <= 0 && switcherEnabled) disableImageSwitcher();
             else if (game.currentPlayer.ownedProperties.Count > 0 && !switcherEnabled) enableImageSwitcher();
+
+            if (switcherEnabled)
+            {
+                resolveCurrentPlayerTextures();
+            }
         }
         if (game.nextPlayer) nextPlayerName.text = game.nextPlayer.playerName;
     }
@@ -77,14 +83,17 @@ public class GameUI : MonoBehaviour
     private void handleRightButtonClick()
     {
         currentTextureIndex++;
-        if (currentTextureIndex > textures.Length - 1) currentTextureIndex = textures.Length - 1;
+        if (currentTextureIndex > chosenTextures.Count - 1) currentTextureIndex = textures.Length - 1;
         resolvePlayerCardImage();
     }
 
     void resolvePlayerCardImage()
-    {        
-        currentTexture = textures[currentTextureIndex];
-        cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.5f, 0.5f), 100.0f); ;
+    {
+        // currentTexture = textures[currentTextureIndex];
+        if (chosenTextures.Count > 0) {
+            currentTexture = chosenTextures.ElementAt(currentTextureIndex);
+            cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
+        }
     }
 
     private void resolveCurrentPlayerTextures()
@@ -92,11 +101,23 @@ public class GameUI : MonoBehaviour
         Player currentPlayer;
         if (game.players != null)
         {
-            currentPlayer = game.players.Find(x => x.name.Equals(currentPlayerName));
+            currentPlayer = game.players.Find(x => x.playerName == currentPlayerName.text);
             // zmapowanie ownedProperties currentPlayera na tekstury z tablicy textures[].
             // nazwa tekstury jest przechowywana w texture.name (np. Warsaw, jail, chance)
 
-            // List<Texture> chosenTextures = textures.Where(x => currentPlayer.ownedProperties.Exists(p => p.name == x.name)); //////////// TO DO
+            //chosenTextures = textures.Where(x => currentPlayer.ownedProperties.Exists(p => p.name == x.name)).ToList(); //////////// TO DO
+            //chosenTextures = textures.Where(x => currentPlayer.ownedProperties.Find(p => p.name == x.name)).ToList();
+            
+            chosenTextures = new List<Texture>{ };
+            foreach (Texture texture in textures)
+            {
+                foreach (Property property in currentPlayer.ownedProperties)
+                {
+                    if (property.propertyName.ToLower() == texture.name.ToLower()) chosenTextures.Add(texture);
+                }
+            }
+
+            Debug.Log("count of chosenTextures: " + chosenTextures.Count);
         }
     }
 }
