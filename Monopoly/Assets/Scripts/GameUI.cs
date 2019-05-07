@@ -96,7 +96,7 @@ public class GameUI : MonoBehaviour
             // zmapowanie ownedProperties currentPlayera na tekstury z tablicy textures[].
             // nazwa tekstury jest przechowywana w texture.name (np. Warsaw, jail, chance)
 
-            // List<Texture> chosenTextures = textures.Where(x => x.name == currentPlayer.ownedProperties.toLower());
+            // List<Texture> chosenTextures = textures.Where(x => currentPlayer.ownedProperties.Exists(p => p.name == x.name)); //////////// TO DO
         }
     }
 }
