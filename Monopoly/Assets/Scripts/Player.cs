@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
             diceRolled = false;
             currentFieldId = currentFieldId + dice.GetRolledValue();
         }
-        Debug.Log(pawn.IsDestinationReached());
+        //Debug.Log(pawn.IsDestinationReached());
         return pawn.IsDestinationReached();
     }
 

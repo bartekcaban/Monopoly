@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
-
+using System.Numerics;
+using Vector3 = UnityEngine.Vector3;
+using Quaternion = UnityEngine.Quaternion;
 
 public class Property : MonoBehaviour
 {
@@ -24,8 +26,6 @@ public class Property : MonoBehaviour
     GameObject soldSign;
     GameObject constructionSite;
     GameObject[] houses;
-
-    
 
     public void SetPropertyData(String name, int price, int housePrice, int rent, int rentPerHouse,
         int hotelRent,PropertyGroupName groupName,PropertyType type)
@@ -51,9 +51,8 @@ public class Property : MonoBehaviour
         {
             this.ownerId = ownerId;
             var position = transform.position;
-            position.x += 7;
-            position.z -= 2;
-            soldSign = Instantiate(soldSignPrefab, position, Quaternion.identity);
+            position += calculateSignOffset(this.id);
+            soldSign = Instantiate(soldSignPrefab, position, transform.rotation * Quaternion.Euler(0f, 180f, 0f));
          }
         
     }
@@ -72,7 +71,7 @@ public class Property : MonoBehaviour
         if(numberOfHouses < 4)
         {
             var position = transform.position;
-            houses[numberOfHouses]=Instantiate(housePrefab,position, Quaternion.identity);
+            houses[numberOfHouses]=Instantiate(housePrefab,position, UnityEngine.Quaternion.identity);
             Destroy(soldSign);
             numberOfHouses++;
         }
@@ -98,10 +97,23 @@ public class Property : MonoBehaviour
     public void onAbleToBuild()
     {
         var position = transform.position;
-        position.x += 7;
-        position.z -= 2;
+        position += calculateConstructionOffset(this.id);
         Destroy(soldSign);
-        constructionSite = Instantiate(constructionSitePrefab, position, Quaternion.identity);
+        constructionSite = Instantiate(constructionSitePrefab, position, UnityEngine.Quaternion.identity);
+    }
+    Vector3 calculateSignOffset(int fieldId)
+    {
+        if (fieldId < 11) return new Vector3(7, 0, 0);
+        else if (fieldId < 21) return new Vector3(2, 0, -7);
+        else if (fieldId < 31) return new Vector3(-7, 0, 2);
+        else   return new Vector3(0, 0, 7);
+    }
+    Vector3 calculateConstructionOffset(int fieldId)
+    {
+        if (fieldId < 11) return new Vector3(6, 0, 0);
+        else if (fieldId < 21) return new Vector3(0, 0, -6);
+        else if (fieldId < 31) return new Vector3(-6, 0, 0);
+        else return new Vector3(0, 0, 6);
     }
 }
 
