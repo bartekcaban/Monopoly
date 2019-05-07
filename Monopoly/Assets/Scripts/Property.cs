@@ -6,7 +6,7 @@ public class Property : MonoBehaviour
 {
     public int id;
     public PropertyType type;
-    public PropertyGroup group;
+    public PropertyGroupName groupName;
     String Name { get; set; }
     int? ownerId { get; set; }
     public int numberOfHouses
@@ -19,16 +19,16 @@ public class Property : MonoBehaviour
     bool hotelBuilt;
     public int hotelRent;
     public GameObject housePrefab;
+    public GameObject soldSignPrefab;
+    public GameObject constructionSitePrefab;
+    GameObject soldSign;
+    GameObject constructionSite;
     GameObject[] houses;
 
-    void onMouseDown()
-    {
-        BuildHouse();
+    
 
-        Debug.Log("jestem");
-    }
-
-    public void SetPropertyData(String name, int price, int housePrice, int rent, int rentPerHouse, int hotelRent)
+    public void SetPropertyData(String name, int price, int housePrice, int rent, int rentPerHouse,
+        int hotelRent,PropertyGroupName groupName,PropertyType type)
     {
         Name = name;
         this.price = price;
@@ -36,6 +36,8 @@ public class Property : MonoBehaviour
         this.rent = rent;
         this.rentPerHouse = rentPerHouse;
         this.hotelRent = hotelRent;
+        this.groupName = groupName;
+        this.type = type;
     }
 
     public void SetId(int id)
@@ -48,7 +50,12 @@ public class Property : MonoBehaviour
         if (this.ownerId==null)
         {
             this.ownerId = ownerId;
-        }
+            var position = transform.position;
+            position.x += 7;
+            position.z -= 2;
+            soldSign = Instantiate(soldSignPrefab, position, Quaternion.identity);
+         }
+        
     }
     public bool HasOwner()
     {
@@ -59,7 +66,6 @@ public class Property : MonoBehaviour
     {
         if (PlayerId == ownerId) return true;
         else return false;
-        
     }
     void BuildHouse()
     {
@@ -67,6 +73,7 @@ public class Property : MonoBehaviour
         {
             var position = transform.position;
             houses[numberOfHouses]=Instantiate(housePrefab,position, Quaternion.identity);
+            Destroy(soldSign);
             numberOfHouses++;
         }
     }
@@ -88,13 +95,26 @@ public class Property : MonoBehaviour
             return rent + numberOfHouses * rentPerHouse;
         }
     }
+    public void onAbleToBuild()
+    {
+        var position = transform.position;
+        position.x += 7;
+        position.z -= 2;
+        Destroy(soldSign);
+        constructionSite = Instantiate(constructionSitePrefab, position, Quaternion.identity);
+    }
 }
 
 public enum PropertyType
 {
     forSale,
     startField,
-    special
+    chance,
+    start,
+    jail,
+    goToJail,
+    tax,
+    parking
 }
 public enum PropertyGroupName
 {
@@ -107,10 +127,8 @@ public enum PropertyGroupName
     green,
     darkBlue,
     station,
-    utility
+    utility,
+    other
+   
 }
-public struct PropertyGroup
-{
-    PropertyGroupName name;
-    int numberofProperties;
-}
+
