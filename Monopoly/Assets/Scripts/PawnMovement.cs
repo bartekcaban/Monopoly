@@ -18,7 +18,6 @@ public enum Track
     d
 }
 
-//TODO: zrobić ruch na obiektach pól, nie na współrzędnych
 public class PawnMovement : MonoBehaviour
 {
     public Rigidbody rb;
@@ -34,6 +33,10 @@ public class PawnMovement : MonoBehaviour
     Direction direction = Direction.straight;
     float trackBonus;
     bool directionChanged;
+    Vector3 moveRightPos;
+    Vector3 moveLeftPos;
+    Vector3 moveStraightPos;
+    Vector3 moveBackwardsPos;
 
     public void AllowMovement(int id)
     {
@@ -63,6 +66,8 @@ public class PawnMovement : MonoBehaviour
         targetRotation = 0f;
         trackBonus = 0f;
         directionChanged = false;
+
+        //moveRightPos = GetComponent<Property>().id;
     }
 
     // Update is called once per frame
@@ -173,13 +178,16 @@ public class PawnMovement : MonoBehaviour
                     Vector3 v = new Vector3();
                     v.Set(velocity * Time.deltaTime, 0, 0);
                     rb.velocity = v;
-                }
+            }
                 else if (direction == Direction.straight)
                 {
-                    Vector3 v = new Vector3();
-                    v.Set(0, 0, velocity * Time.deltaTime);
-                    rb.velocity = v;
-                }
+                    Vector3 v;
+                    //v.Set(0, 0, velocity * Time.deltaTime);
+                    //rb.velocity = v;
+                v = transform.position;
+                v.z = fieldPosition.z + trackBonus + 10;
+                transform.position = Vector3.Lerp(transform.position, v, Time.deltaTime * 0.25f);
+            }
                 else if (direction == Direction.left)
                 {
                     Vector3 v = new Vector3();
