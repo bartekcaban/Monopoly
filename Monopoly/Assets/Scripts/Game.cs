@@ -76,7 +76,9 @@ public class Game : MonoBehaviour
             {PropertyGroupName.darkBlue,3 },
             {PropertyGroupName.green,3 },
             {PropertyGroupName.orange,3 },
-            {PropertyGroupName.pink,2 }
+            {PropertyGroupName.pink,2 },
+            {PropertyGroupName.utility, 2},
+            {PropertyGroupName.other, 12}
         };
 
         //Hotels:
@@ -100,7 +102,7 @@ public class Game : MonoBehaviour
         properties[24].SetPropertyData("Paris", 240, 150, 20, 230, 1100, PropertyGroupName.darkBlue, PropertyType.forSale);
 
 
-            properties[26].SetPropertyData("Milan", 260, 150, 22, 245, 1150, PropertyGroupName.green, PropertyType.forSale);
+        properties[26].SetPropertyData("Milan", 260, 150, 22, 245, 1150, PropertyGroupName.green, PropertyType.forSale);
         properties[27].SetPropertyData("Florence", 260, 150, 22, 245, 1150, PropertyGroupName.green, PropertyType.forSale);
         properties[29].SetPropertyData("Rome", 280, 150, 24, 255, 1200, PropertyGroupName.green, PropertyType.forSale);
 

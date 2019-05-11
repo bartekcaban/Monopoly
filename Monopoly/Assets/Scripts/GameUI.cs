@@ -29,11 +29,8 @@ public class GameUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // playersList = GameObject.Find("Board").GetComponent<Game>().players;
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
-
-        if (switcherEnabled) resolvePlayerCardImage();
     }
 
     // Update is called once per frame
@@ -76,20 +73,19 @@ public class GameUI : MonoBehaviour
     private void handleLeftButtonClick()
     {
         currentTextureIndex--;
-        if (currentTextureIndex < 0) currentTextureIndex = 0;
+        if (currentTextureIndex < 0) currentTextureIndex = chosenTextures.Count - 1;
         resolvePlayerCardImage();
     }
 
     private void handleRightButtonClick()
     {
         currentTextureIndex++;
-        if (currentTextureIndex > chosenTextures.Count - 1) currentTextureIndex = textures.Length - 1;
+        if (currentTextureIndex > chosenTextures.Count - 1) currentTextureIndex = 0;
         resolvePlayerCardImage();
     }
 
     void resolvePlayerCardImage()
     {
-        // currentTexture = textures[currentTextureIndex];
         if (chosenTextures.Count > 0) {
             currentTexture = chosenTextures.ElementAt(currentTextureIndex);
             cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
@@ -113,11 +109,16 @@ public class GameUI : MonoBehaviour
             {
                 foreach (Property property in currentPlayer.ownedProperties)
                 {
-                    if (property.propertyName.ToLower() == texture.name.ToLower()) chosenTextures.Add(texture);
+                    if (property.propertyName.ToLower() == texture.name.ToLower())
+                    {
+                        chosenTextures.Add(texture);
+                    }
                 }
             }
 
             Debug.Log("count of chosenTextures: " + chosenTextures.Count);
+
+            resolvePlayerCardImage();
         }
     }
 }
