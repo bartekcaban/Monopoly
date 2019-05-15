@@ -100,9 +100,6 @@ public class GameUI : MonoBehaviour
             currentPlayer = game.players.Find(x => x.playerName == currentPlayerName.text);
             // zmapowanie ownedProperties currentPlayera na tekstury z tablicy textures[].
             // nazwa tekstury jest przechowywana w texture.name (np. Warsaw, jail, chance)
-
-            //chosenTextures = textures.Where(x => currentPlayer.ownedProperties.Exists(p => p.name == x.name)).ToList(); //////////// TO DO
-            //chosenTextures = textures.Where(x => currentPlayer.ownedProperties.Find(p => p.name == x.name)).ToList();
             
             chosenTextures = new List<Texture>{ };
             foreach (Texture texture in textures)
@@ -115,8 +112,6 @@ public class GameUI : MonoBehaviour
                     }
                 }
             }
-
-            Debug.Log("count of chosenTextures: " + chosenTextures.Count);
 
             resolvePlayerCardImage();
         }
