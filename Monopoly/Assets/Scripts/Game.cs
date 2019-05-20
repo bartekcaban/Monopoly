@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class Game : MonoBehaviour
-{
+{    
     CameraMovement camera;
     List<string> playerNames;
-    List<Player> players;
+    public List<Player> players;
     Dictionary<PropertyGroupName,int> propertyGroups;
+
     DialogMenu dialogMenu;
     public List<Property> properties;
     int numberOfTurns;
@@ -76,7 +77,9 @@ public class Game : MonoBehaviour
             {PropertyGroupName.darkBlue,3 },
             {PropertyGroupName.green,3 },
             {PropertyGroupName.orange,3 },
-            {PropertyGroupName.pink,2 }
+            {PropertyGroupName.pink,2 },
+            {PropertyGroupName.utility, 2},
+            {PropertyGroupName.other, 12}
         };
 
         //Hotels:
