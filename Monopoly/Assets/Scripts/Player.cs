@@ -17,13 +17,21 @@ public class Player : MonoBehaviour
     int currentFieldId;
 
     List<Property> ownedProperties;
-
+    /*
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
     {
         currentFieldId = index;
         if (!pawn.IsDestinationReached())
             pawn.AllowMovement(index);
     }
+    public void MoveByNumberOfFields(int number)
+    {
+        currentFieldId += number;
+        if (currentFieldId > 40)
+            currentFieldId = currentFieldId - 41;
+        if (!pawn.IsDestinationReached())
+            pawn.AllowMovement(currentFieldId);
+    }*/
     public void SetMoveFinished()
     {
         moveFinished = true;
@@ -37,10 +45,12 @@ public class Player : MonoBehaviour
     {
         int destinationFieldId = currentFieldId + dice.GetRolledValue();
         if (destinationFieldId > 40)
+        {
             destinationFieldId = destinationFieldId - 41;
+            cash += 200;
+        }
         if(!pawn.IsDestinationReached())
             pawn.AllowMovement(destinationFieldId);
-        Debug.Log("dest " + currentFieldId);
     }
 
     public bool IsMoving()
@@ -90,7 +100,6 @@ public class Player : MonoBehaviour
             diceRolled = false;
             currentFieldId = currentFieldId + dice.GetRolledValue();
         }
-        Debug.Log(pawn.IsDestinationReached());
         return pawn.IsDestinationReached();
     }
 

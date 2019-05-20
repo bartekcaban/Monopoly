@@ -25,6 +25,7 @@ public class Game : MonoBehaviour
     bool currentPlayerBoughtProperty = false;
     bool currentPlayerIsMakingDecision = false;
     Property currentPlayerStandingProperty;
+    List<Chance> chanceList;
 
     public void CreatePlayers(int number)
     {        
@@ -79,10 +80,10 @@ public class Game : MonoBehaviour
         };
 
         //Hotels:
-        properties[1].SetPropertyData("Salzburg", 60, 50, 2, 40, 250,PropertyGroupName.brown,PropertyType.forSale);
-        properties[3].SetPropertyData("Vienna", 60, 50, 4, 80, 450, PropertyGroupName.brown, PropertyType.forSale);
+        properties[1].SetPropertyData("Salzburg", 60, 50, 2, 40, 250,PropertyGroupName.brown,PropertyType.chance);
+        properties[3].SetPropertyData("Vienna", 60, 50, 4, 80, 450, PropertyGroupName.brown, PropertyType.chance);
 
-        properties[6].SetPropertyData("Cracow", 100, 50, 6, 100, 550, PropertyGroupName.red, PropertyType.forSale);
+        properties[6].SetPropertyData("Cracow", 100, 50, 6, 100, 550, PropertyGroupName.red, PropertyType.chance);
         properties[8].SetPropertyData("Warsaw", 100, 50, 6, 100, 550, PropertyGroupName.red, PropertyType.forSale);
         properties[9].SetPropertyData("Gliwice", 120, 50, 8, 110, 600, PropertyGroupName.red, PropertyType.forSale);
 
@@ -99,7 +100,7 @@ public class Game : MonoBehaviour
         properties[24].SetPropertyData("Paris", 240, 150, 20, 230, 1100, PropertyGroupName.darkBlue, PropertyType.forSale);
 
 
-            properties[26].SetPropertyData("Milan", 260, 150, 22, 245, 1150, PropertyGroupName.green, PropertyType.forSale);
+        properties[26].SetPropertyData("Milan", 260, 150, 22, 245, 1150, PropertyGroupName.green, PropertyType.forSale);
         properties[27].SetPropertyData("Florence", 260, 150, 22, 245, 1150, PropertyGroupName.green, PropertyType.forSale);
         properties[29].SetPropertyData("Rome", 280, 150, 24, 255, 1200, PropertyGroupName.green, PropertyType.forSale);
 
@@ -111,7 +112,7 @@ public class Game : MonoBehaviour
         properties[39].SetPropertyData("Brussels", 400, 200, 50, 425, 2000, PropertyGroupName.pink, PropertyType.forSale);
 
         //Others: - different payment rules
-        properties[5].SetPropertyData("WestRailroad", 200, 0, 50, 0, 0,PropertyGroupName.station,PropertyType.forSale);
+        properties[5].SetPropertyData("WestRailroad", 200, 0, 50, 0, 0,PropertyGroupName.station,PropertyType.chance);
         properties[15].SetPropertyData("NorthRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
         properties[25].SetPropertyData("EastRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
         properties[35].SetPropertyData("SouthRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
@@ -125,9 +126,10 @@ public class Game : MonoBehaviour
         properties[20].SetPropertyData("Parking", 0, 0, 0, 0, 0,PropertyGroupName.other, PropertyType.parking);
         properties[30].SetPropertyData("GoToJail", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.goToJail);
 
-        properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
+        properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
         properties[38].SetPropertyData("LuxuryTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
 
+        //Chance fields
         properties[2].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
         properties[7].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
         properties[17].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
@@ -151,6 +153,7 @@ public class Game : MonoBehaviour
         timeLeft = 8.0f;
         CreatePlayers(numberOfPlayers);
         dialogMenu = DialogMenu.Instance();
+        ChanceInit();
     }
 
     // Update is called once per frame
@@ -220,15 +223,28 @@ public class Game : MonoBehaviour
                      currentPlayerIsMakingDecision = true;
                     break;
                     case PropertyType.chance:
-
+                        PerformChanceAction(DrawAChance());
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
                         break;
-                    
-                      //  TODO: HandleAbleToBuyProperty all types of fields
-                      
-                }
+                    case PropertyType.start:
+                        currentPlayer.cash += 200;
+                        break;
+                    case PropertyType.goToJail:
+                        break;
+                    case PropertyType.parking:
+                        break;
+                        //  TODO: HandleAbleToBuyProperty all types of fields
 
-                
+                }
             }
+
             if (currentPlayerIsMakingDecision)
             {
                 if (currentPlayerBoughtProperty)
@@ -292,5 +308,29 @@ public class Game : MonoBehaviour
         var properties = this.properties.FindAll(prop => prop.groupName == name);
         properties.ForEach(prop => prop.onAbleToBuild());
     }
-    
+
+    void ChanceInit()
+    {
+        chanceList = new List<Chance>();
+        chanceList.Add(new Chance("Płacisz do banku 50$", -50));
+        chanceList.Add(new Chance("Kara za przekroczenie prędkości 10$", -10));
+        chanceList.Add(new Chance("Zaległy podatek 200$", -200));
+        chanceList.Add(new Chance("Nagroda za znalezienie psa 20$", 20));
+        chanceList.Add(new Chance("Nagroda za płacenie podatków na czas 100$", 100));
+        chanceList.Add(new Chance("Idziesz do dentysty -koszt 70$", -70));
+        chanceList.Add(new Chance("Kupujesz prezent z okazji dnia matki - 40$", -40));
+        chanceList.Add(new Chance("Znajdujesz na ulicy banknot 50$", 50));
+    }
+
+    Chance DrawAChance()
+    {
+        int size = chanceList.Count;
+        return chanceList[Random.Range(0, size)];
+    }
+
+    void PerformChanceAction( Chance chance )
+    {
+        currentPlayer.cash += chance.ReturnValue();
+        Debug.Log(chance.ReturnDescription());
+    }
 }
