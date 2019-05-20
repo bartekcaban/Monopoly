@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
             currentFieldIndex = currentFieldIndex - 41;
         if (!pawn.IsDestinationReached())
             pawn.AllowMovement(currentFieldIndex);
-    }*/
+    }
     public void SetMoveFinished()
     {
         moveFinished = true;
