@@ -80,10 +80,10 @@ public class Game : MonoBehaviour
         };
 
         //Hotels:
-        properties[1].SetPropertyData("Salzburg", 60, 50, 2, 40, 250,PropertyGroupName.brown,PropertyType.chance);
-        properties[3].SetPropertyData("Vienna", 60, 50, 4, 80, 450, PropertyGroupName.brown, PropertyType.chance);
+        properties[1].SetPropertyData("Salzburg", 60, 50, 2, 40, 250,PropertyGroupName.brown,PropertyType.forSale);
+        properties[3].SetPropertyData("Vienna", 60, 50, 4, 80, 450, PropertyGroupName.brown, PropertyType.forSale);
 
-        properties[6].SetPropertyData("Cracow", 100, 50, 6, 100, 550, PropertyGroupName.red, PropertyType.chance);
+        properties[6].SetPropertyData("Cracow", 100, 50, 6, 100, 550, PropertyGroupName.red, PropertyType.forSale);
         properties[8].SetPropertyData("Warsaw", 100, 50, 6, 100, 550, PropertyGroupName.red, PropertyType.forSale);
         properties[9].SetPropertyData("Gliwice", 120, 50, 8, 110, 600, PropertyGroupName.red, PropertyType.forSale);
 
@@ -112,7 +112,7 @@ public class Game : MonoBehaviour
         properties[39].SetPropertyData("Brussels", 400, 200, 50, 425, 2000, PropertyGroupName.pink, PropertyType.forSale);
 
         //Others: - different payment rules
-        properties[5].SetPropertyData("WestRailroad", 200, 0, 50, 0, 0,PropertyGroupName.station,PropertyType.chance);
+        properties[5].SetPropertyData("WestRailroad", 200, 0, 50, 0, 0,PropertyGroupName.station,PropertyType.forSale);
         properties[15].SetPropertyData("NorthRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
         properties[25].SetPropertyData("EastRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
         properties[35].SetPropertyData("SouthRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
@@ -126,7 +126,7 @@ public class Game : MonoBehaviour
         properties[20].SetPropertyData("Parking", 0, 0, 0, 0, 0,PropertyGroupName.other, PropertyType.parking);
         properties[30].SetPropertyData("GoToJail", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.goToJail);
 
-        properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
+        properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
         properties[38].SetPropertyData("LuxuryTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
 
         //Chance fields
