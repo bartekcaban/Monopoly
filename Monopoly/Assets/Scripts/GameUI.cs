@@ -55,6 +55,7 @@ public class GameUI : MonoBehaviour
     private void disableImageSwitcher()
     {
         cardImage.enabled = false;
+        cardImage.gameObject.SetActive(false);
         shiftLeftButton.gameObject.SetActive(false);
         shiftRightButton.gameObject.SetActive(false);
         noneTextField.gameObject.SetActive(true);
@@ -64,6 +65,7 @@ public class GameUI : MonoBehaviour
     private void enableImageSwitcher()
     {
         cardImage.enabled = true;
+        cardImage.gameObject.SetActive(true);
         shiftLeftButton.gameObject.SetActive(true);
         shiftRightButton.gameObject.SetActive(true);
         noneTextField.gameObject.SetActive(false);
