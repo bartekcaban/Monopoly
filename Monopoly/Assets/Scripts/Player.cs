@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     int currentFieldId;
 
-    //TODO: lista posiadanych pól
+    public List<Property> ownedProperties;
 
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
     {
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
             destinationFieldId = destinationFieldId - 41;
         if(!pawn.IsDestinationReached())
             pawn.AllowMovement(destinationFieldId);
-        Debug.Log("dest " + currentFieldId);
+        // Debug.Log("dest " + currentFieldId);
     }
 
     public bool IsMoving()
@@ -60,6 +60,18 @@ public class Player : MonoBehaviour
     {
         return diceRolled;
     }
+    public void Buy(Property property)
+    {
+        ownedProperties.Add(property);
+    }
+    public bool IsOwnerOfWholeGroup(PropertyGroupName groupName, Dictionary<PropertyGroupName,int> numberOfPropertiesInGroup)
+    {
+
+        var groupProperties = this.ownedProperties.FindAll(prop => prop.groupName == groupName);
+        if (numberOfPropertiesInGroup[groupName] == groupProperties.Count) return true;
+        else return false;
+
+    }
     public int GetCurrentPosition()
     {
         return currentFieldId;
@@ -78,7 +90,7 @@ public class Player : MonoBehaviour
             diceRolled = false;
             currentFieldId = currentFieldId + dice.GetRolledValue();
         }
-        Debug.Log(pawn.IsDestinationReached());
+        // Debug.Log(pawn.IsDestinationReached());
         return pawn.IsDestinationReached();
     }
 
@@ -91,6 +103,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ownedProperties = new List<Property>();
         moving = false;
         diceRolled = false;
         cash = 1500;
