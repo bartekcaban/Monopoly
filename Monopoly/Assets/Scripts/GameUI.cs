@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine.EventSystems;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,13 +7,14 @@ using TMPro;
 using System;
 using System.Linq;
 
-public class GameUI : MonoBehaviour
+public class GameUI : MonoBehaviour, IPointerClickHandler
 {
     public Texture[] textures; // wszystkie tekstury pól dodane z poziomu edytora
     private Texture currentTexture;
     private int currentTextureIndex = 0;
 
     public Game game;
+    DialogMenu dialogMenu;
     public TMP_Text currentPlayerName;
     public TMP_Text currentPlayerCash;
     public TMP_Text nextPlayerName;
@@ -31,6 +33,7 @@ public class GameUI : MonoBehaviour
     {
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
+        dialogMenu = DialogMenu.Instance();
     }
 
     // Update is called once per frame
@@ -70,6 +73,12 @@ public class GameUI : MonoBehaviour
         shiftRightButton.gameObject.SetActive(true);
         noneTextField.gameObject.SetActive(false);
         switcherEnabled = true;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        var currentlyShowedProperty = game.currentPlayer.ownedProperties.FirstOrDefault(x => x.propertyName.ToLower() == chosenTextures[currentTextureIndex].name.ToLower());
+        dialogMenu.ShowForPropertyOwner(currentlyShowedProperty);
     }
 
     private void handleLeftButtonClick()
