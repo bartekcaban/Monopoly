@@ -84,8 +84,8 @@ public class Game : MonoBehaviour
         };
 
         //Hotels:
-        properties[1].SetPropertyData("Salzburg", 60, 50, 2, 40, 250,PropertyGroupName.brown,PropertyType.forSale);
-        properties[3].SetPropertyData("Vienna", 60, 50, 4, 80, 450, PropertyGroupName.brown, PropertyType.forSale);
+        properties[1].SetPropertyData("Salzburg", 60, 50, 2, 40, 250,PropertyGroupName.brown,PropertyType.goToJail);
+        properties[3].SetPropertyData("Vienna", 60, 50, 4, 80, 450, PropertyGroupName.brown, PropertyType.goToJail);
 
         properties[6].SetPropertyData("Cracow", 100, 50, 6, 100, 550, PropertyGroupName.red, PropertyType.forSale);
         properties[8].SetPropertyData("Warsaw", 100, 50, 6, 100, 550, PropertyGroupName.red, PropertyType.forSale);
@@ -116,7 +116,7 @@ public class Game : MonoBehaviour
         properties[39].SetPropertyData("Brussels", 400, 200, 50, 425, 2000, PropertyGroupName.pink, PropertyType.forSale);
 
         //Others: - different payment rules
-        properties[5].SetPropertyData("WestRailroad", 200, 0, 50, 0, 0,PropertyGroupName.station,PropertyType.forSale);
+        properties[5].SetPropertyData("WestRailroad", 200, 0, 50, 0, 0,PropertyGroupName.station,PropertyType.goToJail);
         properties[15].SetPropertyData("NorthRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
         properties[25].SetPropertyData("EastRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
         properties[35].SetPropertyData("SouthRailroad", 200, 0, 50, 0, 0, PropertyGroupName.station, PropertyType.forSale);
@@ -130,11 +130,11 @@ public class Game : MonoBehaviour
         properties[20].SetPropertyData("Parking", 0, 0, 0, 0, 0,PropertyGroupName.other, PropertyType.parking);
         properties[30].SetPropertyData("GoToJail", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.goToJail);
 
-        properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
+        properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.goToJail);
         properties[38].SetPropertyData("LuxuryTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
 
         //Chance fields
-        properties[2].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
+        properties[2].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.goToJail);
         properties[7].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
         properties[17].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
         properties[22].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
@@ -158,7 +158,7 @@ public class Game : MonoBehaviour
         CreatePlayers(numberOfPlayers);
         dialogMenu = DialogMenu.Instance();
 
-        infoPopup = InfoPopup.Instance()
+        infoPopup = InfoPopup.Instance();
         ChanceInit();
 
     }
@@ -180,13 +180,28 @@ public class Game : MonoBehaviour
         }
         else
         {
-            if (!players[currentPlayerIndex].IsMoving() && !currentPlayerIsMakingDecision)
+            if (!players[currentPlayerIndex].IsMoving() && !currentPlayerIsMakingDecision && !infoPopup.active)
             {
+                if (players[currentPlayerIndex].CanMove() )
+                {
                 players[currentPlayerIndex].AllowRolling();
                 camera.SetDiceCamera();
                 timeLeft = 1.0f;
                 moveFinished = false;
                 currentPlayerBoughtProperty = false;
+                }
+                else
+                {
+                    players[currentPlayerIndex].PauseOneTurn();
+                    infoPopup.ShowMessage("Więzienie", "Czekasz jeszcze " + players[currentPlayerIndex].ReturnTurnsPausing() + " tury");
+                    players[currentPlayerIndex].SetMoveFinished();
+                    currentPlayerIndex++;
+                    if (currentPlayerIndex == numberOfPlayers)
+                    {
+                        currentPlayerIndex = 0;
+                        numberOfTurns++;
+                    }
+                }
             }
 
             if (players[currentPlayerIndex].DiceRolled() && !currentPlayerIsMakingDecision)
@@ -194,14 +209,17 @@ public class Game : MonoBehaviour
                 timeLeft -= Time.deltaTime;
                 if (timeLeft < 0)
                 {
-                    players[currentPlayerIndex].AllowMovement();
+                    if(!players[currentPlayerIndex].AllowMovement())
+                    {
+                        GetStartMoney();
+                    }
                     camera.SetPawnFollowing(players[currentPlayerIndex].transform.position);
                 }
                 else
                     camera.SetPawnCamera(players[currentPlayerIndex].transform.position);
             }
 
-            if (players[currentPlayerIndex].PawnMoved() && !currentPlayerIsMakingDecision)
+            if (players[currentPlayerIndex].PawnMoved() && !currentPlayerIsMakingDecision && !players[currentPlayerIndex].MoveFinished())
             {
 
                 int currentPlayerPosition = players[currentPlayerIndex].GetCurrentPosition();
@@ -241,11 +259,56 @@ public class Game : MonoBehaviour
                         }
                         break;
                     case PropertyType.start:
-                        currentPlayer.cash += 200;
+                        GetStartMoney();
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
                         break;
                     case PropertyType.goToJail:
+                        SetJail();
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
                         break;
                     case PropertyType.parking:
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
+                        break;
+                    case PropertyType.jail:
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
+                        break;
+                    case PropertyType.tax:
+                        PayTax();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
                         break;
                         //  TODO: HandleAbleToBuyProperty all types of fields
 
@@ -341,6 +404,24 @@ public class Game : MonoBehaviour
     void PerformChanceAction( Chance chance )
     {
         currentPlayer.cash += chance.ReturnValue();
-        Debug.Log(chance.ReturnDescription());
+        infoPopup.ShowMessage("Szansa", chance.ReturnDescription());
+    }
+
+    void PayTax()
+    {
+        currentPlayer.cash -= 200;
+        infoPopup.ShowMessage("Podatek", "Płacisz 200$ podatku");
+    }
+
+    void GetStartMoney()
+    {
+        currentPlayer.cash += 200;
+        infoPopup.ShowMessage("Start", "Przechodzisz przez pole start, dostajesz 200$");
+    }
+
+    void SetJail()
+    {
+        currentPlayer.GoToJail();
+        infoPopup.ShowMessage("Idziesz do więzienia", "Będziesz pauzował 3 tury");
     }
 }

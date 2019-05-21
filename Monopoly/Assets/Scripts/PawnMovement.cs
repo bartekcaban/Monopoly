@@ -181,12 +181,12 @@ public class PawnMovement : MonoBehaviour
             }
                 else if (direction == Direction.straight)
                 {
-                    Vector3 v;
-                    //v.Set(0, 0, velocity * Time.deltaTime);
-                    //rb.velocity = v;
-                v = transform.position;
-                v.z = fieldPosition.z + trackBonus + 10;
-                transform.position = Vector3.Lerp(transform.position, v, Time.deltaTime * 0.25f);
+                    Vector3 v = new Vector3();
+                    v.Set(0, 0, velocity * Time.deltaTime);
+                    rb.velocity = v;
+                //v = transform.position;
+                //v.z = fieldPosition.z + trackBonus + 10;
+                //transform.position = Vector3.Lerp(transform.position, v, Time.deltaTime * 0.25f);
             }
                 else if (direction == Direction.left)
                 {
@@ -241,7 +241,6 @@ public class PawnMovement : MonoBehaviour
 
         if ( canMove && col.GetComponentInParent<Property>().id == destinationFieldId )
         {
-            Debug.Log("xd");
             fieldPosition = col.GetComponentInParent<Property>().transform.position;
             destinationReached = true;
             moveToCenter = true;
