@@ -11,7 +11,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
 {
     public Texture[] textures; // wszystkie tekstury pól dodane z poziomu edytora
     private Texture currentTexture;
-    private int currentTextureIndex = 0;
+    public int currentTextureIndex = 0;
 
     public Game game;
     DialogMenu dialogMenu;
@@ -24,7 +24,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     public Button shiftRightButton;
 
     private Texture[] currentPlayerTextures;
-    private List<Texture> chosenTextures;
+    public List<Texture> chosenTextures;
 
     private bool switcherEnabled = true;
 
@@ -77,6 +77,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("I'm in OnPointerClick");
         var currentlyShowedProperty = game.currentPlayer.ownedProperties.FirstOrDefault(x => x.propertyName.ToLower() == chosenTextures[currentTextureIndex].name.ToLower());
         dialogMenu.ShowForPropertyOwner(currentlyShowedProperty);
     }
@@ -99,7 +100,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     {
         if (chosenTextures.Count > 0) {
             currentTexture = chosenTextures.ElementAt(currentTextureIndex);
-            cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
+            cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.0f, 0.0f), 100.0f);
         }
     }
 
