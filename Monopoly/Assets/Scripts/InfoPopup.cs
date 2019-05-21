@@ -15,7 +15,7 @@ public class InfoPopup : MonoBehaviour
 
     public Button okButton;
 
-
+    public bool active = false;
 
     public static InfoPopup Instance()
     {
@@ -32,6 +32,7 @@ public class InfoPopup : MonoBehaviour
     void Close()
     {
         popupCanvasObject.SetActive(false);
+        active = false;
     }
 
     
@@ -49,6 +50,8 @@ public class InfoPopup : MonoBehaviour
     }
     public void ShowMessage(string header, string description)
     {
+        active = true;
+
         popupHeader.text = header;
         popupDescription.text = description;
 

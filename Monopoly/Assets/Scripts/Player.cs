@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public Dice dice;
     public string playerName;
     public int cash;
-
+    int turnsPausing;
     bool moving;
     bool diceRolled;
 
@@ -19,6 +19,30 @@ public class Player : MonoBehaviour
 
     public List<Property> ownedProperties;
 
+    public bool CanMove()
+    {
+        if (turnsPausing == 0)
+            return true;
+        else
+            return false;
+    }
+
+    public void PauseOneTurn()
+    {
+        turnsPausing -= 1;
+    }
+
+    public int ReturnTurnsPausing()
+    {
+        return turnsPausing;
+    }
+
+    public void GoToJail()
+    {
+        turnsPausing = 3;
+        currentFieldIndex = 10;
+        pawn.AllowMovement(10);
+    }
 
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
     {
@@ -43,16 +67,19 @@ public class Player : MonoBehaviour
         return moveFinished;
     }
 
-    public void AllowMovement()
+    public bool AllowMovement()
     {
         int destinationFieldIndex = currentFieldIndex + dice.GetRolledValue();
         if (destinationFieldIndex > 40)
         {
             destinationFieldIndex = destinationFieldIndex - 41;
-            cash += 200;
+            return false;
+
         }
         if(!pawn.IsDestinationReached())
             pawn.AllowMovement(destinationFieldIndex);
+
+        return true;
     }
 
     public bool IsMoving()
@@ -121,6 +148,7 @@ public class Player : MonoBehaviour
         diceRolled = false;
         cash = 1500;
         currentFieldIndex = 0;
+        turnsPausing = 0;
     }
 
     // Update is called once per frame

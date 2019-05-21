@@ -180,13 +180,28 @@ public class Game : MonoBehaviour
         }
         else
         {
-            if (!players[currentPlayerIndex].IsMoving() && !currentPlayerIsMakingDecision)
+            if (!players[currentPlayerIndex].IsMoving() && !currentPlayerIsMakingDecision && !infoPopup.active)
             {
+                if (players[currentPlayerIndex].CanMove() )
+                {
                 players[currentPlayerIndex].AllowRolling();
                 camera.SetDiceCamera();
                 timeLeft = 1.0f;
                 moveFinished = false;
                 currentPlayerBoughtProperty = false;
+                }
+                else
+                {
+                    infoPopup.ShowMessage("Więzienie", "Czekasz jeszcze " + players[currentPlayerIndex].ReturnTurnsPausing() + " tury");
+                    players[currentPlayerIndex].PauseOneTurn();
+                    players[currentPlayerIndex].SetMoveFinished();
+                    currentPlayerIndex++;
+                    if (currentPlayerIndex == numberOfPlayers)
+                    {
+                        currentPlayerIndex = 0;
+                        numberOfTurns++;
+                    }
+                }
             }
 
             if (players[currentPlayerIndex].DiceRolled() && !currentPlayerIsMakingDecision)
@@ -194,14 +209,17 @@ public class Game : MonoBehaviour
                 timeLeft -= Time.deltaTime;
                 if (timeLeft < 0)
                 {
-                    players[currentPlayerIndex].AllowMovement();
+                    if(!players[currentPlayerIndex].AllowMovement())
+                    {
+                        GetStartMoney();
+                    }
                     camera.SetPawnFollowing(players[currentPlayerIndex].transform.position);
                 }
                 else
                     camera.SetPawnCamera(players[currentPlayerIndex].transform.position);
             }
 
-            if (players[currentPlayerIndex].PawnMoved() && !currentPlayerIsMakingDecision)
+            if (players[currentPlayerIndex].PawnMoved() && !currentPlayerIsMakingDecision && !players[currentPlayerIndex].MoveFinished())
             {
 
                 int currentPlayerPosition = players[currentPlayerIndex].GetCurrentPosition();
@@ -241,11 +259,56 @@ public class Game : MonoBehaviour
                         }
                         break;
                     case PropertyType.start:
-                        currentPlayer.cash += 200;
+                        GetStartMoney();
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
                         break;
                     case PropertyType.goToJail:
+                        SetJail();
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
                         break;
                     case PropertyType.parking:
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
+                        break;
+                    case PropertyType.jail:
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
+                        break;
+                    case PropertyType.tax:
+                        PayTax();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
                         break;
                         //  TODO: HandleAbleToBuyProperty all types of fields
 
@@ -341,6 +404,24 @@ public class Game : MonoBehaviour
     void PerformChanceAction( Chance chance )
     {
         currentPlayer.cash += chance.ReturnValue();
-        Debug.Log(chance.ReturnDescription());
+        infoPopup.ShowMessage("Szansa", chance.ReturnDescription());
+    }
+
+    void PayTax()
+    {
+        currentPlayer.cash -= 200;
+        infoPopup.ShowMessage("Podatek", "Płacisz 200$ podatku");
+    }
+
+    void GetStartMoney()
+    {
+        currentPlayer.cash += 200;
+        infoPopup.ShowMessage("Start", "Przechodzisz przez pole start, dostajesz 200$");
+    }
+
+    void SetJail()
+    {
+        currentPlayer.GoToJail();
+        infoPopup.ShowMessage("Idziesz do więzienia", "Będziesz pauzował 3 tury");
     }
 }

@@ -241,7 +241,6 @@ public class PawnMovement : MonoBehaviour
 
         if ( canMove && col.GetComponentInParent<Property>().id == destinationFieldId )
         {
-            Debug.Log("xd");
             fieldPosition = col.GetComponentInParent<Property>().transform.position;
             destinationReached = true;
             moveToCenter = true;
