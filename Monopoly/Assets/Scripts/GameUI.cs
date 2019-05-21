@@ -44,6 +44,8 @@ public class GameUI : MonoBehaviour
             if (game.currentPlayer.ownedProperties.Count <= 0 && switcherEnabled) disableImageSwitcher();
             else if (game.currentPlayer.ownedProperties.Count > 0 && !switcherEnabled) enableImageSwitcher();
 
+            Debug.Log("ownedProperties: " + game.currentPlayer.ownedProperties.Count);
+
             if (switcherEnabled)
             {
                 resolveCurrentPlayerTextures();
@@ -114,6 +116,7 @@ public class GameUI : MonoBehaviour
                     }
                 }
             }
+            Debug.Log("chosenTextures count: " + chosenTextures.Count);
 
             resolvePlayerCardImage();
         }
