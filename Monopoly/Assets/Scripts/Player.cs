@@ -14,15 +14,25 @@ public class Player : MonoBehaviour
 
     bool moveFinished;
 
-    int currentFieldId;
+    int currentFieldIndex;
 
-    List<Property> ownedProperties;
+
+    public List<Property> ownedProperties;
+
 
     public void MoveToPosition(int index) //przesunięcie na wybraną pozycję
     {
-        currentFieldId = index;
+        currentFieldIndex = index;
         if (!pawn.IsDestinationReached())
             pawn.AllowMovement(index);
+    }
+    public void MoveByNumberOfFields(int number)
+    {
+        currentFieldIndex += number;
+        if (currentFieldIndex > 40)
+            currentFieldIndex = currentFieldIndex - 41;
+        if (!pawn.IsDestinationReached())
+            pawn.AllowMovement(currentFieldIndex);
     }
     public void SetMoveFinished()
     {
@@ -35,12 +45,14 @@ public class Player : MonoBehaviour
 
     public void AllowMovement()
     {
-        int destinationFieldId = currentFieldId + dice.GetRolledValue();
-        if (destinationFieldId > 40)
-            destinationFieldId = destinationFieldId - 41;
+        int destinationFieldIndex = currentFieldIndex + dice.GetRolledValue();
+        if (destinationFieldIndex > 40)
+        {
+            destinationFieldIndex = destinationFieldIndex - 41;
+            cash += 200;
+        }
         if(!pawn.IsDestinationReached())
-            pawn.AllowMovement(destinationFieldId);
-        Debug.Log("dest " + currentFieldId);
+            pawn.AllowMovement(destinationFieldIndex);
     }
 
     public bool IsMoving()
@@ -74,7 +86,7 @@ public class Player : MonoBehaviour
     }
     public int GetCurrentPosition()
     {
-        return currentFieldId;
+        return currentFieldIndex;
     }
     public int GetId()
     {
@@ -88,9 +100,10 @@ public class Player : MonoBehaviour
         {
             moving = false;
             diceRolled = false;
-            currentFieldId = currentFieldId + dice.GetRolledValue();
+            currentFieldIndex = currentFieldIndex + dice.GetRolledValue();
         }
-        //Debug.Log(pawn.IsDestinationReached());
+
+
         return pawn.IsDestinationReached();
     }
 
@@ -107,7 +120,7 @@ public class Player : MonoBehaviour
         moving = false;
         diceRolled = false;
         cash = 1500;
-        currentFieldId = 0;
+        currentFieldIndex = 0;
     }
 
     // Update is called once per frame
