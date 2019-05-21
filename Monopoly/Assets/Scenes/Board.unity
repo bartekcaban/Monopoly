@@ -3172,6 +3172,7 @@ MonoBehaviour:
   popupHeader: {fileID: 1602758568}
   popupDescription: {fileID: 1118342987}
   okButton: {fileID: 2111109480}
+  active: 0
 --- !u!1 &714436860
 GameObject:
   m_ObjectHideFlags: 0
@@ -12284,11 +12285,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 441310253902735158, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441310253902735158, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -12304,101 +12300,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 441310253902735158, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
         type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 441310253902735158, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 441310253902735158, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7597546480822302693, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 4a33247a088cc7d499a9779618da5e8b, type: 2}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: house
-      value: 
-      objectReference: {fileID: 4642429145437866813, guid: ca9117a9fef7a574b84403fd99438e77,
-        type: 3}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: Price
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: HousePrice
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: HotelPrice
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: Rent
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: RentPerHouse
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: HotelRent
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: price
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: housePrice
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: hotelPrice
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: rent
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: rentPerHouse
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: hotelRent
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: soldSignPrefab
-      value: 
-      objectReference: {fileID: 100010, guid: 5f24f95ee8c2dff47aa0f2fd1e13b6c2, type: 3}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: constructionSitePrefab
-      value: 
-      objectReference: {fileID: 6461984085258539769, guid: 0282b46446d83184689d172083f5bbb4,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1eaa9ba072c40bc479f00bff6f61fcc1, type: 3}
 --- !u!224 &9009838186042865222 stripped

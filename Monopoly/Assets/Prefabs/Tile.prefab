@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7101247496055823439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 2, y: 0.2, z: 1}
+  m_LocalScale: {x: 2, y: 1, z: 1}
   m_Children:
   - {fileID: 1753582909658680310}
   m_Father: {fileID: 0}
@@ -44,17 +44,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da33a5184870af4c8565225a9071477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  propertyName: 
   id: 0
   type: 0
   groupName: 0
-  price: 0
-  housePrice: 0
-  hotelPrice: 0
-  rent: 0
-  rentPerHouse: 0
-  hotelRent: 0
-  housePrefab: {fileID: 1470438515997911288, guid: ca9117a9fef7a574b84403fd99438e77,
-    type: 3}
+  numberOfHouses: 1
+  price: 100
+  housePrice: 50
+  hotelPrice: 300
+  rent: 20
+  rentPerHouse: 10
+  hotelRent: 80
+  housesPrefabs:
+  - {fileID: 100000, guid: 1292a8aea1516364fbc20dfcfd43c90b, type: 3}
+  - {fileID: 100000, guid: 2bcda4b9ec7f2144ca69699d6e982133, type: 3}
+  - {fileID: 100000, guid: debb145ece23b324a94fdfaa24449b8f, type: 3}
+  - {fileID: 100000, guid: 075b365bb022f6d45af80bb037eb569e, type: 3}
   soldSignPrefab: {fileID: 100010, guid: 5f24f95ee8c2dff47aa0f2fd1e13b6c2, type: 3}
   constructionSitePrefab: {fileID: 6461984085258539769, guid: 0282b46446d83184689d172083f5bbb4,
     type: 3}
@@ -116,7 +121,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e8c0bec534c94034490c89cec371de59, type: 2}
+  - {fileID: 2100000, guid: 4a33247a088cc7d499a9779618da5e8b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

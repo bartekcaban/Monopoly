@@ -12,21 +12,21 @@ public class Property : MonoBehaviour
     public PropertyGroupName groupName;
     String Name { get; set; }
     int? ownerId { get; set; }
-    public int numberOfHouses
-    { get; set; }
+    public int numberOfHouses = 1; 
     public int price;
     public int housePrice;
     public int hotelPrice;
     public int rent;
     public int rentPerHouse;
     bool hotelBuilt;
+    bool ableToBuild = true;
     public int hotelRent;
-    public GameObject housePrefab;
+    public GameObject[] housesPrefabs;
     public GameObject soldSignPrefab;
     public GameObject constructionSitePrefab;
     GameObject soldSign;
     GameObject constructionSite;
-    GameObject[] houses;
+    GameObject house;
 
     public void SetPropertyData(String name, int price, int housePrice, int rent, int rentPerHouse,
         int hotelRent,PropertyGroupName groupName,PropertyType type)
@@ -40,6 +40,8 @@ public class Property : MonoBehaviour
         this.hotelRent = hotelRent;
         this.groupName = groupName;
         this.type = type;
+        
+
     }
 
     public void SetId(int id)
@@ -68,13 +70,19 @@ public class Property : MonoBehaviour
         if (PlayerId == ownerId) return true;
         else return false;
     }
-    void BuildHouse()
+   public void BuildHouse()
     {
-        if(numberOfHouses < 4)
+        if(numberOfHouses < 4 && ableToBuild)
         {
-            var position = transform.position;
-            houses[numberOfHouses]=Instantiate(housePrefab,position, UnityEngine.Quaternion.identity);
-            Destroy(soldSign);
+            if (house)
+            {
+                Destroy(house);
+            }
+            var position = transform.position + calculateConstructionOffset(this.id);
+            
+            house=Instantiate(housesPrefabs[numberOfHouses],position, UnityEngine.Quaternion.identity);
+            house.transform.localScale = new Vector3(10, 10, 10);
+            Destroy(constructionSite);
             numberOfHouses++;
         }
     }
@@ -98,6 +106,7 @@ public class Property : MonoBehaviour
     }
     public void onAbleToBuild()
     {
+        ableToBuild = true;
         var position = transform.position;
         position += calculateConstructionOffset(this.id);
         Destroy(soldSign);
@@ -112,10 +121,10 @@ public class Property : MonoBehaviour
     }
     Vector3 calculateConstructionOffset(int fieldId)
     {
-        if (fieldId < 11) return new Vector3(6, 0, 0);
-        else if (fieldId < 21) return new Vector3(0, 0, -6);
-        else if (fieldId < 31) return new Vector3(-6, 0, 0);
-        else return new Vector3(0, 0, 6);
+        if (fieldId < 11) return new Vector3(5.5f, 0, -1.5f);
+        else if (fieldId < 21) return new Vector3(-1.5f, 0, -5.5f);
+        else if (fieldId < 31) return new Vector3(-5.5f, 0, 1.5f);
+        else return new Vector3( 1.5f, 0, 5.5f);
     }
 }
 

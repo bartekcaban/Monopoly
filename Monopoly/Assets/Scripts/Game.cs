@@ -320,8 +320,10 @@ public class Game : MonoBehaviour
                 if (currentPlayerBoughtProperty)
                 {
                     currentPlayer.Buy(currentPlayerStandingProperty);
-                    currentPlayerStandingProperty.Buy(currentPlayerId);
-                    
+                    // currentPlayerStandingProperty.Buy(currentPlayerId);
+                    currentPlayerStandingProperty.BuildHouse();
+
+
                     infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.name);
                     if (currentPlayerStandingProperty.groupName != PropertyGroupName.station && 
                         currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName,propertyGroups))
