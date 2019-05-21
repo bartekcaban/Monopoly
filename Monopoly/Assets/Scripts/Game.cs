@@ -26,6 +26,7 @@ public class Game : MonoBehaviour
     bool currentPlayerBoughtProperty = false;
     bool currentPlayerIsMakingDecision = false;
     Property currentPlayerStandingProperty;
+    List<Chance> chanceList;
 
     public void CreatePlayers(int number)
     {        
@@ -131,6 +132,7 @@ public class Game : MonoBehaviour
         properties[4].SetPropertyData("IncomeTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
         properties[38].SetPropertyData("LuxuryTax", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.tax);
 
+        //Chance fields
         properties[2].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
         properties[7].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
         properties[17].SetPropertyData("Chance", 0, 0, 0, 0, 0, PropertyGroupName.other, PropertyType.chance);
@@ -154,6 +156,7 @@ public class Game : MonoBehaviour
         timeLeft = 8.0f;
         CreatePlayers(numberOfPlayers);
         dialogMenu = DialogMenu.Instance();
+        ChanceInit();
     }
 
     // Update is called once per frame
@@ -223,15 +226,28 @@ public class Game : MonoBehaviour
                      currentPlayerIsMakingDecision = true;
                     break;
                     case PropertyType.chance:
-
+                        PerformChanceAction(DrawAChance());
+                        players[currentPlayerIndex].SetMoveFinished();
+                        currentPlayerIsMakingDecision = false;
+                        currentPlayerIndex++;
+                        if (currentPlayerIndex == numberOfPlayers)
+                        {
+                            currentPlayerIndex = 0;
+                            numberOfTurns++;
+                        }
                         break;
-                    
-                      //  TODO: HandleAbleToBuyProperty all types of fields
-                      
-                }
+                    case PropertyType.start:
+                        currentPlayer.cash += 200;
+                        break;
+                    case PropertyType.goToJail:
+                        break;
+                    case PropertyType.parking:
+                        break;
+                        //  TODO: HandleAbleToBuyProperty all types of fields
 
-                
+                }
             }
+
             if (currentPlayerIsMakingDecision)
             {
                 if (currentPlayerBoughtProperty)
@@ -295,5 +311,29 @@ public class Game : MonoBehaviour
         var properties = this.properties.FindAll(prop => prop.groupName == name);
         properties.ForEach(prop => prop.onAbleToBuild());
     }
-    
+
+    void ChanceInit()
+    {
+        chanceList = new List<Chance>();
+        chanceList.Add(new Chance("Płacisz do banku 50$", -50));
+        chanceList.Add(new Chance("Kara za przekroczenie prędkości 10$", -10));
+        chanceList.Add(new Chance("Zaległy podatek 200$", -200));
+        chanceList.Add(new Chance("Nagroda za znalezienie psa 20$", 20));
+        chanceList.Add(new Chance("Nagroda za płacenie podatków na czas 100$", 100));
+        chanceList.Add(new Chance("Idziesz do dentysty -koszt 70$", -70));
+        chanceList.Add(new Chance("Kupujesz prezent z okazji dnia matki - 40$", -40));
+        chanceList.Add(new Chance("Znajdujesz na ulicy banknot 50$", 50));
+    }
+
+    Chance DrawAChance()
+    {
+        int size = chanceList.Count;
+        return chanceList[Random.Range(0, size)];
+    }
+
+    void PerformChanceAction( Chance chance )
+    {
+        currentPlayer.cash += chance.ReturnValue();
+        Debug.Log(chance.ReturnDescription());
+    }
 }
