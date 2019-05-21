@@ -11,6 +11,7 @@ public class Game : MonoBehaviour
     Dictionary<PropertyGroupName,int> propertyGroups;
 
     DialogMenu dialogMenu;
+    InfoPopup infoPopup;
     public List<Property> properties;
     int numberOfTurns;
     int numberOfPlayers;
@@ -156,7 +157,10 @@ public class Game : MonoBehaviour
         timeLeft = 8.0f;
         CreatePlayers(numberOfPlayers);
         dialogMenu = DialogMenu.Instance();
+
+        infoPopup = InfoPopup.Instance()
         ChanceInit();
+
     }
 
     // Update is called once per frame
@@ -254,6 +258,8 @@ public class Game : MonoBehaviour
                 {
                     currentPlayer.Buy(currentPlayerStandingProperty);
                     currentPlayerStandingProperty.Buy(currentPlayerId);
+                    
+                    infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.name);
                     if (currentPlayerStandingProperty.groupName != PropertyGroupName.station && 
                         currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName,propertyGroups))
                     {
@@ -304,6 +310,7 @@ public class Game : MonoBehaviour
     void playerBoughtCurrentProperty()
     {
         currentPlayerBoughtProperty = true;
+
     }
 
     void setPropertyGroupAbleToBuild(PropertyGroupName name)

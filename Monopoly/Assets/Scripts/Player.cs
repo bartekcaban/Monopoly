@@ -102,6 +102,8 @@ public class Player : MonoBehaviour
             diceRolled = false;
             currentFieldIndex = currentFieldIndex + dice.GetRolledValue();
         }
+
+
         return pawn.IsDestinationReached();
     }
 
