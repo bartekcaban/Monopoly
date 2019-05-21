@@ -158,7 +158,7 @@ public class Game : MonoBehaviour
         CreatePlayers(numberOfPlayers);
         dialogMenu = DialogMenu.Instance();
 
-        infoPopup = InfoPopup.Instance()
+        infoPopup = InfoPopup.Instance();
         ChanceInit();
 
     }
