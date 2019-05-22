@@ -160,13 +160,6 @@ public class Game : MonoBehaviour
 
         infoPopup = InfoPopup.Instance();
         ChanceInit();
-        properties[1].BuildHouse();
-        properties[11].BuildHouse();
-        properties[16].BuildHouse();
-        properties[23].BuildHouse();
-        properties[31].BuildHouse();
-
-
     }
 
     // Update is called once per frame
@@ -326,8 +319,8 @@ public class Game : MonoBehaviour
                 if (currentPlayerBoughtProperty)
                 {
                     currentPlayer.Buy(currentPlayerStandingProperty);
-                    // currentPlayerStandingProperty.Buy(currentPlayerId);
-                    currentPlayerStandingProperty.BuildHouse();
+                    currentPlayerStandingProperty.Buy(currentPlayerId);
+                   
 
 
                     infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.name);

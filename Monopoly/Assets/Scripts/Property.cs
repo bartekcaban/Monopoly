@@ -12,7 +12,7 @@ public class Property : MonoBehaviour
     public PropertyGroupName groupName;
     String Name { get; set; }
     int? ownerId { get; set; }
-    public int numberOfHouses = 1; 
+    public int numberOfHouses; 
     public int price;
     public int housePrice;
     public int hotelPrice;
@@ -40,6 +40,7 @@ public class Property : MonoBehaviour
         this.hotelRent = hotelRent;
         this.groupName = groupName;
         this.type = type;
+        this.numberOfHouses = 2;
         
 
     }
@@ -53,10 +54,12 @@ public class Property : MonoBehaviour
     {
         if (this.ownerId==null)
         {
+
             this.ownerId = ownerId;
             var position = transform.position;
+            var rotation = transform.rotation * Quaternion.Euler(calculateSignRotation(this.id));
             position += calculateSignOffset(this.id);
-            soldSign = Instantiate(soldSignPrefab, position, transform.rotation * Quaternion.Euler(0f, 180f, 0f));
+            soldSign = Instantiate(soldSignPrefab, position, rotation);
          }
         
     }
@@ -79,7 +82,7 @@ public class Property : MonoBehaviour
             {
                 Destroy(house);
             }
-            var position = transform.position + calculateConstructionOffset(this.id);
+            var position = transform.position + calculateBuildingOffset(this.id);
             
             house =Instantiate(housesPrefabs[numberOfHouses],position,rotation);
             house.transform.localScale = new Vector3(10, 10, 10);
@@ -116,17 +119,31 @@ public class Property : MonoBehaviour
 
     Vector3 calculateSignOffset(int fieldId)
     {
-        if (fieldId < 11) return new Vector3(7, 0, 0);
-        else if (fieldId < 21) return new Vector3(2, 0, -7);
-        else if (fieldId < 31) return new Vector3(-7, 0, 2);
-        else   return new Vector3(0, 0, 7);
+        if (fieldId < 11) return new Vector3(4.5f, 0,0);
+        else if (fieldId < 21) return new Vector3(0, 0, -4.5f);
+        else if (fieldId < 31) return new Vector3(-7, 0, 1.5f);
+        else   return new Vector3(0, 0, 5);
     }
-    Vector3 calculateConstructionOffset(int fieldId)
+    Vector3 calculateSignRotation(int fieldId)
+    {
+        if (fieldId < 11) return new Vector3(0f, -90f, 0f);
+        else if (fieldId < 21) return new Vector3(0f, -90f, 180f);
+        else if (fieldId < 31) return new Vector3(0f, 90f, 0f);
+        else return new Vector3(0f, -90f, 0f);
+    }
+    Vector3 calculateBuildingOffset(int fieldId)
     {
         if (fieldId < 11) return new Vector3(5.5f, 0, -0.5f);
         else if (fieldId < 21) return new Vector3(-0.1f, 0, -6.5f);
         else if (fieldId < 31) return new Vector3(-5.5f, 0, 0.2f);
-        else return new Vector3( 0.5f, 0, 5.5f);
+        else return new Vector3(0.5f, 0, 5.5f);
+    }
+    Vector3 calculateConstructionOffset(int fieldId)
+    {
+        if (fieldId < 11) return new Vector3(6f, 0, 0.0f);
+        else if (fieldId < 21) return new Vector3(0f, 0, -6.0f);
+        else if (fieldId < 31) return new Vector3(-6.0f, 0, 0.0f);
+        else return new Vector3( 0f, 0, 6f);
     }
     Vector3 calculateBuildingRotation(int fieldId)
     {
