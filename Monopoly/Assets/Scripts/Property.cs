@@ -21,12 +21,14 @@ public class Property : MonoBehaviour
     bool hotelBuilt;
     bool ableToBuild = true;
     public int hotelRent;
+    public GameObject hotelPrefab;
     public GameObject[] housesPrefabs;
     public GameObject soldSignPrefab;
     public GameObject constructionSitePrefab;
     GameObject soldSign;
     GameObject constructionSite;
     GameObject house;
+    GameObject hotel;
 
     public void SetPropertyData(String name, int price, int housePrice, int rent, int rentPerHouse,
         int hotelRent,PropertyGroupName groupName,PropertyType type)
@@ -88,12 +90,23 @@ public class Property : MonoBehaviour
             house.transform.localScale = new Vector3(10, 10, 10);
             Destroy(constructionSite);
             numberOfHouses++;
+
+            
+        }
+        else if(numberOfHouses == 4)
+        {
+            BuildHotel();
         }
     }
-    void BuildHotel()
+    public void BuildHotel()
     {
-        if (numberOfHouses == 4)
+        if (hotelBuilt == false)
         {
+            Destroy(house);
+            var rotation = transform.rotation * Quaternion.Euler(calculateBuildingRotation(this.id));
+            var position = transform.position + calculateBuildingOffset(this.id);
+            hotel = Instantiate(hotelPrefab, position, rotation);
+            hotel.transform.localScale = new Vector3(10, 10, 10);
             hotelBuilt = true;
         }
     }

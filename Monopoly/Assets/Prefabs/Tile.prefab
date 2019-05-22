@@ -55,6 +55,7 @@ MonoBehaviour:
   rent: 20
   rentPerHouse: 10
   hotelRent: 80
+  hotelPrefab: {fileID: 100000, guid: 6a40c536e4975ff45976537a8535a0b2, type: 3}
   housesPrefabs:
   - {fileID: 100000, guid: 1292a8aea1516364fbc20dfcfd43c90b, type: 3}
   - {fileID: 100000, guid: 2bcda4b9ec7f2144ca69699d6e982133, type: 3}

@@ -11653,6 +11653,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b615467dc9814224daae31f3429d0fa6, type: 2}
+    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
+        type: 3}
+      propertyPath: hotelPrefab
+      value: 
+      objectReference: {fileID: 100000, guid: 6a40c536e4975ff45976537a8535a0b2, type: 3}
     - target: {fileID: 1753582909658680310, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
         type: 3}
       propertyPath: m_LocalPosition.x
