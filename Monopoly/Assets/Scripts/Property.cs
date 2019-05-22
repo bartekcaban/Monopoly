@@ -74,13 +74,14 @@ public class Property : MonoBehaviour
     {
         if(numberOfHouses < 4 && ableToBuild)
         {
+            var rotation = transform.rotation * Quaternion.Euler(calculateBuildingRotation(this.id));
             if (house)
             {
                 Destroy(house);
             }
             var position = transform.position + calculateConstructionOffset(this.id);
             
-            house=Instantiate(housesPrefabs[numberOfHouses],position, UnityEngine.Quaternion.identity);
+            house =Instantiate(housesPrefabs[numberOfHouses],position,rotation);
             house.transform.localScale = new Vector3(10, 10, 10);
             Destroy(constructionSite);
             numberOfHouses++;
@@ -112,6 +113,7 @@ public class Property : MonoBehaviour
         Destroy(soldSign);
         constructionSite = Instantiate(constructionSitePrefab, position, UnityEngine.Quaternion.identity);
     }
+
     Vector3 calculateSignOffset(int fieldId)
     {
         if (fieldId < 11) return new Vector3(7, 0, 0);
@@ -121,11 +123,19 @@ public class Property : MonoBehaviour
     }
     Vector3 calculateConstructionOffset(int fieldId)
     {
-        if (fieldId < 11) return new Vector3(5.5f, 0, -1.5f);
-        else if (fieldId < 21) return new Vector3(-1.5f, 0, -5.5f);
-        else if (fieldId < 31) return new Vector3(-5.5f, 0, 1.5f);
-        else return new Vector3( 1.5f, 0, 5.5f);
+        if (fieldId < 11) return new Vector3(5.5f, 0, -0.5f);
+        else if (fieldId < 21) return new Vector3(-0.1f, 0, -6.5f);
+        else if (fieldId < 31) return new Vector3(-5.5f, 0, 0.2f);
+        else return new Vector3( 0.5f, 0, 5.5f);
     }
+    Vector3 calculateBuildingRotation(int fieldId)
+    {
+        if (fieldId < 11) return new Vector3(-90f,180f,0f);
+        else if (fieldId < 21) return new Vector3(90f, 0f, 0f);
+        else if (fieldId < 31) return new Vector3(-90f, 180f, 0f);
+        else return new Vector3(-90f, 0f, 0f);
+    }
+
 }
 
 public enum PropertyType

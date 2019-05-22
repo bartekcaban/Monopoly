@@ -160,6 +160,12 @@ public class Game : MonoBehaviour
 
         infoPopup = InfoPopup.Instance();
         ChanceInit();
+        properties[1].BuildHouse();
+        properties[11].BuildHouse();
+        properties[16].BuildHouse();
+        properties[23].BuildHouse();
+        properties[31].BuildHouse();
+
 
     }
 
