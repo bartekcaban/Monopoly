@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerClickHandler
 {
+    GameUI gameUIScript;
     DialogMenu dialogMenu;
     public Game game;
     private Texture[] textures;
@@ -15,7 +16,7 @@ public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerClickHandler
     void Start()
     {
         dialogMenu = DialogMenu.Instance();
-        GameUI gameUIScript = GameObject.Find("GameUIManager").GetComponent<GameUI>();
+        gameUIScript = GameObject.Find("GameUIManager").GetComponent<GameUI>();
         textures = gameUIScript.textures;
         currentTextureIndex = gameUIScript.currentTextureIndex;
     }
@@ -28,10 +29,8 @@ public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("I'm in OnPointerClick");
-        Debug.Log("currentTextureIndex: " + currentTextureIndex);
-        Property currentlyShowedProperty = game.currentPlayer.ownedProperties.FirstOrDefault(x => x.propertyName.ToLower() == textures[currentTextureIndex].name.ToLower());
-        if (currentlyShowedProperty) Debug.Log("currentlyShowedProperty name: " + currentlyShowedProperty.propertyName); else Debug.Log("currentlyShowedProperty not found.");
-        dialogMenu.ShowForPropertyOwner(currentlyShowedProperty);
+        currentTextureIndex = gameUIScript.currentTextureIndex;
+        Property displayedProperty = game.currentPlayer.ownedProperties.ElementAt(currentTextureIndex);
+        dialogMenu.ShowForPropertyOwner(displayedProperty);
     }
 }
