@@ -20,6 +20,7 @@ public class GameUI : MonoBehaviour
     public Image cardImage;    
     public Button shiftLeftButton;
     public Button shiftRightButton;
+    public Button finishTurnButton;
 
     private Texture[] currentPlayerTextures;
     private List<Texture> chosenTextures;
@@ -31,6 +32,7 @@ public class GameUI : MonoBehaviour
     {
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
+        finishTurnButton.onClick.AddListener(game.finishTurn);
     }
 
     // Update is called once per frame

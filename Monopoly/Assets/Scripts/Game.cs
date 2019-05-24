@@ -248,6 +248,7 @@ public class Game : MonoBehaviour
                     break;
                     case PropertyType.chance:
                         PerformChanceAction(DrawAChance());
+                        /*
                         players[currentPlayerIndex].SetMoveFinished();
                         currentPlayerIsMakingDecision = false;
                         currentPlayerIndex++;
@@ -256,9 +257,11 @@ public class Game : MonoBehaviour
                             currentPlayerIndex = 0;
                             numberOfTurns++;
                         }
+                        */
                         break;
                     case PropertyType.start:
                         GetStartMoney();
+                        /*
                         players[currentPlayerIndex].SetMoveFinished();
                         currentPlayerIsMakingDecision = false;
                         currentPlayerIndex++;
@@ -267,19 +270,21 @@ public class Game : MonoBehaviour
                             currentPlayerIndex = 0;
                             numberOfTurns++;
                         }
+                        */
                         break;
                     case PropertyType.goToJail:
                         SetJail();
-                        players[currentPlayerIndex].SetMoveFinished();
-                        currentPlayerIsMakingDecision = false;
-                        currentPlayerIndex++;
-                        if (currentPlayerIndex == numberOfPlayers)
-                        {
-                            currentPlayerIndex = 0;
-                            numberOfTurns++;
-                        }
+                        //players[currentPlayerIndex].SetMoveFinished();
+                        //currentPlayerIsMakingDecision = false;
+                        //currentPlayerIndex++;
+                        //if (currentPlayerIndex == numberOfPlayers)
+                        //{
+                        //    currentPlayerIndex = 0;
+                        //    numberOfTurns++;
+                        //}
                         break;
                     case PropertyType.parking:
+                        /*
                         players[currentPlayerIndex].SetMoveFinished();
                         currentPlayerIsMakingDecision = false;
                         currentPlayerIndex++;
@@ -288,8 +293,10 @@ public class Game : MonoBehaviour
                             currentPlayerIndex = 0;
                             numberOfTurns++;
                         }
+                        */
                         break;
                     case PropertyType.jail:
+                        /*
                         players[currentPlayerIndex].SetMoveFinished();
                         currentPlayerIsMakingDecision = false;
                         currentPlayerIndex++;
@@ -298,9 +305,11 @@ public class Game : MonoBehaviour
                             currentPlayerIndex = 0;
                             numberOfTurns++;
                         }
+                        */
                         break;
                     case PropertyType.tax:
                         PayTax();
+                        /*
                         currentPlayerIsMakingDecision = false;
                         currentPlayerIndex++;
                         if (currentPlayerIndex == numberOfPlayers)
@@ -308,8 +317,9 @@ public class Game : MonoBehaviour
                             currentPlayerIndex = 0;
                             numberOfTurns++;
                         }
+                        */
                         break;
-                        //  TODO: HandleAbleToBuyProperty all types of fields
+                        
 
                 }
             }
@@ -355,6 +365,11 @@ public class Game : MonoBehaviour
         return (nextPlayerIndex == numberOfPlayers) ? 0 : nextPlayerIndex;        
     }
 
+    public void finishTurn()
+    {
+        moveFinished = true;
+    }
+
     void HandleRentPay(Property property, int payingPlayerId)
     {
         dialogMenu.ShowForRentPayment(property);
@@ -367,7 +382,7 @@ public class Game : MonoBehaviour
     void HandleAbleToBuyProperty(Property property, int playerId)
     {
 
-        dialogMenu.ShowAbleToBuy(property,playerBoughtCurrentProperty, () => { moveFinished = true; });
+        dialogMenu.ShowAbleToBuy(property,playerBoughtCurrentProperty, () => {  });
         
 
     }
