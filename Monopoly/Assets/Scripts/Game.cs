@@ -160,7 +160,6 @@ public class Game : MonoBehaviour
 
         infoPopup = InfoPopup.Instance();
         ChanceInit();
-
     }
 
     // Update is called once per frame
@@ -321,7 +320,9 @@ public class Game : MonoBehaviour
                 {
                     currentPlayer.Buy(currentPlayerStandingProperty);
                     currentPlayerStandingProperty.Buy(currentPlayerId);
-                    
+                   
+
+
                     infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.name);
                     if (currentPlayerStandingProperty.groupName != PropertyGroupName.station && 
                         currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName,propertyGroups))

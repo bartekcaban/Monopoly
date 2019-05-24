@@ -12,21 +12,23 @@ public class Property : MonoBehaviour
     public PropertyGroupName groupName;
     String Name { get; set; }
     int? ownerId { get; set; }
-    public int numberOfHouses
-    { get; set; }
+    public int numberOfHouses; 
     public int price;
     public int housePrice;
     public int hotelPrice;
     public int rent;
     public int rentPerHouse;
     bool hotelBuilt;
+    bool ableToBuild = true;
     public int hotelRent;
-    public GameObject housePrefab;
+    public GameObject hotelPrefab;
+    public GameObject[] housesPrefabs;
     public GameObject soldSignPrefab;
     public GameObject constructionSitePrefab;
     GameObject soldSign;
     GameObject constructionSite;
-    GameObject[] houses;
+    GameObject house;
+    GameObject hotel;
 
     public void SetPropertyData(String name, int price, int housePrice, int rent, int rentPerHouse,
         int hotelRent,PropertyGroupName groupName,PropertyType type)
@@ -40,6 +42,9 @@ public class Property : MonoBehaviour
         this.hotelRent = hotelRent;
         this.groupName = groupName;
         this.type = type;
+        this.numberOfHouses = 2;
+        
+
     }
 
     public void SetId(int id)
@@ -51,10 +56,12 @@ public class Property : MonoBehaviour
     {
         if (this.ownerId==null)
         {
+
             this.ownerId = ownerId;
             var position = transform.position;
+            var rotation = transform.rotation * Quaternion.Euler(calculateSignRotation(this.id));
             position += calculateSignOffset(this.id);
-            soldSign = Instantiate(soldSignPrefab, position, transform.rotation * Quaternion.Euler(0f, 180f, 0f));
+            soldSign = Instantiate(soldSignPrefab, position, rotation);
          }
         
     }
@@ -68,20 +75,38 @@ public class Property : MonoBehaviour
         if (PlayerId == ownerId) return true;
         else return false;
     }
-    void BuildHouse()
+   public void BuildHouse()
     {
-        if(numberOfHouses < 4)
+        if(numberOfHouses < 4 && ableToBuild)
         {
-            var position = transform.position;
-            houses[numberOfHouses]=Instantiate(housePrefab,position, UnityEngine.Quaternion.identity);
-            Destroy(soldSign);
+            var rotation = transform.rotation * Quaternion.Euler(calculateBuildingRotation(this.id));
+            if (house)
+            {
+                Destroy(house);
+            }
+            var position = transform.position + calculateBuildingOffset(this.id);
+            
+            house =Instantiate(housesPrefabs[numberOfHouses],position,rotation);
+            house.transform.localScale = new Vector3(10, 10, 10);
+            Destroy(constructionSite);
             numberOfHouses++;
+
+            
+        }
+        else if(numberOfHouses == 4)
+        {
+            BuildHotel();
         }
     }
-    void BuildHotel()
+    public void BuildHotel()
     {
-        if (numberOfHouses == 4)
+        if (hotelBuilt == false)
         {
+            Destroy(house);
+            var rotation = transform.rotation * Quaternion.Euler(calculateBuildingRotation(this.id));
+            var position = transform.position + calculateBuildingOffset(this.id);
+            hotel = Instantiate(hotelPrefab, position, rotation);
+            hotel.transform.localScale = new Vector3(10, 10, 10);
             hotelBuilt = true;
         }
     }
@@ -98,25 +123,49 @@ public class Property : MonoBehaviour
     }
     public void onAbleToBuild()
     {
+        ableToBuild = true;
         var position = transform.position;
         position += calculateConstructionOffset(this.id);
         Destroy(soldSign);
         constructionSite = Instantiate(constructionSitePrefab, position, UnityEngine.Quaternion.identity);
     }
+
     Vector3 calculateSignOffset(int fieldId)
     {
-        if (fieldId < 11) return new Vector3(7, 0, 0);
-        else if (fieldId < 21) return new Vector3(2, 0, -7);
-        else if (fieldId < 31) return new Vector3(-7, 0, 2);
-        else   return new Vector3(0, 0, 7);
+        if (fieldId < 11) return new Vector3(4.5f, 0,0);
+        else if (fieldId < 21) return new Vector3(0, 0, -4.5f);
+        else if (fieldId < 31) return new Vector3(-7, 0, 1.5f);
+        else   return new Vector3(0, 0, 5);
+    }
+    Vector3 calculateSignRotation(int fieldId)
+    {
+        if (fieldId < 11) return new Vector3(0f, -90f, 0f);
+        else if (fieldId < 21) return new Vector3(0f, -90f, 180f);
+        else if (fieldId < 31) return new Vector3(0f, 90f, 0f);
+        else return new Vector3(0f, -90f, 0f);
+    }
+    Vector3 calculateBuildingOffset(int fieldId)
+    {
+        if (fieldId < 11) return new Vector3(5.5f, 0, -0.5f);
+        else if (fieldId < 21) return new Vector3(-0.1f, 0, -6.5f);
+        else if (fieldId < 31) return new Vector3(-5.5f, 0, 0.2f);
+        else return new Vector3(0.5f, 0, 5.5f);
     }
     Vector3 calculateConstructionOffset(int fieldId)
     {
-        if (fieldId < 11) return new Vector3(6, 0, 0);
-        else if (fieldId < 21) return new Vector3(0, 0, -6);
-        else if (fieldId < 31) return new Vector3(-6, 0, 0);
-        else return new Vector3(0, 0, 6);
+        if (fieldId < 11) return new Vector3(6f, 0, 0.0f);
+        else if (fieldId < 21) return new Vector3(0f, 0, -6.0f);
+        else if (fieldId < 31) return new Vector3(-6.0f, 0, 0.0f);
+        else return new Vector3( 0f, 0, 6f);
     }
+    Vector3 calculateBuildingRotation(int fieldId)
+    {
+        if (fieldId < 11) return new Vector3(-90f,180f,0f);
+        else if (fieldId < 21) return new Vector3(90f, 0f, 0f);
+        else if (fieldId < 31) return new Vector3(-90f, 180f, 0f);
+        else return new Vector3(-90f, 0f, 0f);
+    }
+
 }
 
 public enum PropertyType
