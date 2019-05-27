@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using UnityEngine.EventSystems;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,13 +7,14 @@ using TMPro;
 using System;
 using System.Linq;
 
-public class GameUI : MonoBehaviour
+public class GameUI : MonoBehaviour, IPointerClickHandler
 {
     public Texture[] textures; // wszystkie tekstury pól dodane z poziomu edytora
     private Texture currentTexture;
-    private int currentTextureIndex = 0;
+    public int currentTextureIndex = 0;
 
     public Game game;
+    DialogMenu dialogMenu;
     public TMP_Text currentPlayerName;
     public TMP_Text currentPlayerCash;
     public TMP_Text nextPlayerName;
@@ -22,7 +24,7 @@ public class GameUI : MonoBehaviour
     public Button shiftRightButton;
 
     private Texture[] currentPlayerTextures;
-    private List<Texture> chosenTextures;
+    public List<Texture> chosenTextures;
 
     private bool switcherEnabled = true;
 
@@ -31,6 +33,7 @@ public class GameUI : MonoBehaviour
     {
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
+        dialogMenu = DialogMenu.Instance();
     }
 
     // Update is called once per frame
@@ -72,6 +75,13 @@ public class GameUI : MonoBehaviour
         switcherEnabled = true;
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("I'm in OnPointerClick");
+        var currentlyShowedProperty = game.currentPlayer.ownedProperties.FirstOrDefault(x => x.propertyName.ToLower() == chosenTextures[currentTextureIndex].name.ToLower());
+        dialogMenu.ShowForPropertyOwner(currentlyShowedProperty);
+    }
+
     private void handleLeftButtonClick()
     {
         currentTextureIndex--;
@@ -90,7 +100,7 @@ public class GameUI : MonoBehaviour
     {
         if (chosenTextures.Count > 0) {
             currentTexture = chosenTextures.ElementAt(currentTextureIndex);
-            cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.5f, 0.5f), 100.0f);
+            cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.0f, 0.0f), 100.0f);
         }
     }
 
