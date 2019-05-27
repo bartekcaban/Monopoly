@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     int turnsPausing;
     bool moving;
     bool diceRolled;
+    int id;
 
     bool moveFinished;
 
@@ -117,8 +118,11 @@ public class Player : MonoBehaviour
     }
     public int GetId()
     {
-        //Just for now, to overload in specific player class 
-        return 0;
+       return id;
+    }
+    public void SetId(int id)
+    {
+        this.id = id;
     }
 
     public bool PawnMoved()
