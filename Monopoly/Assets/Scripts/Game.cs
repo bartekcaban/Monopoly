@@ -10,6 +10,7 @@ public class Game : MonoBehaviour
     public List<Player> players;
     Dictionary<PropertyGroupName,int> propertyGroups;
 
+    public MoneyManager moneyManager;
     DialogMenu dialogMenu;
     InfoPopup infoPopup;
     public List<Property> properties;
@@ -156,8 +157,8 @@ public class Game : MonoBehaviour
         start = false;
         timeLeft = 8.0f;
         CreatePlayers(numberOfPlayers);
+        moneyManager = new MoneyManager(players);
         dialogMenu = DialogMenu.Instance();
-
         infoPopup = InfoPopup.Instance();
         ChanceInit();
     }
@@ -404,19 +405,19 @@ public class Game : MonoBehaviour
 
     void PerformChanceAction( Chance chance )
     {
-        currentPlayer.cash += chance.ReturnValue();
+        moneyManager.DepositOnAccount(currentPlayer, chance.ReturnValue());
         infoPopup.ShowMessage("Szansa", chance.ReturnDescription());
     }
 
     void PayTax()
     {
-        currentPlayer.cash -= 200;
+        moneyManager.WithdrawFromAccount(currentPlayer, 200);
         infoPopup.ShowMessage("Podatek", "Płacisz 200$ podatku");
     }
 
     void GetStartMoney()
     {
-        currentPlayer.cash += 200;
+        moneyManager.DepositOnAccount(currentPlayer, 200);
         infoPopup.ShowMessage("Start", "Przechodzisz przez pole start, dostajesz 200$");
     }
 

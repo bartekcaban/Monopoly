@@ -4,27 +4,30 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public List<Property> ownedProperties;
     public PawnMovement pawn;
     public Dice dice;
     public string playerName;
-    public int cash;
+    int cash;
     int turnsPausing;
     bool moving;
     bool diceRolled;
-
     bool moveFinished;
-
     int currentFieldIndex;
 
+    public int GetCash()
+    {
+        return this.cash;
+    }
 
-    public List<Property> ownedProperties;
+    public void SetCash(int money)
+    {
+        this.cash = money;
+    }
 
     public bool CanMove()
     {
-        if (turnsPausing == 0)
-            return true;
-        else
-            return false;
+        return (turnsPausing == 0) ? true : false;
     }
 
     public void PauseOneTurn()
@@ -146,7 +149,7 @@ public class Player : MonoBehaviour
         ownedProperties = new List<Property>();
         moving = false;
         diceRolled = false;
-        cash = 1500;
+        this.SetCash(1500);
         currentFieldIndex = 0;
         turnsPausing = 0;
     }
