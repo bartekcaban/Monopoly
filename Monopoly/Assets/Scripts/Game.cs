@@ -9,8 +9,8 @@ public class Game : MonoBehaviour
     List<string> playerNames;
     public List<Player> players;
     Dictionary<PropertyGroupName,int> propertyGroups;
-
     public MoneyManager moneyManager;
+    public GameUI gameUIManager;
     DialogMenu dialogMenu;
     InfoPopup infoPopup;
     public List<Property> properties;
@@ -158,6 +158,7 @@ public class Game : MonoBehaviour
         timeLeft = 8.0f;
         CreatePlayers(numberOfPlayers);
         moneyManager = new MoneyManager(players);
+        gameUIManager.gameObject.SetActive(true);
         dialogMenu = DialogMenu.Instance();
         infoPopup = InfoPopup.Instance();
         ChanceInit();

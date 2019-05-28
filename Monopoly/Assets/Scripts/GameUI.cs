@@ -9,6 +9,7 @@ using System.Linq;
 
 public class GameUI : MonoBehaviour, IPointerClickHandler
 {
+    public Canvas gameUICanvas;
     public Texture[] textures; // wszystkie tekstury pól dodane z poziomu edytora
     private Texture currentTexture;
     public int currentTextureIndex = 0;
@@ -31,10 +32,12 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
+        gameUICanvas.gameObject.SetActive(true);
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
         dialogMenu = DialogMenu.Instance();
-        moneyManager = GameObject.Find("Plane").GetComponent<Game>().moneyManager;
+        game = GameObject.Find("Plane").GetComponent<Game>();
+        moneyManager = game.moneyManager;
     }
 
     // Update is called once per frame
