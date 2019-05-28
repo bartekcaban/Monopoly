@@ -227,9 +227,45 @@ public class Game : MonoBehaviour
 
     void HandleRentPay(Property property, int payingPlayerId)
     {
-        dialogMenu.ShowForRentPayment(property);
+        int currentRent = property.GetRent();
 
+        if(property.groupName == PropertyGroupName.station)
+        {
+            currentRent *= GetNumberOfOwnedStations(property.GetOwnerId());
+        }
+        else if(property.groupName == PropertyGroupName.utility)
+        {
+            currentRent *= GetNumberOfOwnedUtilities(property.GetOwnerId());
+        }
+
+        dialogMenu.ShowForRentPayment(property, playerNames[property.GetOwnerId()], currentRent);
+
+        moneyManager.WithdrawFromAccount(players[payingPlayerId], currentRent);
+        moneyManager.DepositOnAccount(players[property.GetOwnerId()], currentRent);
     }
+
+    private int GetNumberOfOwnedStations(int id)
+    {
+        int number = 0;
+        foreach(Property property in players[id].ownedProperties)
+        {
+            if (property.groupName == PropertyGroupName.station)
+                number++;
+        }
+        return number;
+    }
+
+    private int GetNumberOfOwnedUtilities(int id)
+    {
+        int number = 0;
+        foreach (Property property in players[id].ownedProperties)
+        {
+            if (property.groupName == PropertyGroupName.utility)
+                number++;
+        }
+        return number;
+    }
+
     void HandleStandingOnOwnPosition(Property property)
     {
         dialogMenu.ShowForPropertyOwner(property);

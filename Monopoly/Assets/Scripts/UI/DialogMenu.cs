@@ -85,10 +85,9 @@ public class DialogMenu : MonoBehaviour
         depositButton.gameObject.SetActive(true);
         DescriptionInit(property);
     }
-    public void ShowForRentPayment(Property property)
+    public void ShowForRentPayment(Property property, string playerName, int amount)
     {
-        decisionDescription.text = "Płacisz czynsz na rzecz gracza: GRACZ w wysokości 100 zł";
-       
+        decisionDescription.text = "Płacisz czynsz na rzecz gracza: " + playerName + " w wysokości " + amount + "$";
        
         dialogCanvasObject.SetActive(true);
         okButton.gameObject.SetActive(true);

@@ -42,7 +42,7 @@ public class Property : MonoBehaviour
         this.hotelRent = hotelRent;
         this.groupName = groupName;
         this.type = type;
-        this.numberOfHouses = 2;
+        this.numberOfHouses = 0;
         
 
     }
@@ -110,7 +110,7 @@ public class Property : MonoBehaviour
             hotelBuilt = true;
         }
     }
-    int GetRent()
+    public int GetRent()
     {
         if (hotelBuilt)
         {
@@ -121,6 +121,7 @@ public class Property : MonoBehaviour
             return rent + numberOfHouses * rentPerHouse;
         }
     }
+
     public void onAbleToBuild()
     {
         ableToBuild = true;
@@ -128,6 +129,11 @@ public class Property : MonoBehaviour
         position += calculateConstructionOffset(this.id);
         Destroy(soldSign);
         constructionSite = Instantiate(constructionSitePrefab, position, UnityEngine.Quaternion.identity);
+    }
+
+    public int GetOwnerId()
+    {
+        return (int)ownerId;
     }
 
     Vector3 calculateSignOffset(int fieldId)
