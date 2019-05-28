@@ -8,30 +8,35 @@ public class Game : MonoBehaviour
     const int gameBoardSize = 40;
 
     CameraMovement camera;
+
+    PlayerInitializer playerInitializer;
     List<string> playerNames;
     public List<Player> players;
-    Dictionary<PropertyGroupName,int> propertyGroups;
-    public MoneyManager moneyManager;
-    public GameUI gameUIManager;
-    PropertiesInitializer propertiesInitializer;
-    PlayerInitializer playerInitializer;
-    DialogMenu dialogMenu;
-    InfoPopup infoPopup;
-    public List<Property> properties;
-    int numberOfTurns;
     int numberOfPlayers;
     public Player currentPlayer;
     public Player nextPlayer;
     int currentPlayerIndex;
     int nextPlayerIndex;
+    int currentPlayerId;
+
+    PropertiesInitializer propertiesInitializer;
+    Dictionary<PropertyGroupName,int> propertyGroups;
+    public List<Property> properties;
+    Property currentPlayerStandingProperty;
+    List<Chance> chanceList;
+
+    public MoneyManager moneyManager;
+    public GameUI gameUIManager;
+
+    DialogMenu dialogMenu;
+    InfoPopup infoPopup;
+
     bool start;
     bool moveFinished = true;
     float timeLeft;
-    int currentPlayerId;
+    int numberOfTurns;
     bool currentPlayerBoughtProperty = false;
     bool currentPlayerIsMakingDecision = false;
-    Property currentPlayerStandingProperty;
-    List<Chance> chanceList;
 
     // Start is called before the first frame update
     void Start()
