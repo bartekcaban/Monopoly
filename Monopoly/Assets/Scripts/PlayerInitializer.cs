@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerInitializer : MonoBehaviour
 {
+    const int minAmountOfPlayers = 2;
+    const int maxAmountOfPlayers = 4;
+    
     private static List<string> playerNames;
 
     public static void SetPlayerNames(List<string> listOfNames)
@@ -19,12 +22,11 @@ public class PlayerInitializer : MonoBehaviour
     public List<Player> CreatePlayers(int number)
     {
         List<Player> players = new List<Player>();
+        if (number < minAmountOfPlayers) number = minAmountOfPlayers;
+        if (number > maxAmountOfPlayers) number = maxAmountOfPlayers;
 
         players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
         players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
-
-        if (number < 2) number = 2;
-        if (number > 4) number = 4;
 
         if (number == 2)
         {
