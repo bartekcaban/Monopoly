@@ -49,6 +49,7 @@ public class PlayerInitializer : MonoBehaviour
         for (int i = 0; i < number; i++)
         {
             players[i].playerName = playerNames[i];
+            players[i].SetId(i);
         }
 
         return players;

@@ -37,6 +37,7 @@ public class Game : MonoBehaviour
     int numberOfTurns;
     bool currentPlayerBoughtProperty = false;
     bool currentPlayerIsMakingDecision = false;
+    bool fieldHandled = false;
 
     // Start is called before the first frame update
     void Start()
@@ -149,74 +150,35 @@ public class Game : MonoBehaviour
 
                             HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
                         }
-                     currentPlayerIsMakingDecision = true;
+                     
+                       
                     break;
                     case PropertyType.chance:
                         PerformChanceAction(DrawAChance());
-                        players[currentPlayerIndex].SetMoveFinished();
-                        currentPlayerIsMakingDecision = false;
-                        currentPlayerIndex++;
-                        if (currentPlayerIndex == numberOfPlayers)
-                        {
-                            currentPlayerIndex = 0;
-                            numberOfTurns++;
-                        }
+                      
                         break;
                     case PropertyType.start:
                         GetStartMoney();
-                        players[currentPlayerIndex].SetMoveFinished();
-                        currentPlayerIsMakingDecision = false;
-                        currentPlayerIndex++;
-                        if (currentPlayerIndex == numberOfPlayers)
-                        {
-                            currentPlayerIndex = 0;
-                            numberOfTurns++;
-                        }
+                       
                         break;
                     case PropertyType.goToJail:
                         SetJail();
-                        players[currentPlayerIndex].SetMoveFinished();
-                        currentPlayerIsMakingDecision = false;
-                        currentPlayerIndex++;
-                        if (currentPlayerIndex == numberOfPlayers)
-                        {
-                            currentPlayerIndex = 0;
-                            numberOfTurns++;
-                        }
+                     
                         break;
                     case PropertyType.parking:
-                        players[currentPlayerIndex].SetMoveFinished();
-                        currentPlayerIsMakingDecision = false;
-                        currentPlayerIndex++;
-                        if (currentPlayerIndex == numberOfPlayers)
-                        {
-                            currentPlayerIndex = 0;
-                            numberOfTurns++;
-                        }
+                        
                         break;
                     case PropertyType.jail:
-                        players[currentPlayerIndex].SetMoveFinished();
-                        currentPlayerIsMakingDecision = false;
-                        currentPlayerIndex++;
-                        if (currentPlayerIndex == numberOfPlayers)
-                        {
-                            currentPlayerIndex = 0;
-                            numberOfTurns++;
-                        }
+                      
                         break;
                     case PropertyType.tax:
                         PayTax();
-                        currentPlayerIsMakingDecision = false;
-                        currentPlayerIndex++;
-                        if (currentPlayerIndex == numberOfPlayers)
-                        {
-                            currentPlayerIndex = 0;
-                            numberOfTurns++;
-                        }
+                      
                         break;
-                        //  TODO: HandleAbleToBuyProperty all types of fields
+                        
 
                 }
+                currentPlayerIsMakingDecision = true;
             }
 
             if (currentPlayerIsMakingDecision)
@@ -245,8 +207,6 @@ public class Game : MonoBehaviour
                 }
                 if (currentPlayerIndex == numberOfPlayers)
                 {
-                    //Debug.Log(currentPlayerIndex);
-
                     currentPlayerIndex = 0;
                     numberOfTurns++;
                 }
@@ -258,6 +218,11 @@ public class Game : MonoBehaviour
     {   
         nextPlayerIndex = (actualIndex == numberOfPlayers) ? 0 : ++actualIndex;
         return (nextPlayerIndex == numberOfPlayers) ? 0 : nextPlayerIndex;        
+    }
+
+    public void finishTurn()
+    {
+        moveFinished = true;
     }
 
     void HandleRentPay(Property property, int payingPlayerId)
@@ -272,7 +237,7 @@ public class Game : MonoBehaviour
     void HandleAbleToBuyProperty(Property property, int playerId)
     {
 
-        dialogMenu.ShowAbleToBuy(property,playerBoughtCurrentProperty, () => { moveFinished = true; });
+        dialogMenu.ShowAbleToBuy(property,playerBoughtCurrentProperty, () => {  });
         
 
     }

@@ -23,6 +23,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     public Image cardImage;    
     public Button shiftLeftButton;
     public Button shiftRightButton;
+    public Button finishTurnButton;
 
     private Texture[] currentPlayerTextures;
     public List<Texture> chosenTextures;
@@ -35,6 +36,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
         gameUICanvas.gameObject.SetActive(true);
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
+        finishTurnButton.onClick.AddListener(game.finishTurn);
         dialogMenu = DialogMenu.Instance();
         game = GameObject.Find("Plane").GetComponent<Game>();
         moneyManager = game.moneyManager;
