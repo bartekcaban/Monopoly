@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
     public MoneyManager moneyManager;
     public GameUI gameUIManager;
     PropertiesInitializer propertiesInitializer;
+    PlayerInitializer playerInitializer;
     DialogMenu dialogMenu;
     InfoPopup infoPopup;
     public List<Property> properties;
@@ -32,38 +33,6 @@ public class Game : MonoBehaviour
     Property currentPlayerStandingProperty;
     List<Chance> chanceList;
 
-    public void CreatePlayers(int number)
-    {        
-        players.Add((Player)GameObject.Find("Cat").GetComponent(typeof(Player)));
-        players.Add((Player)GameObject.Find("Teapot").GetComponent(typeof(Player)));
-
-        if (number < 2) number = 2;
-        if (number > 4) number = 4;
-
-        if (number == 2)
-        {
-            ((Player)GameObject.Find("Dog").GetComponent(typeof(Player)) as Player).Disable();
-            ((Player)GameObject.Find("Hat").GetComponent(typeof(Player)) as Player).Disable();
-        }
-
-        else if (number == 3)
-        {            
-            players.Add((Player)GameObject.Find("Dog").GetComponent(typeof(Player)));
-            ((Player)GameObject.Find("Hat").GetComponent(typeof(Player)) as Player).Disable();
-        }
-
-        else if (number == 4)
-        {            
-            players.Add((Player)GameObject.Find("Dog").GetComponent(typeof(Player)));
-            players.Add((Player)GameObject.Find("Hat").GetComponent(typeof(Player)));
-        }
-
-        for (int i = 0; i < number; i++)
-        {
-            players[i].playerName = playerNames[i];
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -71,20 +40,26 @@ public class Game : MonoBehaviour
         properties = propertiesInitializer.InitializeProperties(gameBoardSize);
         propertyGroups = propertiesInitializer.GetPropertyGroups();
 
-        playerNames = PlayerInfo.PlayerNames;
+        playerInitializer = new PlayerInitializer();
+        playerNames = playerInitializer.GetPlayerNames();
         numberOfPlayers = playerNames.Count;
+        players = playerInitializer.CreatePlayers(numberOfPlayers);
+        
         numberOfTurns = 1;
-        players = new List<Player>();
         camera = (CameraMovement)GameObject.Find("Main Camera").GetComponent(typeof(CameraMovement));
         currentPlayerIndex = 0;
         start = false;
         timeLeft = 8.0f;
-        CreatePlayers(numberOfPlayers);
         moneyManager = new MoneyManager(players);
         gameUIManager.gameObject.SetActive(true);
         dialogMenu = DialogMenu.Instance();
         infoPopup = InfoPopup.Instance();
         ChanceInit();
+
+        foreach(Player player in players)
+        {
+            Debug.Log("player: " + player.playerName);
+        }
     }
 
     // Update is called once per frame

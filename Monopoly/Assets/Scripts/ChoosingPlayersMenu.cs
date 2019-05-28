@@ -70,7 +70,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
     {
         choosingFinished = true;
         removeEmptyElements(playerNames);
-        PlayerInfo.PlayerNames = playerNames;
+        PlayerInitializer.SetPlayerNames(playerNames);
         choosingPlayersMenuCanvas.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
