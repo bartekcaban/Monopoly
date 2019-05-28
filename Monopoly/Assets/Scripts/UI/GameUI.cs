@@ -9,10 +9,11 @@ using System.Linq;
 
 public class GameUI : MonoBehaviour, IPointerClickHandler
 {
+    public Canvas gameUICanvas;
     public Texture[] textures; // wszystkie tekstury pól dodane z poziomu edytora
     private Texture currentTexture;
     public int currentTextureIndex = 0;
-
+    MoneyManager moneyManager;
     public Game game;
     DialogMenu dialogMenu;
     public TMP_Text currentPlayerName;
@@ -32,11 +33,13 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
+        gameUICanvas.gameObject.SetActive(true);
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
         finishTurnButton.onClick.AddListener(game.finishTurn);
         dialogMenu = DialogMenu.Instance();
-
+        game = GameObject.Find("Plane").GetComponent<Game>();
+        moneyManager = game.moneyManager;
     }
 
     // Update is called once per frame
@@ -45,7 +48,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
         if (game.currentPlayer)
         {
             currentPlayerName.text = game.currentPlayer.playerName;
-            currentPlayerCash.text = game.currentPlayer.cash.ToString();
+            currentPlayerCash.text = moneyManager.GetAccountState(currentPlayerName.text).ToString();
 
             if (game.currentPlayer.ownedProperties.Count <= 0 && switcherEnabled) disableImageSwitcher();
             else if (game.currentPlayer.ownedProperties.Count > 0 && !switcherEnabled) enableImageSwitcher();
