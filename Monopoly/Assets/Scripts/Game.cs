@@ -187,10 +187,7 @@ public class Game : MonoBehaviour
                 {
                     currentPlayer.Buy(currentPlayerStandingProperty);
                     currentPlayerStandingProperty.Buy(currentPlayerId);
-                   
-
-
-                    infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.name);
+                    infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.propertyName);
                     if (currentPlayerStandingProperty.groupName != PropertyGroupName.station && 
                         currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName,propertyGroups))
                     {
@@ -199,6 +196,7 @@ public class Game : MonoBehaviour
                     currentPlayerBoughtProperty = false;
                     
                 }
+
                 if (moveFinished)
                 {
                     players[currentPlayerIndex].SetMoveFinished();
