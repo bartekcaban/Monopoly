@@ -10,7 +10,7 @@ public class Property : MonoBehaviour
     public int id;
     public PropertyType type;
     public PropertyGroupName groupName;
-    String Name { get; set; }
+    
     int? ownerId { get; set; }
     public int numberOfHouses; 
     public int price;
@@ -33,7 +33,7 @@ public class Property : MonoBehaviour
     public void SetPropertyData(String name, int price, int housePrice, int rent, int rentPerHouse,
         int hotelRent,PropertyGroupName groupName,PropertyType type)
     {
-        Name = name;
+       
         this.propertyName = name;
         this.price = price;
         this.housePrice = housePrice;

@@ -11,10 +11,14 @@ public class DialogMenu : MonoBehaviour
     private static DialogMenu dialogMenu;
 
     //Property Description area
-    public Text oneHouseRent;
-    public Text twoHouseRent;
-    public Text threeHouseRent;
-    public Text fourHouseRent;
+    public Image propertyBackground;
+    public Text propertyName;
+    public Text propertyPrice;
+
+    public Text perHouseRent;
+    public Text basicRent;
+    public Text hotelRent;
+   
     public Text housePrice;
     public Text hotelPrice;
 
@@ -49,10 +53,14 @@ public class DialogMenu : MonoBehaviour
     {
         housePrice.text = property.housePrice.ToString();
         hotelPrice.text = property.hotelPrice.ToString();
-        oneHouseRent.text = property.rentPerHouse.ToString();
-        twoHouseRent.text = (property.rentPerHouse * 2).ToString();
-        threeHouseRent.text = (property.rentPerHouse * 3).ToString();
-        fourHouseRent.text = (property.rentPerHouse * 4).ToString();
+        perHouseRent.text = property.rentPerHouse.ToString();
+        basicRent.text = property.rent.ToString();
+        hotelRent.text = property.hotelRent.ToString();
+        propertyPrice.text = property.price.ToString();
+
+        propertyBackground.color = GetpropertyGroupColor(property.groupName);
+        propertyName.text = property.propertyName;
+        
     }
 
     public void ShowAbleToBuy(Property property, UnityAction onBuyClicked, UnityAction onOkClicked )
@@ -97,6 +105,39 @@ public class DialogMenu : MonoBehaviour
         depositButton.gameObject.SetActive(false);
         DescriptionInit(property);
 
+    }
+    Color32 GetpropertyGroupColor(PropertyGroupName groupName)
+    {
+        Color32 color = new Color32(255, 255, 8, 255);
+        switch (groupName)
+        {
+            case PropertyGroupName.brown:
+                color = new Color32(142, 90, 55, 255);
+                break;
+            case PropertyGroupName.darkBlue:
+                color = new Color32(31, 89, 121, 255);
+                break;
+            case PropertyGroupName.green:
+                color = new Color32(27, 130, 49, 255);
+                break;
+            case PropertyGroupName.lightBlue:
+                color = new Color32(118, 160, 150, 255);
+                break;
+            case PropertyGroupName.orange:
+                color = new Color32(152, 143, 127, 255);
+                break;
+            case PropertyGroupName.pink:
+                color = new Color32(126, 53, 106, 255);
+                break;
+            case PropertyGroupName.red:
+                color = new Color32(177, 20, 21, 255);
+                break;
+            case PropertyGroupName.yellow:
+                color = new Color32(194, 177, 0, 255);
+                break;
+
+        }
+        return color;
     }
 
 }
