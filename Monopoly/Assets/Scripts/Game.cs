@@ -194,8 +194,6 @@ public class Game : MonoBehaviour
                         setPropertyGroupAbleToBuild(currentPlayerStandingProperty.groupName);
                     }
                     currentPlayerBoughtProperty = false;
-
-
                     
                 }
 
