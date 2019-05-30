@@ -78,16 +78,16 @@ public class PawnMovement : MonoBehaviour
             switch (track)
             {
                 case Track.a:
-                    trackBonus = -1.2f;
+                    trackBonus = -1.8f;
                     break;
                 case Track.b:
-                    trackBonus = -0.4f;
+                    trackBonus = -0.6f;
                     break;
                 case Track.c:
-                    trackBonus = 0.4f;
+                    trackBonus = 0.6f;
                     break;
                 case Track.d:
-                    trackBonus = 1.2f;
+                    trackBonus = 1.8f;
                     break;
             }
 
@@ -98,7 +98,7 @@ public class PawnMovement : MonoBehaviour
                 {
                     case Direction.straight:
                         dest = transform.position;
-                        dest.z = fieldPosition.z + trackBonus;
+                        dest.z = fieldPosition.z + trackBonus + 2.2f;
                         if (transform.position.z >= dest.z)
                         {
                             direction = Direction.right;
@@ -107,7 +107,7 @@ public class PawnMovement : MonoBehaviour
                         break;
                     case Direction.backwards:
                         dest = transform.position;
-                        dest.z = fieldPosition.z - trackBonus;
+                        dest.z = fieldPosition.z - trackBonus - 2.2f;
                         if (transform.position.z <= dest.z)
                         {
                             direction = Direction.left;
@@ -116,7 +116,7 @@ public class PawnMovement : MonoBehaviour
                         break;
                     case Direction.right:
                         dest = transform.position;
-                        dest.x = fieldPosition.x + trackBonus;
+                        dest.x = fieldPosition.x + trackBonus + 2.2f;
                         if (transform.position.x >= dest.x)
                         {
                             direction = Direction.backwards;
@@ -125,7 +125,7 @@ public class PawnMovement : MonoBehaviour
                         break;
                     case Direction.left:
                         dest = transform.position;
-                        dest.x = fieldPosition.x - trackBonus;
+                        dest.x = fieldPosition.x - trackBonus - 2.2f;
                         if (transform.position.x <= dest.x)
                         {
                             direction = Direction.straight;
