@@ -63,5 +63,10 @@ public class MoneyManager : MonoBehaviour
         return (this.players.Find(x => x.playerName == playerName).GetCash() > 0) ? true : false;
     }
 
+    public void PlayerBancrupcy(Player player)
+    {
+        players.Remove(player);
+    }
+
 
 }

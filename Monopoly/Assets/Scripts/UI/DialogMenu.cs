@@ -71,13 +71,19 @@ public class DialogMenu : MonoBehaviour
         expandButton.gameObject.SetActive(false);
         depositButton.gameObject.SetActive(false);
         DescriptionInit(property);
-
-        
     }
-    public void ShowForPropertyOwner(Property property)
+    public void ShowForPropertyOwner(Property property, UnityAction onExpandClicked, UnityAction onDepositClicked, UnityAction onOkClicked)
     {
         decisionDescription.text = "Jesteś właścicielem tej nieruchomości";
-        
+
+        okButton.onClick.RemoveAllListeners();
+        okButton.onClick.AddListener(onOkClicked);
+        okButton.onClick.AddListener(Close);
+        expandButton.onClick.RemoveAllListeners();
+        expandButton.onClick.AddListener(onExpandClicked);
+        depositButton.onClick.RemoveAllListeners();
+        depositButton.onClick.AddListener(onDepositClicked);
+
         dialogCanvasObject.SetActive(true);
         okButton.gameObject.SetActive(true);
         buyButton.gameObject.SetActive(false);
@@ -95,7 +101,6 @@ public class DialogMenu : MonoBehaviour
         expandButton.gameObject.SetActive(false);
         depositButton.gameObject.SetActive(false);
         DescriptionInit(property);
-
     }
 
 }

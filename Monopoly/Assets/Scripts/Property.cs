@@ -19,7 +19,8 @@ public class Property : MonoBehaviour
     public int rent;
     public int rentPerHouse;
     bool hotelBuilt;
-    bool ableToBuild = true;
+    bool ableToBuild;
+    bool deposit = false;
     public int hotelRent;
     public GameObject hotelPrefab;
     public GameObject[] housesPrefabs;
@@ -44,7 +45,6 @@ public class Property : MonoBehaviour
         this.type = type;
         this.numberOfHouses = 0;
         
-
     }
 
     public void SetId(int id)
@@ -65,6 +65,10 @@ public class Property : MonoBehaviour
          }
         
     }
+    public void ChangeOwner(int ownerId)
+    {
+        this.ownerId = ownerId;
+    }
     public bool HasOwner()
     {
         if (ownerId == null) return false;
@@ -74,6 +78,24 @@ public class Property : MonoBehaviour
     {
         if (PlayerId == ownerId) return true;
         else return false;
+    }
+    public bool IsAbleToBuild()
+    {
+        if (deposit)
+            return false;
+        return ableToBuild;
+    }
+    public bool IsDeposited()
+    {
+        return deposit;
+    }
+    public void SetDeposit(bool state)
+    {
+        deposit = state;
+    }
+    public bool HasHotel()
+    {
+        return hotelBuilt;
     }
    public void BuildHouse()
     {
@@ -90,7 +112,6 @@ public class Property : MonoBehaviour
             house.transform.localScale = new Vector3(10, 10, 10);
             Destroy(constructionSite);
             numberOfHouses++;
-
             
         }
         else if(numberOfHouses == 4)
