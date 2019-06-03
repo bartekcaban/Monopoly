@@ -319,8 +319,6 @@ public class Game : MonoBehaviour
             {
                 moneyManager.DepositOnAccount(currentPlayer, currentPlayerStandingProperty.price / 2);
                 infoPopup.ShowMessage("", "Nie stać Cię na anulowanie zastawienia");
-                currentPlayerStandingProperty.SetDeposit(false);
-                infoPopup.ShowMessage("", "Anulowano zastawienie nieruchomości");
             }
         }
         else
