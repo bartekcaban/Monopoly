@@ -183,24 +183,27 @@ public class Game : MonoBehaviour
             {
                 if (currentPlayerBoughtProperty)
                 {
-                    moneyManager.WithdrawFromAccount(currentPlayer, currentPlayerStandingProperty.price);
-
-                    if (moneyManager.DoesPlayerHasAnyMoneyLeft(currentPlayer))
+                    if (!currentPlayerStandingProperty.HasOwner())
                     {
-                        currentPlayer.Buy(currentPlayerStandingProperty);
-                        currentPlayerStandingProperty.Buy(currentPlayerId);
+                        moneyManager.WithdrawFromAccount(currentPlayer, currentPlayerStandingProperty.price);
 
-                        infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.propertyName);
-                        if (currentPlayerStandingProperty.groupName != PropertyGroupName.station &&
-                            currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName, propertyGroups))
+                        if (moneyManager.DoesPlayerHasAnyMoneyLeft(currentPlayer))
                         {
-                            setPropertyGroupAbleToBuild(currentPlayerStandingProperty.groupName);
+                            currentPlayer.Buy(currentPlayerStandingProperty);
+                            currentPlayerStandingProperty.Buy(currentPlayerId);
+
+                            infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.propertyName);
+                            if (currentPlayerStandingProperty.groupName != PropertyGroupName.station &&
+                                currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName, propertyGroups))
+                            {
+                                setPropertyGroupAbleToBuild(currentPlayerStandingProperty.groupName);
+                            }
                         }
-                    }
-                    else
-                    {
-                        moneyManager.DepositOnAccount(currentPlayer, currentPlayerStandingProperty.price);
-                        infoPopup.ShowMessage("", "Nie możesz dokonać zakupu, gdyż nie masz wystarczającej ilości gotówki");
+                        else
+                        {
+                            moneyManager.DepositOnAccount(currentPlayer, currentPlayerStandingProperty.price);
+                            infoPopup.ShowMessage("", "Nie możesz dokonać zakupu, gdyż nie masz wystarczającej ilości gotówki");
+                        }
                     }
                     currentPlayerBoughtProperty = false;
                     
