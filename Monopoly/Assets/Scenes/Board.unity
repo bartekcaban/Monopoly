@@ -10363,11 +10363,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   players: []
-  moneyManager: {fileID: 0}
-  gameUIManager: {fileID: 712514314}
-  properties: []
   currentPlayer: {fileID: 0}
   nextPlayer: {fileID: 0}
+  properties: []
+  moneyManager: {fileID: 0}
+  gameUIManager: {fileID: 712514314}
 --- !u!4 &1656989530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 441310253902735158, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
