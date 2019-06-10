@@ -183,6 +183,7 @@ public class Game : MonoBehaviour
             {
                 if (currentPlayerBoughtProperty)
                 {
+
                     if (!currentPlayerStandingProperty.HasOwner())
                     {
                         moneyManager.WithdrawFromAccount(currentPlayer, currentPlayerStandingProperty.price);
@@ -204,6 +205,7 @@ public class Game : MonoBehaviour
                             moneyManager.DepositOnAccount(currentPlayer, currentPlayerStandingProperty.price);
                             infoPopup.ShowMessage("", "Nie możesz dokonać zakupu, gdyż nie masz wystarczającej ilości gotówki");
                         }
+
                     }
                     currentPlayerBoughtProperty = false;
                     
