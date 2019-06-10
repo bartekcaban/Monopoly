@@ -19,7 +19,8 @@ public class Property : MonoBehaviour
     public int rent;
     public int rentPerHouse;
     bool hotelBuilt;
-    bool ableToBuild = true;
+    bool ableToBuild;
+    bool deposit = false;
     public int hotelRent;
     public GameObject hotelPrefab;
     public GameObject[] housesPrefabs;
@@ -42,9 +43,8 @@ public class Property : MonoBehaviour
         this.hotelRent = hotelRent;
         this.groupName = groupName;
         this.type = type;
-        this.numberOfHouses = 2;
+        this.numberOfHouses = 0;
         
-
     }
 
     public void SetId(int id)
@@ -65,6 +65,10 @@ public class Property : MonoBehaviour
          }
         
     }
+    public void ChangeOwner(int ownerId)
+    {
+        this.ownerId = ownerId;
+    }
     public bool HasOwner()
     {
         if (ownerId == null) return false;
@@ -74,6 +78,24 @@ public class Property : MonoBehaviour
     {
         if (PlayerId == ownerId) return true;
         else return false;
+    }
+    public bool IsAbleToBuild()
+    {
+        if (deposit)
+            return false;
+        return ableToBuild;
+    }
+    public bool IsDeposited()
+    {
+        return deposit;
+    }
+    public void SetDeposit(bool state)
+    {
+        deposit = state;
+    }
+    public bool HasHotel()
+    {
+        return hotelBuilt;
     }
    public void BuildHouse()
     {
@@ -90,7 +112,6 @@ public class Property : MonoBehaviour
             house.transform.localScale = new Vector3(10, 10, 10);
             Destroy(constructionSite);
             numberOfHouses++;
-
             
         }
         else if(numberOfHouses == 4)
@@ -110,7 +131,7 @@ public class Property : MonoBehaviour
             hotelBuilt = true;
         }
     }
-    int GetRent()
+    public int GetRent()
     {
         if (hotelBuilt)
         {
@@ -121,6 +142,7 @@ public class Property : MonoBehaviour
             return rent + numberOfHouses * rentPerHouse;
         }
     }
+
     public void onAbleToBuild()
     {
         ableToBuild = true;
@@ -128,6 +150,11 @@ public class Property : MonoBehaviour
         position += calculateConstructionOffset(this.id);
         Destroy(soldSign);
         constructionSite = Instantiate(constructionSitePrefab, position, UnityEngine.Quaternion.identity);
+    }
+
+    public int GetOwnerId()
+    {
+        return (int)ownerId;
     }
 
     Vector3 calculateSignOffset(int fieldId)

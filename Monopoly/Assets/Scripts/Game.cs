@@ -18,6 +18,7 @@ public class Game : MonoBehaviour
     int currentPlayerIndex;
     int nextPlayerIndex;
     int currentPlayerId;
+    int currentPlayerBeingPaid;
 
     PropertiesInitializer propertiesInitializer;
     Dictionary<PropertyGroupName,int> propertyGroups;
@@ -31,6 +32,7 @@ public class Game : MonoBehaviour
     DialogMenu dialogMenu;
     InfoPopup infoPopup;
 
+    bool gameEnded;
     bool start;
     bool moveFinished = true;
     float timeLeft;
@@ -50,7 +52,8 @@ public class Game : MonoBehaviour
         playerNames = playerInitializer.GetPlayerNames();
         numberOfPlayers = playerNames.Count;
         players = playerInitializer.CreatePlayers(numberOfPlayers);
-        
+
+        gameEnded = false;
         numberOfTurns = 1;
         camera = (CameraMovement)GameObject.Find("Main Camera").GetComponent(typeof(CameraMovement));
         currentPlayerIndex = 0;
@@ -61,16 +64,15 @@ public class Game : MonoBehaviour
         dialogMenu = DialogMenu.Instance();
         infoPopup = InfoPopup.Instance();
         ChanceInit();
-
-        foreach(Player player in players)
-        {
-            Debug.Log("player: " + player.playerName);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (numberOfPlayers == 1)
+            HandleEndGame();
+        if (gameEnded)
+            return;
 
         nextPlayerIndex = calculateNextPlayerIndex(currentPlayerIndex);
         currentPlayer = players[currentPlayerIndex];
@@ -147,10 +149,8 @@ public class Game : MonoBehaviour
                         }
                         else
                         {
-
                             HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
                         }
-                     
                        
                     break;
                     case PropertyType.chance:
@@ -175,8 +175,6 @@ public class Game : MonoBehaviour
                         PayTax();
                       
                         break;
-                        
-
                 }
                 currentPlayerIsMakingDecision = true;
             }
@@ -185,13 +183,29 @@ public class Game : MonoBehaviour
             {
                 if (currentPlayerBoughtProperty)
                 {
-                    currentPlayer.Buy(currentPlayerStandingProperty);
-                    currentPlayerStandingProperty.Buy(currentPlayerId);
-                    infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.propertyName);
-                    if (currentPlayerStandingProperty.groupName != PropertyGroupName.station && 
-                        currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName,propertyGroups))
+
+                    if (!currentPlayerStandingProperty.HasOwner())
                     {
-                        setPropertyGroupAbleToBuild(currentPlayerStandingProperty.groupName);
+                        moneyManager.WithdrawFromAccount(currentPlayer, currentPlayerStandingProperty.price);
+
+                        if (moneyManager.DoesPlayerHasAnyMoneyLeft(currentPlayer))
+                        {
+                            currentPlayer.Buy(currentPlayerStandingProperty);
+                            currentPlayerStandingProperty.Buy(currentPlayerId);
+
+                            infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.propertyName);
+                            if (currentPlayerStandingProperty.groupName != PropertyGroupName.station &&
+                                currentPlayer.IsOwnerOfWholeGroup(currentPlayerStandingProperty.groupName, propertyGroups))
+                            {
+                                setPropertyGroupAbleToBuild(currentPlayerStandingProperty.groupName);
+                            }
+                        }
+                        else
+                        {
+                            moneyManager.DepositOnAccount(currentPlayer, currentPlayerStandingProperty.price);
+                            infoPopup.ShowMessage("", "Nie możesz dokonać zakupu, gdyż nie masz wystarczającej ilości gotówki");
+                        }
+
                     }
                     currentPlayerBoughtProperty = false;
                     
@@ -220,29 +234,113 @@ public class Game : MonoBehaviour
 
     public void finishTurn()
     {
+        if(!moneyManager.DoesPlayerHasAnyMoneyLeft(currentPlayer))
+        {
+            HandlePlayerBancrupcy(currentPlayer, players[currentPlayerBeingPaid]);
+        }
         moveFinished = true;
     }
 
     void HandleRentPay(Property property, int payingPlayerId)
     {
-        dialogMenu.ShowForRentPayment(property);
+        if(property.IsDeposited())
+        {
+            infoPopup.ShowMessage("", "Nie płacisz czynszu, bo nieruchomość jest zastawiona");
+            return;
+        }
 
+        int currentRent = property.GetRent();
+
+        if(property.groupName == PropertyGroupName.station)
+        {
+            currentRent *= GetNumberOfOwnedStations(property.GetOwnerId());
+        }
+        else if(property.groupName == PropertyGroupName.utility)
+        {
+            currentRent *= GetNumberOfOwnedUtilities(property.GetOwnerId());
+        }
+
+        dialogMenu.ShowForRentPayment(property, playerNames[property.GetOwnerId()], currentRent);
+
+        moneyManager.WithdrawFromAccount(players[payingPlayerId], currentRent);
+        moneyManager.DepositOnAccount(players[property.GetOwnerId()], currentRent);
+
+        currentPlayerBeingPaid = property.GetOwnerId();
     }
+
+    private int GetNumberOfOwnedStations(int id)
+    {
+        int number = 0;
+        foreach(Property property in players[id].ownedProperties)
+        {
+            if (property.groupName == PropertyGroupName.station)
+                number++;
+        }
+        return number;
+    }
+
+    private int GetNumberOfOwnedUtilities(int id)
+    {
+        int number = 0;
+        foreach (Property property in players[id].ownedProperties)
+        {
+            if (property.groupName == PropertyGroupName.utility)
+                number++;
+        }
+        return number;
+    }
+
     void HandleStandingOnOwnPosition(Property property)
     {
-        dialogMenu.ShowForPropertyOwner(property);
+        dialogMenu.ShowForPropertyOwner(property, playerExpandedCurrentProperty, playerDepositedCurrentProperty, ()=> { });
     }
+
+    public void playerExpandedCurrentProperty()
+    {
+        moneyManager.WithdrawFromAccount(currentPlayer, currentPlayerStandingProperty.housePrice);
+        if (currentPlayerStandingProperty.IsAbleToBuild() && moneyManager.DoesPlayerHasAnyMoneyLeft(currentPlayer) && !currentPlayerStandingProperty.HasHotel())
+        {
+            currentPlayerStandingProperty.BuildHouse();
+            infoPopup.ShowMessage("", "Rozbudowano nieruchomość");
+        }
+        else
+        {
+            moneyManager.DepositOnAccount(currentPlayer, currentPlayerStandingProperty.housePrice);
+            infoPopup.ShowMessage("", "Nie możesz rozbudować tej nieruchomości");
+        }
+    }
+
+    public void playerDepositedCurrentProperty()
+    {
+        if (currentPlayerStandingProperty.IsDeposited())
+        {
+            moneyManager.WithdrawFromAccount(currentPlayer, currentPlayerStandingProperty.price / 2);
+            if (moneyManager.DoesPlayerHasAnyMoneyLeft(currentPlayer))
+            {
+                currentPlayerStandingProperty.SetDeposit(false);
+                infoPopup.ShowMessage("", "Anulowano zastawienie nieruchomości");
+            }
+            else
+            {
+                moneyManager.DepositOnAccount(currentPlayer, currentPlayerStandingProperty.price / 2);
+                infoPopup.ShowMessage("", "Nie stać Cię na anulowanie zastawienia");
+            }
+        }
+        else
+        {
+            moneyManager.DepositOnAccount(currentPlayer, currentPlayerStandingProperty.price / 2);
+            currentPlayerStandingProperty.SetDeposit(true);
+            infoPopup.ShowMessage("", "Zastawiono nieruchomość");
+        }
+    }
+
     void HandleAbleToBuyProperty(Property property, int playerId)
     {
-
         dialogMenu.ShowAbleToBuy(property,playerBoughtCurrentProperty, () => {  });
-        
-
     }
     void playerBoughtCurrentProperty()
     {
         currentPlayerBoughtProperty = true;
-
     }
 
     void setPropertyGroupAbleToBuild(PropertyGroupName name)
@@ -292,5 +390,26 @@ public class Game : MonoBehaviour
     {
         currentPlayer.GoToJail();
         infoPopup.ShowMessage("Idziesz do więzienia", "Będziesz pauzował 3 tury");
+    }
+
+    void HandlePlayerBancrupcy(Player debtor, Player creditor)
+    {
+        foreach(Property property in debtor.ownedProperties)
+        {
+            creditor.ownedProperties.Add(property);
+            property.ChangeOwner(creditor.GetId());
+        }
+        players.Remove(debtor);
+        numberOfPlayers--;
+        playerNames.Remove(debtor.playerName);
+        debtor.Disable();
+        moneyManager.PlayerBancrupcy(debtor);
+        infoPopup.ShowMessage("Banrut", "Gracz " + debtor.playerName + " banrutuje na rzecz " + creditor.playerName);
+    }
+
+    void HandleEndGame()
+    {
+        infoPopup.ShowMessage("Koniec gry", "Wygrywa " + players[0].playerName);
+        gameEnded = true;
     }
 }

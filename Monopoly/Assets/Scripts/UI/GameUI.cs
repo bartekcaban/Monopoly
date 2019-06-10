@@ -85,7 +85,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     {
         Debug.Log("I'm in OnPointerClick");
         var currentlyShowedProperty = game.currentPlayer.ownedProperties.FirstOrDefault(x => x.propertyName.ToLower() == chosenTextures[currentTextureIndex].name.ToLower());
-        dialogMenu.ShowForPropertyOwner(currentlyShowedProperty);
+        dialogMenu.ShowForPropertyOwner(currentlyShowedProperty, game.playerExpandedCurrentProperty, game.playerDepositedCurrentProperty, () => { });
     }
 
     private void handleLeftButtonClick()

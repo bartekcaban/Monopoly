@@ -31,6 +31,6 @@ public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerClickHandler
     {
         currentTextureIndex = gameUIScript.currentTextureIndex;
         Property displayedProperty = game.currentPlayer.ownedProperties.ElementAt(currentTextureIndex);
-        dialogMenu.ShowForPropertyOwner(displayedProperty);
+        dialogMenu.ShowForPropertyOwner(displayedProperty, game.playerExpandedCurrentProperty, game.playerDepositedCurrentProperty, ()=> { });
     }
 }
