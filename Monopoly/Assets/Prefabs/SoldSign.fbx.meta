@@ -9,32 +9,71 @@ ModelImporter:
     100006: node_id8 2
     100008: node_id8 3
     100010: //RootNode
+    100012: node_id11
+    100014: node_id13
+    100016: node_id5
+    100018: node_id7
+    100020: node_id9
+    100022: node_id49
     400000: node_id36
     400002: node_id8
     400004: node_id8 1
     400006: node_id8 2
     400008: node_id8 3
     400010: //RootNode
+    400012: node_id11
+    400014: node_id13
+    400016: node_id5
+    400018: node_id7
+    400020: node_id9
+    400022: node_id49
     2100000: Material_32
     2100002: Material_33
     2100004: Material_34
     2100006: Material_35
     2100008: Material_70
+    2100010: Material_64
+    2100012: Material_66
+    2100014: Material_68
+    2100016: Material_72
+    2100018: Material_80
+    2100020: Material_82
+    2100022: Material_84
+    2100024: Material_86
+    2100026: Material_88
     2300000: node_id36
     2300002: node_id8
     2300004: node_id8 1
     2300006: node_id8 2
     2300008: node_id8 3
+    2300010: node_id11
+    2300012: node_id13
+    2300014: node_id5
+    2300016: node_id7
+    2300018: node_id9
+    2300020: node_id49
     3300000: node_id36
     3300002: node_id8
     3300004: node_id8 1
     3300006: node_id8 2
     3300008: node_id8 3
+    3300010: node_id11
+    3300012: node_id13
+    3300014: node_id5
+    3300016: node_id7
+    3300018: node_id9
+    3300020: node_id49
     4300000: node_id8
     4300002: node_id8
     4300004: node_id8
     4300006: node_id8
     4300008: node_id36
+    4300010: node_id5
+    4300012: node_id7
+    4300014: node_id9
+    4300016: node_id11
+    4300018: node_id13
+    4300020: node_id49
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -61,6 +100,31 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Material_70
     second: {fileID: 2100000, guid: ce810bd45d6fc784996fa3d0c29f6bc5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_80
+    second: {fileID: 2100000, guid: 10540e14386e69d45995fc0ba241f89c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_82
+    second: {fileID: 2100000, guid: 10540e14386e69d45995fc0ba241f89c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_84
+    second: {fileID: 2100000, guid: 10540e14386e69d45995fc0ba241f89c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_86
+    second: {fileID: 2100000, guid: e25753f11202b824d8204720b0b26e23, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material_88
+    second: {fileID: 2100000, guid: e25753f11202b824d8204720b0b26e23, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
