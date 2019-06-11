@@ -15,28 +15,28 @@ public class ChoosingPlayersMenu : MonoBehaviour
     public List<string> playerNames = new List<string>();
 
     int numberOfInputFields = 4;
-    public TMP_InputField player1InputField;
-    public TMP_InputField player2InputField;
-    public TMP_InputField player3InputField;
-    public TMP_InputField player4InputField;
-    public IList<TMP_InputField> playerInputFields;
+    public InputField player1InputField;
+    public InputField player2InputField;
+    public InputField player3InputField;
+    public InputField player4InputField;
+    public IList<InputField> playerInputFields;
 
     public Button addPlayerButton;
     public Button removePlayerButton;
     public Button letsStartButton;
 
-    public TMP_Text removePlayerButtonLabel;
+    public Text removePlayerButtonLabel;
 
     private bool choosingFinished = false;
 
     void Start()
     {
-        playerInputFields = new List<TMP_InputField>() { player1InputField, player2InputField, player3InputField, player4InputField };
+        playerInputFields = new List<InputField>() { player1InputField, player2InputField, player3InputField, player4InputField };
         addPlayerButton.onClick.AddListener(handleAddPlayerButtonClick);
         removePlayerButton.onClick.AddListener(handleRemovePlayerButtonClick);
         letsStartButton.onClick.AddListener(handleLetsStartButtonClick);
 
-        foreach(TMP_InputField inputField in playerInputFields)
+        foreach(InputField inputField in playerInputFields)
         {
             playerNames.Add(inputField.text);
         }
@@ -62,7 +62,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
 
     void handleRemovePlayerButtonClick()
     {
-        List<TMP_InputField> possibleToRemoveFrom = playerInputFields.Where(x => !x.Equals(playerInputFields.ElementAt(0)) && !x.Equals(playerInputFields.ElementAt(1))).ToList();
+        List<InputField> possibleToRemoveFrom = playerInputFields.Where(x => !x.Equals(playerInputFields.ElementAt(0)) && !x.Equals(playerInputFields.ElementAt(1))).ToList();
         possibleToRemoveFrom.Last(x => x.gameObject.activeSelf).gameObject.SetActive(false);      
     }
 
@@ -88,7 +88,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
     bool checkIfStartIsPossible()
     {
         int playersCounter = 0;
-        foreach(TMP_InputField inputField in playerInputFields)
+        foreach(InputField inputField in playerInputFields)
         {
             if (inputField.text.Length != 0) playersCounter++;
         }
@@ -98,7 +98,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
     bool shouldAddPlayerButtonBeInteractable()
     {
         int activeFieldsCounter = 0;
-        foreach (TMP_InputField inputField in playerInputFields)
+        foreach (InputField inputField in playerInputFields)
         {
             if (inputField.gameObject.activeSelf) activeFieldsCounter++;
         }
@@ -108,7 +108,7 @@ public class ChoosingPlayersMenu : MonoBehaviour
     bool shouldRemovePlayerButtonBeActive()
     {
         int activeFieldsCounter = 0;
-        foreach (TMP_InputField inputField in playerInputFields)
+        foreach (InputField inputField in playerInputFields)
         {
             if (inputField.gameObject.activeSelf) activeFieldsCounter++;
         }

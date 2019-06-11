@@ -64,7 +64,7 @@ public class Game : MonoBehaviour
         dialogMenu = DialogMenu.Instance();
         infoPopup = InfoPopup.Instance();
         ChanceInit();
-    }
+}
 
     // Update is called once per frame
     void Update()
