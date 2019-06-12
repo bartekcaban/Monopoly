@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerClickHandler
+public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerDownHandler
 {
     GameUI gameUIScript;
     DialogMenu dialogMenu;
@@ -27,8 +27,9 @@ public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerClickHandler
         
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("On pointer click!");
         currentTextureIndex = gameUIScript.currentTextureIndex;
         Property displayedProperty = game.currentPlayer.ownedProperties.ElementAt(currentTextureIndex);
         dialogMenu.ShowForPropertyOwner(displayedProperty, game.playerExpandedCurrentProperty, game.playerDepositedCurrentProperty, ()=> { });

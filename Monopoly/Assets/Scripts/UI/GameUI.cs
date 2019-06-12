@@ -12,7 +12,7 @@ struct PlayerStorage
     public Player player;
 }
 
-public class GameUI : MonoBehaviour, IPointerClickHandler
+public class GameUI : MonoBehaviour
 {
     public Canvas gameUICanvas;
     public Texture[] textures; // wszystkie tekstury pól dodane z poziomu edytora
@@ -94,13 +94,6 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
         shiftRightButton.gameObject.SetActive(true);
         noneTextField.gameObject.SetActive(false);
         switcherEnabled = true;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log("I'm in OnPointerClick");
-        var currentlyShowedProperty = game.currentPlayer.ownedProperties.FirstOrDefault(x => x.propertyName.ToLower() == chosenTextures[currentTextureIndex].name.ToLower());
-        dialogMenu.ShowForPropertyOwner(currentlyShowedProperty, game.playerExpandedCurrentProperty, game.playerDepositedCurrentProperty, () => { });
     }
 
     private void handleLeftButtonClick()
