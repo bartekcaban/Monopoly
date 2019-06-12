@@ -192,6 +192,7 @@ public class Game : MonoBehaviour
                         {
                             currentPlayer.Buy(currentPlayerStandingProperty);
                             currentPlayerStandingProperty.Buy(currentPlayerId);
+                            gameUIManager.texturesResolved = false;
 
                             infoPopup.BoughtPropertyInfo(currentPlayerStandingProperty.propertyName);
                             if (currentPlayerStandingProperty.groupName != PropertyGroupName.station &&
@@ -234,6 +235,9 @@ public class Game : MonoBehaviour
 
     public void finishTurn()
     {
+        gameUIManager.spriteResolved = false;
+        // gameUIManager.texturesResolved = false;
+
         if(!moneyManager.DoesPlayerHasAnyMoneyLeft(currentPlayer))
         {
             HandlePlayerBancrupcy(currentPlayer, players[currentPlayerBeingPaid]);
