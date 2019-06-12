@@ -1,5 +1,4 @@
-﻿using UnityEngine.EventSystems;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -61,6 +60,8 @@ public class GameUI : MonoBehaviour
             {
                 currentPlayerStorage.player = game.currentPlayer;
                 texturesResolved = false;
+                spriteResolved = false;
+                currentTextureIndex = 0;
             }
             currentPlayerName.text = game.currentPlayer.playerName;
             currentPlayerCash.text = moneyManager.GetAccountState(currentPlayerName.text).ToString();
@@ -142,7 +143,6 @@ public class GameUI : MonoBehaviour
                     }
                 }
                 texturesResolved = true;
-
                 resolvePlayerCardImage();
             }
         }

@@ -235,9 +235,6 @@ public class Game : MonoBehaviour
 
     public void finishTurn()
     {
-        gameUIManager.spriteResolved = false;
-        // gameUIManager.texturesResolved = false;
-
         if(!moneyManager.DoesPlayerHasAnyMoneyLeft(currentPlayer))
         {
             HandlePlayerBancrupcy(currentPlayer, players[currentPlayerBeingPaid]);
