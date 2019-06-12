@@ -106,7 +106,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     {
         if (chosenTextures.Count > 0) {
             currentTexture = chosenTextures.ElementAt(currentTextureIndex);
-            cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.0f, 0.0f), 100.0f);
+            cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.0f, 0.0f), 1000.0f);
         }
     }
 
