@@ -1,5 +1,4 @@
-﻿using UnityEngine.EventSystems;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +6,12 @@ using TMPro;
 using System;
 using System.Linq;
 
-public class GameUI : MonoBehaviour, IPointerClickHandler
+struct PlayerStorage
+{
+    public Player player;
+}
+
+public class GameUI : MonoBehaviour
 {
     public Canvas gameUICanvas;
     public Texture[] textures; // wszystkie tekstury pól dodane z poziomu edytora
@@ -29,6 +33,10 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     public List<Texture> chosenTextures;
 
     private bool switcherEnabled = true;
+    public bool spriteResolved = false;
+    public bool texturesResolved = false;
+
+    private PlayerStorage currentPlayerStorage;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +48,7 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
         dialogMenu = DialogMenu.Instance();
         game = GameObject.Find("Plane").GetComponent<Game>();
         moneyManager = game.moneyManager;
+        currentPlayerStorage.player = game.players[0];
     }
 
     // Update is called once per frame
@@ -47,6 +56,13 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
     {        
         if (game.currentPlayer)
         {
+            if (game.currentPlayer != currentPlayerStorage.player)
+            {
+                currentPlayerStorage.player = game.currentPlayer;
+                texturesResolved = false;
+                spriteResolved = false;
+                currentTextureIndex = 0;
+            }
             currentPlayerName.text = game.currentPlayer.playerName;
             currentPlayerCash.text = moneyManager.GetAccountState(currentPlayerName.text).ToString();
 
@@ -81,57 +97,54 @@ public class GameUI : MonoBehaviour, IPointerClickHandler
         switcherEnabled = true;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log("I'm in OnPointerClick");
-        var currentlyShowedProperty = game.currentPlayer.ownedProperties.FirstOrDefault(x => x.propertyName.ToLower() == chosenTextures[currentTextureIndex].name.ToLower());
-        dialogMenu.ShowForPropertyOwner(currentlyShowedProperty, game.playerExpandedCurrentProperty, game.playerDepositedCurrentProperty, () => { });
-    }
-
     private void handleLeftButtonClick()
     {
         currentTextureIndex--;
         if (currentTextureIndex < 0) currentTextureIndex = chosenTextures.Count - 1;
+        spriteResolved = false;
         resolvePlayerCardImage();
     }
 
     private void handleRightButtonClick()
     {
         currentTextureIndex++;
+        spriteResolved = false;
         if (currentTextureIndex > chosenTextures.Count - 1) currentTextureIndex = 0;
         resolvePlayerCardImage();
     }
 
     void resolvePlayerCardImage()
     {
-        if (chosenTextures.Count > 0) {
+        if (!spriteResolved && chosenTextures.Count > 0) {
             currentTexture = chosenTextures.ElementAt(currentTextureIndex);
             cardImage.sprite = Sprite.Create((Texture2D)currentTexture, new Rect(0.0f, 0.0f, currentTexture.width, currentTexture.height), new Vector2(0.0f, 0.0f), 100.0f);
+            spriteResolved = true;
         }
     }
 
     private void resolveCurrentPlayerTextures()
     {
-        Player currentPlayer;
-        if (game.players != null)
+        if (!texturesResolved)
         {
-            currentPlayer = game.players.Find(x => x.playerName == currentPlayerName.text);
-            // zmapowanie ownedProperties currentPlayera na tekstury z tablicy textures[].
-            // nazwa tekstury jest przechowywana w texture.name (np. Warsaw, jail, chance)
-            
-            chosenTextures = new List<Texture>{ };
-            foreach (Texture texture in textures)
+            Player currentPlayer;
+            if (game.players != null)
             {
-                foreach (Property property in currentPlayer.ownedProperties)
+                currentPlayer = game.players.Find(x => x.playerName == currentPlayerName.text);
+
+                chosenTextures = new List<Texture> { };
+                foreach (Texture texture in textures)
                 {
-                    if (property.propertyName.ToLower() == texture.name.ToLower())
+                    foreach (Property property in currentPlayer.ownedProperties)
                     {
-                        chosenTextures.Add(texture);
+                        if (property.propertyName.ToLower() == texture.name.ToLower())
+                        {
+                            chosenTextures.Add(texture);
+                        }
                     }
                 }
+                texturesResolved = true;
+                resolvePlayerCardImage();
             }
-
-            resolvePlayerCardImage();
         }
     }
 }

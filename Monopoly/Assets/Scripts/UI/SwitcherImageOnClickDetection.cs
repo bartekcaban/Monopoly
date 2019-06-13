@@ -4,15 +4,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerClickHandler
+public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerDownHandler
 {
     GameUI gameUIScript;
     DialogMenu dialogMenu;
     public Game game;
     private Texture[] textures;
     private int currentTextureIndex;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         dialogMenu = DialogMenu.Instance();
@@ -21,13 +20,7 @@ public class SwitcherImageOnClickDetection : MonoBehaviour, IPointerClickHandler
         currentTextureIndex = gameUIScript.currentTextureIndex;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         currentTextureIndex = gameUIScript.currentTextureIndex;
         Property displayedProperty = game.currentPlayer.ownedProperties.ElementAt(currentTextureIndex);
