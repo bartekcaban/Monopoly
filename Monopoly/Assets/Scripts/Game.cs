@@ -40,6 +40,7 @@ public class Game : MonoBehaviour
     bool currentPlayerBoughtProperty = false;
     bool currentPlayerIsMakingDecision = false;
     bool fieldHandled = false;
+    bool startMoneyTaken = false;
 
     // Start is called before the first frame update
     void Start()
@@ -89,13 +90,14 @@ public class Game : MonoBehaviour
         {
             if (!players[currentPlayerIndex].IsMoving() && !currentPlayerIsMakingDecision && !infoPopup.active)
             {
-                if (players[currentPlayerIndex].CanMove() )
+                if (players[currentPlayerIndex].CanMove())
                 {
-                players[currentPlayerIndex].AllowRolling();
-                camera.SetDiceCamera();
-                timeLeft = 1.0f;
-                moveFinished = false;
-                currentPlayerBoughtProperty = false;
+                    players[currentPlayerIndex].AllowRolling();
+                    camera.SetDiceCamera();
+                    //timeLeft = 1.0f;
+                    timeLeft = 0.2f;
+                    moveFinished = false;
+                    currentPlayerBoughtProperty = false;
                 }
                 else
                 {
@@ -155,7 +157,6 @@ public class Game : MonoBehaviour
                     break;
                     case PropertyType.chance:
                         PerformChanceAction(DrawAChance());
-                      
                         break;
                     case PropertyType.start:
                         GetStartMoney();
@@ -217,6 +218,7 @@ public class Game : MonoBehaviour
                     players[currentPlayerIndex].SetMoveFinished();
                     currentPlayerIsMakingDecision = false;
                     currentPlayerIndex++;
+                    startMoneyTaken = false;
                 }
                 if (currentPlayerIndex == numberOfPlayers)
                 {
@@ -383,8 +385,12 @@ public class Game : MonoBehaviour
 
     void GetStartMoney()
     {
-        moneyManager.DepositOnAccount(currentPlayer, 200);
-        infoPopup.ShowMessage("Start", "Przechodzisz przez pole start, dostajesz 200$");
+        if (!startMoneyTaken)
+        {
+            moneyManager.DepositOnAccount(currentPlayer, 200);
+            infoPopup.ShowMessage("Start", "Przechodzisz przez pole start, dostajesz 200$");
+            startMoneyTaken = true;
+        }
     }
 
     void SetJail()

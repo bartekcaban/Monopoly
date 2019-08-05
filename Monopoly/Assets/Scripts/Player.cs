@@ -76,9 +76,12 @@ public class Player : MonoBehaviour
         int destinationFieldIndex = currentFieldIndex + dice.GetRolledValue();
         if (destinationFieldIndex > 40)
         {
-            destinationFieldIndex = destinationFieldIndex - 41;
-            return false;
-
+            destinationFieldIndex -= 41;
+            if (!pawn.IsDestinationReached())
+            {
+                pawn.AllowMovement(destinationFieldIndex);
+            }
+            return false; // bullshit
         }
         if(!pawn.IsDestinationReached())
             pawn.AllowMovement(destinationFieldIndex);
