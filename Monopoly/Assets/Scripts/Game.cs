@@ -35,6 +35,7 @@ public class Game : MonoBehaviour
     bool gameEnded;
     bool start;
     bool moveFinished = true;
+    public bool endTurnButtonVisible = false;
     float timeLeft;
     int numberOfTurns;
     bool currentPlayerBoughtProperty = false;
@@ -210,21 +211,20 @@ public class Game : MonoBehaviour
 
                     }
                     currentPlayerBoughtProperty = false;
-                    
-                }
+                }   
+            }
 
-                if (moveFinished)
-                {
-                    players[currentPlayerIndex].SetMoveFinished();
-                    currentPlayerIsMakingDecision = false;
-                    currentPlayerIndex++;
-                    startMoneyTaken = false;
-                }
-                if (currentPlayerIndex == numberOfPlayers)
-                {
-                    currentPlayerIndex = 0;
-                    numberOfTurns++;
-                }
+            if (moveFinished)
+            {
+                players[currentPlayerIndex].SetMoveFinished();
+                currentPlayerIsMakingDecision = false;
+                currentPlayerIndex++;
+                startMoneyTaken = false;
+            }
+            if (currentPlayerIndex == numberOfPlayers)
+            {
+                currentPlayerIndex = 0;
+                numberOfTurns++;
             }
         }
     }
