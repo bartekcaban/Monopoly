@@ -138,6 +138,7 @@ public class Player : MonoBehaviour
             moving = false;
             diceRolled = false;
             currentFieldIndex = currentFieldIndex + dice.GetRolledValue();
+            if (currentFieldIndex > 40) currentFieldIndex -= 41;
         }
 
 
