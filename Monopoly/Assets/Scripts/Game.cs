@@ -412,7 +412,7 @@ public class Game : MonoBehaviour
         playerNames.Remove(debtor.playerName);
         debtor.Disable();
         moneyManager.PlayerBancrupcy(debtor);
-        infoPopup.ShowMessage("Banrut", "Gracz " + debtor.playerName + " banrutuje na rzecz " + creditor.playerName);
+        infoPopup.ShowMessage("Bankrut", "Gracz " + debtor.playerName + " bankrutuje na rzecz " + creditor.playerName);
     }
 
     void HandleEndGame()
