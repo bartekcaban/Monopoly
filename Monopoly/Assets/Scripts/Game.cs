@@ -362,7 +362,7 @@ public class Game : MonoBehaviour
         chanceList.Add(new Chance("Nagroda za znalezienie psa 20$", 20));
         chanceList.Add(new Chance("Nagroda za płacenie podatków na czas 100$", 100));
         chanceList.Add(new Chance("Idziesz do dentysty -koszt 70$", -70));
-        chanceList.Add(new Chance("Kupujesz prezent z okazji dnia matki - 40$", -40));
+        chanceList.Add(new Chance("Kupujesz prezent z okazji Dnia Matki - 40$", -40));
         chanceList.Add(new Chance("Znajdujesz na ulicy banknot 50$", 50));
     }
 
