@@ -118,7 +118,7 @@ public class Game : MonoBehaviour
                 timeLeft -= Time.deltaTime;
                 if (timeLeft < 0)
                 {
-                    if(!players[currentPlayerIndex].AllowMovement())
+                    if (!players[currentPlayerIndex].AllowMovement())
                     {
                         GetStartMoney();
                     }
@@ -134,7 +134,7 @@ public class Game : MonoBehaviour
                 int currentPlayerPosition = players[currentPlayerIndex].GetCurrentPosition();
                 currentPlayerId = players[currentPlayerIndex].GetId();
                 currentPlayerStandingProperty = properties[currentPlayerPosition];
-                
+
                 switch (currentPlayerStandingProperty.type)
                 {
                     case PropertyType.forSale:
@@ -153,28 +153,28 @@ public class Game : MonoBehaviour
                         {
                             HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
                         }
-                       
-                    break;
+
+                        break;
                     case PropertyType.chance:
                         PerformChanceAction(DrawAChance());
                         break;
                     case PropertyType.start:
                         GetStartMoney();
-                       
+
                         break;
                     case PropertyType.goToJail:
                         SetJail();
-                     
+
                         break;
                     case PropertyType.parking:
-                        
+
                         break;
                     case PropertyType.jail:
-                      
+
                         break;
                     case PropertyType.tax:
                         PayTax();
-                      
+
                         break;
                 }
                 currentPlayerIsMakingDecision = true;
@@ -210,10 +210,10 @@ public class Game : MonoBehaviour
 
                     }
                     currentPlayerBoughtProperty = false;
-                }   
+                }
             }
 
-            endTurnButtonVisible = (!dialogMenu.dialogCanvasObject.activeSelf && currentPlayer.PawnMoved()) ? true : false;
+            resolveEndTurnButtonStatus();
 
             if (moveFinished)
             {
@@ -228,6 +228,11 @@ public class Game : MonoBehaviour
                 numberOfTurns++;
             }
         }
+    }
+
+    private void resolveEndTurnButtonStatus()
+    {
+        endTurnButtonVisible = (!dialogMenu.dialogCanvasObject.activeSelf && currentPlayer.PawnMoved()) ? true : false;
     }
 
     int calculateNextPlayerIndex(int actualIndex)
