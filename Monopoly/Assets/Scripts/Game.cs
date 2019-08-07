@@ -95,8 +95,7 @@ public class Game : MonoBehaviour
                 {
                     players[currentPlayerIndex].AllowRolling();
                     camera.SetDiceCamera();
-                    //timeLeft = 1.0f;
-                    timeLeft = 0.2f;
+                    timeLeft = 1.0f;
                     moveFinished = false;
                     currentPlayerBoughtProperty = false;
                 }
@@ -213,6 +212,8 @@ public class Game : MonoBehaviour
                     currentPlayerBoughtProperty = false;
                 }   
             }
+
+            endTurnButtonVisible = (!dialogMenu.dialogCanvasObject.activeSelf && currentPlayer.PawnMoved()) ? true : false;
 
             if (moveFinished)
             {
