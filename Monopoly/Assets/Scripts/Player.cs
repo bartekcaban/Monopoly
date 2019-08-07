@@ -57,8 +57,8 @@ public class Player : MonoBehaviour
     public void MoveByNumberOfFields(int number)
     {
         currentFieldIndex += number;
-        if (currentFieldIndex > 40)
-            currentFieldIndex = currentFieldIndex - 41;
+        if (currentFieldIndex > 39)
+            currentFieldIndex = currentFieldIndex - 40;
         if (!pawn.IsDestinationReached())
             pawn.AllowMovement(currentFieldIndex);
     }
@@ -74,14 +74,14 @@ public class Player : MonoBehaviour
     public bool AllowMovement()
     {
         int destinationFieldIndex = currentFieldIndex + dice.GetRolledValue();
-        if (destinationFieldIndex > 40)
+        if (destinationFieldIndex > 39)
         {
-            destinationFieldIndex -= 41;
+            destinationFieldIndex -= 40;
             if (!pawn.IsDestinationReached())
             {
                 pawn.AllowMovement(destinationFieldIndex);
             }
-            return false; // bullshit
+            return false;
         }
         if(!pawn.IsDestinationReached())
             pawn.AllowMovement(destinationFieldIndex);
@@ -138,7 +138,7 @@ public class Player : MonoBehaviour
             moving = false;
             diceRolled = false;
             currentFieldIndex = currentFieldIndex + dice.GetRolledValue();
-            if (currentFieldIndex > 40) currentFieldIndex -= 41;
+            if (currentFieldIndex > 39) currentFieldIndex -= 40;
         }
 
 
