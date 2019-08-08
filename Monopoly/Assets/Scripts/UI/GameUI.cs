@@ -45,6 +45,7 @@ public class GameUI : MonoBehaviour
         shiftLeftButton.onClick.AddListener(handleLeftButtonClick);
         shiftRightButton.onClick.AddListener(handleRightButtonClick);
         finishTurnButton.onClick.AddListener(game.finishTurn);
+        finishTurnButton.gameObject.SetActive(false);
         dialogMenu = DialogMenu.Instance();
         game = GameObject.Find("Plane").GetComponent<Game>();
         moneyManager = game.moneyManager;
@@ -75,6 +76,8 @@ public class GameUI : MonoBehaviour
             }
         }
         if (game.nextPlayer) nextPlayerName.text = game.nextPlayer.playerName;
+        if (game.endTurnButtonVisible) finishTurnButton.gameObject.SetActive(true);
+        else finishTurnButton.gameObject.SetActive(false);
     }
 
     private void disableImageSwitcher()

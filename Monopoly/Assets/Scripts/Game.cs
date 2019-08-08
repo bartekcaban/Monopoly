@@ -35,11 +35,13 @@ public class Game : MonoBehaviour
     bool gameEnded;
     bool start;
     bool moveFinished = true;
+    public bool endTurnButtonVisible = false;
     float timeLeft;
     int numberOfTurns;
     bool currentPlayerBoughtProperty = false;
     bool currentPlayerIsMakingDecision = false;
     bool fieldHandled = false;
+    bool startMoneyTaken = false;
 
     // Start is called before the first frame update
     void Start()
@@ -89,13 +91,13 @@ public class Game : MonoBehaviour
         {
             if (!players[currentPlayerIndex].IsMoving() && !currentPlayerIsMakingDecision && !infoPopup.active)
             {
-                if (players[currentPlayerIndex].CanMove() )
+                if (players[currentPlayerIndex].CanMove())
                 {
-                players[currentPlayerIndex].AllowRolling();
-                camera.SetDiceCamera();
-                timeLeft = 1.0f;
-                moveFinished = false;
-                currentPlayerBoughtProperty = false;
+                    players[currentPlayerIndex].AllowRolling();
+                    camera.SetDiceCamera();
+                    timeLeft = 1.0f;
+                    moveFinished = false;
+                    currentPlayerBoughtProperty = false;
                 }
                 else
                 {
@@ -116,7 +118,7 @@ public class Game : MonoBehaviour
                 timeLeft -= Time.deltaTime;
                 if (timeLeft < 0)
                 {
-                    if(!players[currentPlayerIndex].AllowMovement())
+                    if (!players[currentPlayerIndex].AllowMovement())
                     {
                         GetStartMoney();
                     }
@@ -132,7 +134,7 @@ public class Game : MonoBehaviour
                 int currentPlayerPosition = players[currentPlayerIndex].GetCurrentPosition();
                 currentPlayerId = players[currentPlayerIndex].GetId();
                 currentPlayerStandingProperty = properties[currentPlayerPosition];
-                
+
                 switch (currentPlayerStandingProperty.type)
                 {
                     case PropertyType.forSale:
@@ -151,29 +153,28 @@ public class Game : MonoBehaviour
                         {
                             HandleAbleToBuyProperty(currentPlayerStandingProperty, currentPlayerId);
                         }
-                       
-                    break;
+
+                        break;
                     case PropertyType.chance:
                         PerformChanceAction(DrawAChance());
-                      
                         break;
                     case PropertyType.start:
                         GetStartMoney();
-                       
+
                         break;
                     case PropertyType.goToJail:
                         SetJail();
-                     
+
                         break;
                     case PropertyType.parking:
-                        
+
                         break;
                     case PropertyType.jail:
-                      
+
                         break;
                     case PropertyType.tax:
                         PayTax();
-                      
+
                         break;
                 }
                 currentPlayerIsMakingDecision = true;
@@ -209,22 +210,29 @@ public class Game : MonoBehaviour
 
                     }
                     currentPlayerBoughtProperty = false;
-                    
-                }
-
-                if (moveFinished)
-                {
-                    players[currentPlayerIndex].SetMoveFinished();
-                    currentPlayerIsMakingDecision = false;
-                    currentPlayerIndex++;
-                }
-                if (currentPlayerIndex == numberOfPlayers)
-                {
-                    currentPlayerIndex = 0;
-                    numberOfTurns++;
                 }
             }
+
+            resolveEndTurnButtonStatus();
+
+            if (moveFinished)
+            {
+                players[currentPlayerIndex].SetMoveFinished();
+                currentPlayerIsMakingDecision = false;
+                currentPlayerIndex++;
+                startMoneyTaken = false;
+            }
+            if (currentPlayerIndex == numberOfPlayers)
+            {
+                currentPlayerIndex = 0;
+                numberOfTurns++;
+            }
         }
+    }
+
+    private void resolveEndTurnButtonStatus()
+    {
+        endTurnButtonVisible = (!dialogMenu.dialogCanvasObject.activeSelf && currentPlayer.PawnMoved()) ? true : false;
     }
 
     int calculateNextPlayerIndex(int actualIndex)
@@ -359,7 +367,7 @@ public class Game : MonoBehaviour
         chanceList.Add(new Chance("Nagroda za znalezienie psa 20$", 20));
         chanceList.Add(new Chance("Nagroda za płacenie podatków na czas 100$", 100));
         chanceList.Add(new Chance("Idziesz do dentysty -koszt 70$", -70));
-        chanceList.Add(new Chance("Kupujesz prezent z okazji dnia matki - 40$", -40));
+        chanceList.Add(new Chance("Kupujesz prezent z okazji Dnia Matki - 40$", -40));
         chanceList.Add(new Chance("Znajdujesz na ulicy banknot 50$", 50));
     }
 
@@ -383,8 +391,12 @@ public class Game : MonoBehaviour
 
     void GetStartMoney()
     {
-        moneyManager.DepositOnAccount(currentPlayer, 200);
-        infoPopup.ShowMessage("Start", "Przechodzisz przez pole start, dostajesz 200$");
+        if (!startMoneyTaken)
+        {
+            moneyManager.DepositOnAccount(currentPlayer, 200);
+            infoPopup.ShowMessage("Start", "Przechodzisz przez pole start, dostajesz 200$");
+            startMoneyTaken = true;
+        }
     }
 
     void SetJail()
@@ -405,7 +417,7 @@ public class Game : MonoBehaviour
         playerNames.Remove(debtor.playerName);
         debtor.Disable();
         moneyManager.PlayerBancrupcy(debtor);
-        infoPopup.ShowMessage("Banrut", "Gracz " + debtor.playerName + " banrutuje na rzecz " + creditor.playerName);
+        infoPopup.ShowMessage("Bankrut", "Gracz " + debtor.playerName + " bankrutuje na rzecz " + creditor.playerName);
     }
 
     void HandleEndGame()
