@@ -42,6 +42,7 @@ public class Game : MonoBehaviour
     bool currentPlayerIsMakingDecision = false;
     bool fieldHandled = false;
     bool startMoneyTaken = false;
+    bool playerIsGoingToJail = false;
 
     // Start is called before the first frame update
     void Start()
@@ -90,7 +91,7 @@ public class Game : MonoBehaviour
         else
         {
             if (!players[currentPlayerIndex].IsMoving() && !currentPlayerIsMakingDecision && !infoPopup.active)
-            {
+            {                
                 if (players[currentPlayerIndex].CanMove())
                 {
                     players[currentPlayerIndex].AllowRolling();
@@ -98,10 +99,12 @@ public class Game : MonoBehaviour
                     timeLeft = 1.0f;
                     moveFinished = false;
                     currentPlayerBoughtProperty = false;
+                    playerIsGoingToJail = false;
                 }
                 else
                 {
                     infoPopup.ShowMessage("Więzienie", "Gracz " + players[currentPlayerIndex].playerName + " czeka jeszcze " + players[currentPlayerIndex].ReturnTurnsPausing() + " tury");
+                    playerIsGoingToJail = false;
                     players[currentPlayerIndex].PauseOneTurn();
                     players[currentPlayerIndex].SetMoveFinished();
                     currentPlayerIndex++;
@@ -113,7 +116,7 @@ public class Game : MonoBehaviour
                 }
             }
 
-            if (players[currentPlayerIndex].DiceRolled() && !currentPlayerIsMakingDecision)
+            if ((players[currentPlayerIndex].DiceRolled() && !currentPlayerIsMakingDecision) || playerIsGoingToJail)
             {
                 timeLeft -= Time.deltaTime;
                 if (timeLeft < 0)
@@ -399,9 +402,10 @@ public class Game : MonoBehaviour
         }
     }
 
-    void SetJail()
+    public void SetJail()
     {
         currentPlayer.GoToJail();
+        playerIsGoingToJail = true;
         infoPopup.ShowMessage("Idziesz do więzienia", "Będziesz pauzował 3 tury");
     }
 

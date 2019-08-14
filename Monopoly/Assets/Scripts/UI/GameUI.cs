@@ -29,6 +29,8 @@ public class GameUI : MonoBehaviour
     public Button shiftRightButton;
     public Button finishTurnButton;
 
+    public Button goToJailButton;
+
     private Texture[] currentPlayerTextures;
     public List<Texture> chosenTextures;
 
@@ -50,6 +52,8 @@ public class GameUI : MonoBehaviour
         game = GameObject.Find("Plane").GetComponent<Game>();
         moneyManager = game.moneyManager;
         currentPlayerStorage.player = game.players[0];
+
+        goToJailButton.onClick.AddListener(handleJailButtonClick);
     }
 
     // Update is called once per frame
@@ -106,6 +110,11 @@ public class GameUI : MonoBehaviour
         if (currentTextureIndex < 0) currentTextureIndex = chosenTextures.Count - 1;
         spriteResolved = false;
         resolvePlayerCardImage();
+    }
+
+    private void handleJailButtonClick()
+    {
+        game.SetJail();
     }
 
     private void handleRightButtonClick()
