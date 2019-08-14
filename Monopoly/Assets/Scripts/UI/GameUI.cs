@@ -107,7 +107,7 @@ public class GameUI : MonoBehaviour
         spriteResolved = false;
         resolvePlayerCardImage();
     }
-
+    
     private void handleRightButtonClick()
     {
         currentTextureIndex++;
