@@ -101,7 +101,7 @@ public class Game : MonoBehaviour
                 }
                 else
                 {
-                    infoPopup.ShowMessage("Więzienie", "Czekasz jeszcze " + players[currentPlayerIndex].ReturnTurnsPausing() + " tury");
+                    infoPopup.ShowMessage("Więzienie", "Gracz " + players[currentPlayerIndex].playerName + " czeka jeszcze " + players[currentPlayerIndex].ReturnTurnsPausing() + " tury");
                     players[currentPlayerIndex].PauseOneTurn();
                     players[currentPlayerIndex].SetMoveFinished();
                     currentPlayerIndex++;
