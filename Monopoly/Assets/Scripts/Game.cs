@@ -65,6 +65,12 @@ public class Game : MonoBehaviour
         gameUIManager.gameObject.SetActive(true);
         dialogMenu = DialogMenu.Instance();
         infoPopup = InfoPopup.Instance();
+
+        properties[12].Buy(2);
+        properties[15].Buy(2);
+        properties[25].Buy(2);
+        properties[33].Buy(2);
+
         ChanceInit();
 }
 

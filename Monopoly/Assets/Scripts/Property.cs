@@ -24,7 +24,7 @@ public class Property : MonoBehaviour
     public int hotelRent;
     public GameObject hotelPrefab;
     public GameObject[] housesPrefabs;
-    public GameObject soldSignPrefab;
+    public GameObject[] soldSignPrefabs;
     public GameObject constructionSitePrefab;
     GameObject soldSign;
     GameObject constructionSite;
@@ -61,7 +61,7 @@ public class Property : MonoBehaviour
             var position = transform.position;
             var rotation = transform.rotation * Quaternion.Euler(calculateSignRotation(this.id));
             position += calculateSignOffset(this.id);
-            soldSign = Instantiate(soldSignPrefab, position, rotation);
+            soldSign = Instantiate(soldSignPrefabs[ownerId], position, rotation);
          }
         
     }
@@ -161,12 +161,14 @@ public class Property : MonoBehaviour
     {
         if (fieldId < 11) return new Vector3(4.5f, 0,0);
         else if (fieldId < 21) return new Vector3(0, 0, -4.5f);
-        else if (fieldId < 31) return new Vector3(-7, 0, 1.5f);
+        else if (fieldId < 31) return new Vector3(-6f, 0, 0f);
         else   return new Vector3(0, 0, 5);
     }
     Vector3 calculateSignRotation(int fieldId)
     {
-        if (fieldId < 11) return new Vector3(0f, -90f, 0f);
+        if(fieldId == 5) return new Vector3(-180f, -90f, 180f);
+        if (fieldId == 12 || fieldId == 15) return new Vector3(0f, 90f, 0f);
+        else if (fieldId < 11) return new Vector3(0f, -90f, 0f);
         else if (fieldId < 21) return new Vector3(0f, -90f, 180f);
         else if (fieldId < 31) return new Vector3(0f, 90f, 0f);
         else return new Vector3(0f, -90f, 0f);
