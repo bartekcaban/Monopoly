@@ -61,7 +61,11 @@ MonoBehaviour:
   - {fileID: 100000, guid: 2bcda4b9ec7f2144ca69699d6e982133, type: 3}
   - {fileID: 100000, guid: debb145ece23b324a94fdfaa24449b8f, type: 3}
   - {fileID: 100000, guid: 075b365bb022f6d45af80bb037eb569e, type: 3}
-  soldSignPrefab: {fileID: 100010, guid: 5f24f95ee8c2dff47aa0f2fd1e13b6c2, type: 3}
+  soldSignPrefabs:
+  - {fileID: 2673508314173948396, guid: fb5f2dc760dd7434f88c9c0e9d9cc5c1, type: 3}
+  - {fileID: 6041058347934158216, guid: 76c2158b9f7d14945a1509200469c617, type: 3}
+  - {fileID: 4720771236377648120, guid: e84ca92f4e117f548a4f83592a0818a8, type: 3}
+  - {fileID: 5516684431955295627, guid: 46830943b1593a14c9938268fb97c61d, type: 3}
   constructionSitePrefab: {fileID: 6461984085258539769, guid: 0282b46446d83184689d172083f5bbb4,
     type: 3}
 --- !u!1 &8070530001498823277

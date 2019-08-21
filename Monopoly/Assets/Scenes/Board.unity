@@ -11062,6 +11062,7 @@ MonoBehaviour:
   properties: []
   moneyManager: {fileID: 0}
   gameUIManager: {fileID: 712514314}
+  endTurnButtonVisible: 0
 --- !u!4 &1656989530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 441310253902735158, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
@@ -13391,11 +13392,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 8120569743082065346, guid: 1eaa9ba072c40bc479f00bff6f61fcc1,
-        type: 3}
-      propertyPath: hotelPrefab
-      value: 
-      objectReference: {fileID: 100000, guid: 6a40c536e4975ff45976537a8535a0b2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1eaa9ba072c40bc479f00bff6f61fcc1, type: 3}
 --- !u!4 &2110472144 stripped
